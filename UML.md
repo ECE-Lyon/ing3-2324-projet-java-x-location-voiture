@@ -2,10 +2,13 @@
 
 ```mermaid
 classDiagram
-    Utilisateur "" <-- "" Client
+Utilisateur --> Client
+Utilisateur --> Employe
+Client --> Reservation
 
 
-abstract class Utilisateur{
+class Utilisateur{
+        <<Abstract>>
         - MdP: String
         - Email: String
         - Nom: String
@@ -32,15 +35,13 @@ class Client{
 + setFilled(filled:boolean) void
 + toString() String
              }
-class employe{
-
+             
+class Employe{
 + ajouterNouvelleReduction(valeurReduc: int, idVehiculeAppliquable: int) void
-
 }
+
 class Reservation{
         - numeroDeReservation: int
         - reduction: int
-        - prixHorsReduc: float
-        -
-        
+        - prixHorsReduc: float     
 }
