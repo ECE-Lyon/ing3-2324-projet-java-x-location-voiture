@@ -1,3 +1,6 @@
+# PROJET X
+### Un travail en coopération avec Clément HERBIN, Paul BUSETTA, Virgile FIEVET et Gaël COUGNARD.
+
 ```mermaid
 ---
 title: PROJET JAVA LOCATION VOITURE
@@ -68,7 +71,7 @@ classDiagram
     }
     class Type_voiture{
         -int id_type_voiture
-        String nom_type_voiture
+        -String nom_type_voiture
         +setIdTypeVoiture(int id_type_voiture)
         +getIdTypeVoiture()
         +setNom(String nom_type_voiture)
@@ -104,5 +107,4 @@ classDiagram
         +setRemise(float remise)
         +getRemise()
     }
-
 ```
