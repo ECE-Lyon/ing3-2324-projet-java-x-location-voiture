@@ -25,19 +25,24 @@ public class MainJFrame extends JFrame implements WindowListener {
     private JLabel test3 = new JLabel("test3");
     private JLabel test4 = new JLabel("test4");
 
+    private JPanel panel = new JPanel();
+    private JPanel panelTest1 = new JPanel();
+    private JPanel panelTest2 = new JPanel();
+    private JPanel panelTest3 = new JPanel();
+    private JPanel panelTest4 = new JPanel();
+
 
 
     public MainJFrame(){
         super("Client");
         frame.addWindowListener(this);
-        frame.setSize(800, 500);
+        frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
 
 
-        // Création d'un JPanel pour contenir les carrés
-        JPanel panel = new JPanel();
-        panel.setLayout(gridBagLayout);
-        panel.setBackground(Color.WHITE);
+
+        this.panel.setLayout(gridBagLayout);
+        this.panel.setBackground(Color.WHITE);
 
         this.test1.setOpaque(true); // Permet de définir la couleur de fond
         this.test1.setBackground(Color.BLUE); // Couleur de fond du carré
@@ -52,22 +57,25 @@ public class MainJFrame extends JFrame implements WindowListener {
         this.test4.setBackground(Color.BLUE); // Couleur de fond du carré
         this.test4.setForeground(Color.WHITE); // Couleur du texte
 
+        panelTest1.add(this.test1);
+        panelTest2.add(this.test2);
+        panelTest3.add(this.test3);
+        panelTest4.add(this.test4);
 
         this.constraints.gridx=0;
         this.constraints.gridy=0;
         this.constraints.anchor = GridBagConstraints.CENTER;
         //this.constraints.weightx = 1.0;
         //this.constraints.weighty = 1.0;
-        this.constraints.insets = new Insets(0, 0, 0, 0);
+        this.constraints.insets = new Insets(25, 25, 25, 25);
 
-        panel.add(this.test1, this.constraints);
-        this.constraints.gridx=0;
+        panel.add(this.panelTest1, this.constraints);
         this.constraints.gridy=1;
-        panel.add(test2, this.constraints);
+        panel.add(panelTest2, this.constraints);
         this.constraints.gridy=2;
-        panel.add(test3, this.constraints);
+        panel.add(panelTest3, this.constraints);
         this.constraints.gridy=3;
-        panel.add(test4, this.constraints);
+        panel.add(panelTest4, this.constraints);
 
 
         // Ajout du JPanel à la fenêtre
@@ -75,21 +83,6 @@ public class MainJFrame extends JFrame implements WindowListener {
 
         // Affichage de la fenêtre
         frame.setVisible(true);
-    }
-
-    // Méthode utilitaire pour créer un carré avec du texte
-    private static JLabel addSquare(JPanel panel, String text) {
-        JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setVerticalAlignment(SwingConstants.CENTER);
-        label.setOpaque(true); // Permet de définir la couleur de fond
-        label.setBackground(Color.BLUE); // Couleur de fond du carré
-        label.setForeground(Color.WHITE); // Couleur du texte
-
-        // Ajout d'une bordure vide pour créer un espace autour du carré
-        label.setBorder(new EmptyBorder(1, 1, 1, 1)); // padding de 10 pixels de chaque côté
-
-        return label;
     }
 
 
