@@ -28,6 +28,6 @@ public class GlobalVariable {
     }
 
     public static void setScreenHeight(int screenHeight) {
-        GlobalVariable.screenHeight = screenHeight;
+        GlobalVariable.screenHeight = screenHeight - 20;
     }
 }
