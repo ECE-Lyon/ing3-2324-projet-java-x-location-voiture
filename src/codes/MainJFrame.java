@@ -1,7 +1,6 @@
 package codes;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.WindowEvent;
@@ -20,33 +19,37 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private final GridBagConstraints constraints = new GridBagConstraints();
 
 
-    private JLabel test1 = new JLabel("LEGENDARY MOTORSPORT");
+    private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
 
-    private JPanel panel = new JPanel();
-    private JPanel panelTest1 = new JPanel();
-    private JPanel panelTest2 = new JPanel();
-    private JPanel panelTest3 = new JPanel();
+    private JPanel mainLabel = new JPanel();
+    private JPanel legendaryMotorsportPanel = new JPanel();
+    private JPanel connexionPanel = new JPanel();
+    private JPanel inscriptionPanel = new JPanel();
 
     private JButton buttonConnexion = new JButton("Connexion");
     private JButton buttonInscription = new JButton("Inscription");
 
-    private int windowSizeWidth;
-    private int windowSizeHeight;
+    private int windowSizeWidth = GlobalVariable.getScreenWidth();
+    private int windowSizeHeight = GlobalVariable.getScreenHeight();
+    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
+    private Dimension dimensionConnexionPanel = new Dimension(windowSizeWidth/8, windowSizeHeight/10);
+    private Dimension dimensionInscriptionPanel = new Dimension(windowSizeWidth/8, windowSizeHeight/10);
 
     public MainJFrame(){
         super("Client");
         frame.addWindowListener(this);
+        frame.addComponentListener(this);
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
         this.windowSizeWidth = GlobalVariable.getScreenWidth();
         this.windowSizeHeight = GlobalVariable.getScreenHeight();
 
-        this.panel.setLayout(gridBagLayout);
-        this.panel.setBackground(Color.WHITE);
+        this.mainLabel.setLayout(gridBagLayout);
+        this.mainLabel.setBackground(Color.WHITE);
 
-        this.test1.setOpaque(true); // Permet de définir la couleur de fond
-        this.test1.setBackground(Color.BLUE); // Couleur de fond du carré
-        this.test1.setForeground(Color.WHITE); // Couleur du texte
+        this.legendaryMotorsportLabel.setOpaque(true); // Permet de définir la couleur de fond
+        this.legendaryMotorsportLabel.setBackground(Color.BLUE); // Couleur de fond du carré
+        this.legendaryMotorsportLabel.setForeground(Color.WHITE); // Couleur du texte
         this.buttonConnexion.setOpaque(true); // Permet de définir la couleur de fond
         this.buttonConnexion.setBackground(Color.BLUE); // Couleur de fond du carré
         this.buttonConnexion.setForeground(Color.WHITE); // Couleur du texte
@@ -57,13 +60,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         Font font = new Font("Arial", Font.PLAIN, 26);
 
         // Appliquer la police au JLabel
-        test1.setFont(font);
+        legendaryMotorsportLabel.setFont(font);
         buttonConnexion.setFont(font);
         buttonInscription.setFont(font);
 
-        panelTest1.add(this.test1);
-        panelTest2.add(this.buttonConnexion);
-        panelTest3.add(this.buttonInscription);
+        legendaryMotorsportPanel.add(this.legendaryMotorsportLabel);
+        connexionPanel.add(this.buttonConnexion);
+        inscriptionPanel.add(this.buttonInscription);
 
         this.constraints.gridx=0;
         this.constraints.gridy=0;
@@ -71,18 +74,18 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraints.weightx = 1.0;
         this.constraints.weighty = 1.0;
 
-        panelTest1.setPreferredSize(new Dimension(windowSizeWidth/3, windowSizeHeight/10));
-        panelTest2.setPreferredSize(new Dimension(windowSizeWidth/8, windowSizeHeight/10));
-        panelTest3.setPreferredSize(new Dimension(windowSizeWidth/8, windowSizeHeight/10));
+        legendaryMotorsportPanel.setPreferredSize(dimensionLegendaryMotorsportPanel);
+        connexionPanel.setPreferredSize(dimensionConnexionPanel);
+        inscriptionPanel.setPreferredSize(dimensionInscriptionPanel);
 
-        panel.add(this.panelTest1, this.constraints);
+        mainLabel.add(this.legendaryMotorsportPanel, this.constraints);
         this.constraints.gridy=1;
-        panel.add(panelTest2, this.constraints);
+        mainLabel.add(connexionPanel, this.constraints);
         this.constraints.gridy=2;
-        panel.add(panelTest3, this.constraints);
+        mainLabel.add(inscriptionPanel, this.constraints);
 
 
-        frame.add(panel);
+        frame.add(mainLabel);
 
         frame.setVisible(true);
     }
@@ -128,6 +131,15 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     public void componentResized(ComponentEvent e) {
         this.windowSizeHeight = this.frame.getSize().height;
         this.windowSizeWidth = this.frame.getSize().width;
+        this.dimensionLegendaryMotorsportPanel = new Dimension(this.windowSizeWidth / 3, this.windowSizeHeight / 10);
+        this.dimensionConnexionPanel = new Dimension(this.windowSizeWidth / 8, this.windowSizeHeight / 10);
+        this.dimensionInscriptionPanel = new Dimension(this.windowSizeWidth / 8, this.windowSizeHeight / 10);
+
+        this.legendaryMotorsportPanel.setPreferredSize(this.dimensionLegendaryMotorsportPanel);
+        this.connexionPanel.setPreferredSize(this.dimensionConnexionPanel);
+        this.inscriptionPanel.setPreferredSize(this.dimensionInscriptionPanel);
+        this.mainLabel.revalidate();
+        this.repaint();
     }
 
     @Override
