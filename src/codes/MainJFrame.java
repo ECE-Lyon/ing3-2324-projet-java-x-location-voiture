@@ -1,13 +1,14 @@
 package codes;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.Serial;
 
-public class MainJFrame extends JFrame implements WindowListener, ComponentListener, MouseListener, ActionListener {
+public class MainJFrame extends JFrame implements WindowListener, ComponentListener, ActionListener, MouseListener {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -85,6 +86,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         super("Client");
         frame.addWindowListener(this);
         frame.addComponentListener(this);
+        frame.addMouseListener(this);
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
         this.windowSizeWidth = GlobalVariable.getScreenWidth();
@@ -193,7 +195,18 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
         this.usernamePWPanel.add(this.sInscrire, this.constraintsMainConnecInsc);
 
+        /*MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JLabel labelCliqué = (JLabel) e.getSource();
+                String texte = labelCliqué.getText();
+                switch (texte) {
+                    case "":
 
+                        break;
+                }
+            }
+        };*/
 
 
         this.legendaryMotorsportLabel2.setOpaque(true); // Permet de définir la couleur de fond
@@ -207,12 +220,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsInnerConnec.gridy = 0;
         this.constraintsInnerConnec.anchor = GridBagConstraints.NORTHWEST;
 
-
+        backToMainMenu.addMouseListener(this);
 
         this.topPanelConnec.add(backToMainMenu, constraintsInnerConnec);
         this.constraintsInnerConnec.gridy = 1;
         this.constraintsInnerConnec.anchor = GridBagConstraints.CENTER;
         this.topPanelConnec.add(legendaryMotorsportPanel2, constraintsInnerConnec);
+
 
         // ajout des différents composants dans le panel principal.
         this.constraintsMainConnec.gridx = 0;
@@ -340,6 +354,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        JLabel labelClic = (JLabel) e.getSource();
+        String text = labelClic.getText();
+        switch (text){
+            case "RETOUR":
+                cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
+                break;
+        }
 
     }
 
@@ -355,12 +376,18 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        JLabel label = (JLabel) e.getSource();
+        Font font = label.getFont();
+        label.setForeground(Color.RED);
+        label.setFont(font.deriveFont(16f));
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        JLabel label = (JLabel) e.getSource();
+        label.setForeground(UIManager.getColor("Label.foreground"));
+        Font font = label.getFont();
+        label.setFont(font.deriveFont(12f));
     }
 
     @Override
