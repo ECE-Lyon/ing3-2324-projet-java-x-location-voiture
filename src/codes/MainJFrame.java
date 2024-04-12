@@ -25,6 +25,9 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private final GridBagConstraints constraintsInnerConnectionInscription = new GridBagConstraints();
     private final GridBagConstraints constraintsMainConnec = new GridBagConstraints();
     private final GridBagConstraints constraintsInnerConnec = new GridBagConstraints();
+    private final GridBagConstraints constraints = new GridBagConstraints();
+    private final GridBagConstraints constraints2 = new GridBagConstraints();
+
 
 
     private JPanel panelContainer = new JPanel();
@@ -32,12 +35,17 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private JPanel inscrMainPanel = new JPanel();
     private JPanel connecMainPanel = new JPanel();
 
+    private JPanel formInscrPanel = new JPanel();
+    private JPanel topPanelInscr = new JPanel();
+
 
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
     private JLabel legendaryMotorsportLabel2 = new JLabel("LEGENDARY MOTORSPORT");
+    private JLabel legendaryMotorsportLabel3 = new JLabel("LEGENDARY MOTORSPORT");
 
     private JPanel legendaryMotorsportPanel = new JPanel();
     private JPanel legendaryMotorsportPanel2 = new JPanel();
+    private JPanel legendaryMotorsportPanel3 = new JPanel();
     private JPanel connexionPanel = new JPanel();
     private JPanel inscriptionPanel = new JPanel();
     private JPanel connexionInscriptionBigPanel = new JPanel();
@@ -77,16 +85,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-
-
-
     CardLayout cardLayout = new CardLayout();
 
     public MainJFrame(){
         super("Client");
         frame.addWindowListener(this);
         frame.addComponentListener(this);
-        frame.addMouseListener(this);
+        //frame.addMouseListener(this);
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
         this.windowSizeWidth = GlobalVariable.getScreenWidth();
@@ -195,19 +200,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
         this.usernamePWPanel.add(this.sInscrire, this.constraintsMainConnecInsc);
 
-        /*MouseAdapter mouseAdapter = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                JLabel labelCliqué = (JLabel) e.getSource();
-                String texte = labelCliqué.getText();
-                switch (texte) {
-                    case "":
-
-                        break;
-                }
-            }
-        };*/
-
 
         this.legendaryMotorsportLabel2.setOpaque(true); // Permet de définir la couleur de fond
         this.legendaryMotorsportLabel2.setForeground(Color.MAGENTA); // Couleur du texte
@@ -219,6 +211,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsInnerConnec.gridx = 0;
         this.constraintsInnerConnec.gridy = 0;
         this.constraintsInnerConnec.anchor = GridBagConstraints.NORTHWEST;
+
 
         backToMainMenu.addMouseListener(this);
 
@@ -244,13 +237,75 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-
-
-
-
-
-
         panelContainer.add(inscrMainPanel);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////// TROISIEME PAGE A ETRE AFFICHEE : INSCRIPTION  ////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Initialisation :
+
+       // this.inscrMainPanel.setLayout(gblMainInscr);
+       // this.formInscrPanel.setLayout(gblMainBlabla);
+        //this.topPanelInscr.setLayout(innerGblTopPanel);
+        this.connecMainPanel.setBackground(Color.WHITE);
+
+
+        // Initialisation des contraintes :
+        this.constraints.gridx=0;
+        this.constraints.gridy=0;
+        this.constraints.anchor = GridBagConstraints.EAST;
+        this.constraints.weightx = 1.0;
+        this.constraints.weighty = 1.0;
+
+
+
+        ///////////////////////////// LE TOP :
+        this.legendaryMotorsportLabel3.setOpaque(true); // Permet de définir la couleur de fond
+        this.legendaryMotorsportLabel3.setForeground(Color.MAGENTA); // Couleur du texte
+        this.legendaryMotorsportLabel3.setFont(font1);
+        this.legendaryMotorsportPanel3.add(this.legendaryMotorsportLabel3);
+        this.legendaryMotorsportPanel3.setPreferredSize(dimensionLegendaryMotorsportPanel);
+
+
+        this.constraints2.gridx = 0;
+        this.constraints2.gridy = 0;
+        this.constraints2.anchor = GridBagConstraints.NORTHWEST;
+
+
+        backToMainMenu.addMouseListener(this);
+
+        this.topPanelConnec.add(backToMainMenu, constraints2);
+        this.constraints2.gridy = 1;
+        this.constraints2.anchor = GridBagConstraints.CENTER;
+        this.topPanelConnec.add(legendaryMotorsportPanel2, constraints2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////// Ajout de toutes les pages au cardLayout  ///////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,18 +431,22 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        JLabel label = (JLabel) e.getSource();
-        Font font = label.getFont();
-        label.setForeground(Color.RED);
-        label.setFont(font.deriveFont(16f));
+        if(e.getSource() instanceof JLabel) {
+            JLabel label = (JLabel) e.getSource();
+            Font font = label.getFont();
+            label.setForeground(Color.RED);
+            label.setFont(font.deriveFont(16f));
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        JLabel label = (JLabel) e.getSource();
-        label.setForeground(UIManager.getColor("Label.foreground"));
-        Font font = label.getFont();
-        label.setFont(font.deriveFont(12f));
+        if(e.getSource() instanceof JLabel) {
+            JLabel label = (JLabel) e.getSource();
+            label.setForeground(UIManager.getColor("Label.foreground"));
+            Font font = label.getFont();
+            label.setFont(font.deriveFont(12f));
+        }
     }
 
     @Override
