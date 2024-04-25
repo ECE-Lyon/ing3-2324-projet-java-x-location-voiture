@@ -1,5 +1,8 @@
 package codes.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class Client extends Utilisateur{
 
     private String nom_client;
@@ -12,6 +15,11 @@ public class Client extends Utilisateur{
         this.prenom_client = prenom_client;
         this.statut = statut;
     }
+
+    public Client(ResultSet resultSet) throws SQLException {
+        super(resultSet.getInt("idUser"), resultSet.getString("mdp"), resultSet.getString("email"));
+    }
+
     public String getNom_client() {
         return nom_client;
     }

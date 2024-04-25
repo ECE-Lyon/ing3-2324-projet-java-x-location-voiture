@@ -1,11 +1,10 @@
 package codes.dao;
 import codes.model.Client;
+import codes.model.Utilisateur;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public interface ClientDao {
-    void add(Client client) throws SQLException;
-    List<Client> search(String query) throws SQLException;
-    Client get(int id_Utilisateur) throws SQLException;
+    void addClient(Client client, Utilisateur utilisateur) throws SQLException;
+
 }
