@@ -53,6 +53,31 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+    public List<Client> searchClient() throws SQLException {
+        List<Client> clients = new ArrayList<>();
+        String query = "SELECT * FROM client";
+
+        try (PreparedStatement statement = c.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                String statutString = resultSet.getString("statut");
+                Client.Statut statut = Client.Statut.valueOf(statutString.toUpperCase());
+
+                Client client = new Client(
+                        resultSet.getInt("idClient"),
+                        null,
+                        null,
+                        resultSet.getString("nom"),
+                        resultSet.getString("prenom"),
+                        statut
+                );
+                clients.add(client);
+            }
+        }
+
+        return clients;
+    }
+
     //EMPLOYE
     @Override
     public void addEmploye(Employe employe, Utilisateur utilisateur) throws SQLException{
@@ -116,11 +141,30 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+    public List<Entreprise> searchEntreprise() throws SQLException{
+        List<Entreprise> entreprises = new ArrayList<>();
+        String query = "SELECT * FROM entreprise";
+        try (PreparedStatement statement = c.prepareStatement(query);
+             ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Entreprise entreprise = new Entreprise(
+                        resultSet.getInt("idEntreprise"),
+                        null,
+                        null,
+                        resultSet.getString("nom"),
+                        resultSet.getLong("siret")
+                );
+                entreprises.add(entreprise);
+            }
+        }
+
+        return entreprises;
+    }
+
     //UTILISATEUR
     @Override
-    public List<Utilisateur> getUtilisateur(String email, String mdp) throws SQLException{
-
-        List<Utilisateur> utilisateur = new ArrayList<>();
+    public Utilisateur getUtilisateur(String email, String mdp) throws SQLException {
+        Utilisateur utilisateur = null;
         int idUtilisateur = getUserByEmailAndMdp(email, mdp);
 
         if (idUtilisateur != -1) {
@@ -129,29 +173,30 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
                 statement.setInt(1, idUtilisateur);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
-                        utilisateur.add(new Client(resultSet.getInt("idClient"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), null /* statut à implémenter (je sais pas encore pour le moment)*/));
+                        utilisateur = new Client(resultSet.getInt("idClient"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), null);
                     }
                 }
             }
 
             // Si ce n'est pas un client, vérifier s'il s'agit d'un employé
-            if (utilisateur.isEmpty()) {
+            if (utilisateur == null) {
                 try (PreparedStatement statement = c.prepareStatement("SELECT * FROM employe WHERE idUser = ?")) {
                     statement.setInt(1, idUtilisateur);
                     try (ResultSet resultSet = statement.executeQuery()) {
                         if (resultSet.next()) {
-                            utilisateur.add(new Employe(resultSet.getInt("idEmploye"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), resultSet.getString("poste")));
+                            utilisateur = new Employe(resultSet.getInt("idEmploye"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), resultSet.getString("poste"));
                         }
                     }
                 }
             }
 
-            // Si ce n'est pas un client ni un employé, vérifier s'il s'agit d'une entreprise
-            if (utilisateur.isEmpty()) {
+            // Si ce n'est ni un client ni un employé, vérifier s'il s'agit d'une entreprise
+            if (utilisateur == null) {
                 try (PreparedStatement statement = c.prepareStatement("SELECT * FROM entreprise WHERE idUser = ?")) {
                     statement.setInt(1, idUtilisateur);
                     try (ResultSet resultSet = statement.executeQuery()) {
-                        if (resultSet.next()) {utilisateur.add(new Entreprise(resultSet.getInt("idEntreprise"), mdp, email, resultSet.getString("nom"), resultSet.getLong("siret")));
+                        if (resultSet.next()) {
+                            utilisateur = new Entreprise(resultSet.getInt("idEntreprise"), mdp, email, resultSet.getString("nom"), resultSet.getLong("siret"));
                         }
                     }
                 }
@@ -159,7 +204,6 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         }
 
         return utilisateur;
-
     }
 
     //AUTRES FONCTIONS

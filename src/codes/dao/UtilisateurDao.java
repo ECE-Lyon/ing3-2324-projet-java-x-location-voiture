@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface UtilisateurDao {
 
-    public List<Utilisateur> getUtilisateur(String email, String mdp) throws SQLException;
+    public Utilisateur getUtilisateur(String email, String mdp) throws SQLException;
 
 }

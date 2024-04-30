@@ -7,9 +7,10 @@ public class Client extends Utilisateur{
 
     private String nom_client;
     private String prenom_client;
-    private Enum statut;
+    public enum Statut{NOUVEAU, ADHERENT, VIP};
+    private Statut statut;
 
-    public Client(int id_utilisateur, String mdp, String email, String nom_client, String prenom_client, Enum statut){
+    public Client(int id_utilisateur, String mdp, String email, String nom_client, String prenom_client, Statut statut){
         super(id_utilisateur, mdp, email);
         this.nom_client = nom_client;
         this.prenom_client = prenom_client;
@@ -36,11 +37,11 @@ public class Client extends Utilisateur{
         this.prenom_client = prenom_client;
     }
 
-    public Enum getStatut() {
+    public Statut getStatut() {
         return statut;
     }
 
-    public void setStatut(Enum statut) {
+    public void setStatut(Statut statut) {
         this.statut = statut;
     }
 }
