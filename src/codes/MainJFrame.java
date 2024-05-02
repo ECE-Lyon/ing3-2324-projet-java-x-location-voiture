@@ -1,5 +1,17 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.UtilisateurDaoImpl;
+import codes.model.Client;
+import codes.model.Employe;
+import codes.model.Entreprise;
+import codes.model.Utilisateur;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Scanner;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -731,10 +743,50 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                     elementMissingInscr.setVisible(true);
                 } else {
                     cardLayout.show(panelContainer, "PAGE DE LOCATION");
-                    this.passwordField.getPassword();
-                    this.usernameField.getText();
+                    char[] passwordF = this.passwordField.getPassword();
+                    String email = this.usernameField.getText().toString();
 
+                    String password = new String(passwordF);
 
+                    System.out.println(email);
+                    System.out.println(password);
+
+                    try(Connection connection = Mysql.openConnection()) {
+
+                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+                        Utilisateur utilisateur = utilisateurDao.getUtilisateur(email, password);
+
+                        if(utilisateur != null){
+
+                            if (utilisateur instanceof Client) {
+                                System.out.println("Informations du client :");
+                                Client client = (Client) utilisateur;
+                                System.out.println("Nom : " + client.getNom_client());
+                                System.out.println("Prénom : " + client.getPrenom_client());
+                                // Ajoutez d'autres informations si nécessaire
+                            } else if (utilisateur instanceof Employe) {
+                                System.out.println("Informations de l'employé :");
+                                Employe employe = (Employe) utilisateur;
+                                System.out.println("Nom : " + employe.getNom_employe());
+                                System.out.println("Prénom : " + employe.getPrenom_employe());
+                                System.out.println("Poste : " + employe.getPoste());
+                                // Ajoutez d'autres informations si nécessaire
+                            } else if (utilisateur instanceof Entreprise) {
+                                System.out.println("Informations de l'entreprise :");
+                                Entreprise entreprise = (Entreprise) utilisateur;
+                                System.out.println("Nom : " + entreprise.getNom_entreprise());
+                                System.out.println("Siret : " + entreprise.getSiret());
+                                // Ajoutez d'autres informations si nécessaire
+                            }
+
+                        } else {
+                            System.out.println("Aucun utilisateur trouvé avec ces informations d'identification.");
+                        }
+
+                    } catch (SQLException er){
+                        er.printStackTrace();
+                    }
 
                     elementMissingInscr.setVisible(false);
                 }
