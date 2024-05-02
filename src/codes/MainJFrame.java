@@ -796,8 +796,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                     elementMissingInscr.setVisible(true);
                 }else {
                     cardLayout.show(panelContainer, "PAGE DE LOCATION");
-                    char[] passwordF = this.passwordInscrTF.getPassword();
-                    String password = new String(passwordF);
+                    String password = this.passwordInscrTF.getText();
                     String firstName = this.firstNameInscrTF.getText().toString();
                     String lastName = this.lastNameInscrTF.getText().toString();
                     String email = this.emailInscrTF.getText().toString();
