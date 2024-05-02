@@ -742,7 +742,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                 if(this.passwordField.getPassword().equals("") || this.usernameField.getText().equals("")){
                     elementMissingInscr.setVisible(true);
                 } else {
-                    cardLayout.show(panelContainer, "PAGE DE LOCATION");
                     char[] passwordF = this.passwordField.getPassword();
                     String email = this.usernameField.getText().toString();
 
@@ -765,6 +764,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                                 System.out.println("Nom : " + client.getNom_client());
                                 System.out.println("Prénom : " + client.getPrenom_client());
                                 // Ajoutez d'autres informations si nécessaire
+                                cardLayout.show(panelContainer, "PAGE DE LOCATION");
                             } else if (utilisateur instanceof Employe) {
                                 System.out.println("Informations de l'employé :");
                                 Employe employe = (Employe) utilisateur;
