@@ -416,7 +416,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         //  Sont remplis, les mdp/identifiants sont correctes)
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        this.signUpButton.setActionCommand("PAGE DE LOCATION");
+        this.signUpButton.setActionCommand("PAGE S INSCRIRE");
         this.signUpButton.addActionListener(this);
         this.inscrFormPanel.add(signUpButton, this.constraints4);
         this.constraints4.gridy=12;
@@ -789,6 +789,19 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                     }
 
                     elementMissingInscr.setVisible(false);
+                }
+                break;
+            case "PAGE S INSCRIRE" :
+                if(this.passwordInscrTF.getText().isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
+                    elementMissingInscr.setVisible(true);
+                }else {
+                    cardLayout.show(panelContainer, "PAGE DE LOCATION");
+                    char[] passwordF = this.passwordInscrTF.getPassword();
+                    String password = new String(passwordF);
+                    String firstName = this.firstNameInscrTF.getText().toString();
+                    String lastName = this.lastNameInscrTF.getText().toString();
+                    String email = this.emailInscrTF.getText().toString();
+
                 }
                 break;
         }
