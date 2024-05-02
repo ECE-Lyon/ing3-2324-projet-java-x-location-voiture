@@ -1,12 +1,12 @@
 package codes;
 
 import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.Serial;
+import java.awt.image.BufferedImage;
 
 public class MainJFrame extends JFrame implements WindowListener, ComponentListener, ActionListener, MouseListener {
 
@@ -16,17 +16,21 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     JFrame frame = new JFrame("Window");
 
-    private final GridBagLayout mainGridBagLayoutConnectionIscriptionMenu = new GridBagLayout();
-    private final GridBagLayout innerGridBagLayoutConnectionInscription = new GridBagLayout();
-    private final GridBagLayout mainGridBagLayoutConnectionMenu = new GridBagLayout();
-    private final GridBagLayout innerGridBagLayoutConnection = new GridBagLayout();
-    private final BorderLayout borderLayout = new BorderLayout();
+    private final GridBagLayout gridBagLayout = new GridBagLayout();
     private final GridBagConstraints constraintsMainConnecInsc = new GridBagConstraints();
     private final GridBagConstraints constraintsInnerConnectionInscription = new GridBagConstraints();
     private final GridBagConstraints constraintsMainConnec = new GridBagConstraints();
     private final GridBagConstraints constraintsInnerConnec = new GridBagConstraints();
     private final GridBagConstraints constraints = new GridBagConstraints();
     private final GridBagConstraints constraints2 = new GridBagConstraints();
+    private final GridBagConstraints constraints3 = new GridBagConstraints();
+    private final GridBagConstraints constraints4 = new GridBagConstraints();
+    private final GridBagConstraints constraints5 = new GridBagConstraints();
+    private final GridBagConstraints constraints6 = new GridBagConstraints();
+    private final GridBagConstraints constraints7 = new GridBagConstraints();
+    private final GridBagConstraints constraints8 = new GridBagConstraints();
+    private final GridBagConstraints constraints9 = new GridBagConstraints();
+    private final GridBagConstraints constraints10 = new GridBagConstraints();
 
 
 
@@ -34,18 +38,20 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private JPanel inscrConnecMainPanel = new JPanel();
     private JPanel inscrMainPanel = new JPanel();
     private JPanel connecMainPanel = new JPanel();
+    //private JPanel rentMainPanel = new JPanel();
 
-    private JPanel formInscrPanel = new JPanel();
     private JPanel topPanelInscr = new JPanel();
 
 
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
     private JLabel legendaryMotorsportLabel2 = new JLabel("LEGENDARY MOTORSPORT");
     private JLabel legendaryMotorsportLabel3 = new JLabel("LEGENDARY MOTORSPORT");
+    private JLabel legendaryMotorsportLabel4 = new JLabel("LEGENDARY MOTORSPORT");
 
     private JPanel legendaryMotorsportPanel = new JPanel();
     private JPanel legendaryMotorsportPanel2 = new JPanel();
     private JPanel legendaryMotorsportPanel3 = new JPanel();
+    private JPanel legendaryMotorsportPanel4 = new JPanel();
     private JPanel connexionPanel = new JPanel();
     private JPanel inscriptionPanel = new JPanel();
     private JPanel connexionInscriptionBigPanel = new JPanel();
@@ -72,6 +78,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     private JPanel usernamePWPanel = new JPanel();
     private JLabel backToMainMenu = new JLabel("RETOUR");
+    private JLabel backToMainMenu2 = new JLabel("RETOUR");
     private JLabel sInscrire = new JLabel("S'inscrire !");
     private JPanel topPanelConnec = new JPanel();
 
@@ -82,6 +89,41 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private JPasswordField passwordField = new JPasswordField();
 
     private JButton connectionButton = new JButton("Connection");
+
+
+    /////// INSCRIPTION
+    private JPanel inscrFormPanel = new JPanel();
+    private JLabel headerInscrForm = new JLabel("Inscription");
+    private JLabel firstNameInscrLabel = new JLabel("Prénom : ");
+    private JLabel lastNameInscrLabel = new JLabel("Nom : ");
+    private JLabel emailInscrLabel = new JLabel("Courriel : ");
+    private JLabel passwordInscrLabel = new JLabel("Password : ");
+    private JLabel alreadyMember = new JLabel("Déjà membre ? Connectez vous !");
+    private JLabel elementMissingInscr = new JLabel("Veuillez remplir tout les champs.");
+    private JTextField firstNameInscrTF = new JTextField();
+    private JTextField lastNameInscrTF = new JTextField();
+    private JTextField emailInscrTF = new JTextField();
+    private JTextField passwordInscrTF = new JTextField();
+    private JButton signUpButton = new JButton("S'inscrire");
+
+
+    /////////////////////////// LE SHOP ///////////////////////////////
+    private int numberOfRentableCars = 50;
+    private JScrollBar scrollBarShop = new JScrollBar();
+    private JPanel mainPanelShop = new JPanel();
+    private JPanel topPanelShop = new JPanel();
+    private JPanel botPanelShop = new JPanel();
+    private JPanel topAndBotPanelShop = new JPanel();
+    private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
+    private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
+    private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
+    private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
+    private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
+    private JButton connexionButtonShop = new JButton("Identifiez-vous !");
+
 
 
 
@@ -98,16 +140,44 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.windowSizeHeight = GlobalVariable.getScreenHeight();
 
 
+
+        ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
+        int w, h;
+        double wh;
+        String fileName = "";
+
+        for (int i = 0; i < numberOfRentableCars-1; i++) {
+            fileName = "src/images/" + imagesName(i);
+            imagesCarsShop[i] = new ImageIcon(fileName);
+        }
+        imagesCarsShop[numberOfRentableCars-1] = new ImageIcon("C:/ECE/2023-2024/2nd semestre/info/codes/ing3-2324-projet-java-x-location-voiture/src/images/lambo.png");
+
+        for(int i = 0; i < numberOfRentableCars; i++) {
+            rentableCarsPanelShop[i] = new JPanel();
+            w = imagesCarsShop[i].getIconWidth();
+            h = imagesCarsShop[i].getIconHeight();
+            wh = (double) w/h;
+            imagesCarsShop[i] = new ImageIcon(imagesCarsShop[i].getImage().getScaledInstance(100, (int)(100/wh), Image.SCALE_SMOOTH));
+            imagesCarsLabelShop[i] = new JLabel(imagesCarsShop[i]);
+            descriptionShop[i] = new JLabel("Description");
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
         panelContainer.setLayout(cardLayout);
+        elementMissingInscr.setVisible(false);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////// PREMIERE PAGE A ETRE AFFICHEE : CONNEXION / INSCRIPTION  ///////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        this.inscrConnecMainPanel.setLayout(mainGridBagLayoutConnectionIscriptionMenu);
+        this.inscrConnecMainPanel.setLayout(gridBagLayout);
         this.inscrConnecMainPanel.setBackground(Color.WHITE);
-        this.connexionInscriptionBigPanel.setLayout(innerGridBagLayoutConnectionInscription);
+        this.connexionInscriptionBigPanel.setLayout(gridBagLayout);
 
         this.legendaryMotorsportLabel.setOpaque(true); // Permet de définir la couleur de fond
         this.legendaryMotorsportLabel.setForeground(Color.MAGENTA); // Couleur du texte
@@ -169,9 +239,9 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Initialisation :
-        this.connecMainPanel.setLayout(mainGridBagLayoutConnectionIscriptionMenu);
-        this.usernamePWPanel.setLayout(mainGridBagLayoutConnectionMenu);
-        this.topPanelConnec.setLayout(innerGridBagLayoutConnection);
+        this.connecMainPanel.setLayout(gridBagLayout);
+        this.usernamePWPanel.setLayout(gridBagLayout);
+        this.topPanelConnec.setLayout(gridBagLayout);
         this.connecMainPanel.setBackground(Color.WHITE);
 
         // Initialisation des contraintes :
@@ -187,17 +257,26 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
         this.usernameField.setColumns(20);
         this.usernamePWPanel.add(this.usernameField, this.constraintsMainConnecInsc);
-        this.constraintsMainConnecInsc.anchor = GridBagConstraints.EAST;
+
+
         this.constraintsMainConnecInsc.gridx = 0;
         this.constraintsMainConnecInsc.gridy = 1;
+        this.constraintsMainConnecInsc.anchor = GridBagConstraints.EAST;
         this.usernamePWPanel.add(this.displayPasswordField, this.constraintsMainConnecInsc);
-        this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
         this.constraintsMainConnecInsc.gridx = 1;
+        this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
         this.passwordField.setColumns(20);
         this.usernamePWPanel.add(this.passwordField, this.constraintsMainConnecInsc);
+
+
         this.constraintsMainConnecInsc.gridx = 1;
         this.constraintsMainConnecInsc.gridy = 2;
         this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
+        ////////////////////////////////////////// verifier que toutes les informations sont entrées ///////////////////
+        this.connectionButton.setActionCommand("PAGE DE LOCATION");
+        this.connectionButton.addActionListener(this);
+        this.usernamePWPanel.add(this.connectionButton, this.constraintsMainConnecInsc);
+        this.constraintsMainConnecInsc.gridy = 3;
         this.usernamePWPanel.add(this.sInscrire, this.constraintsMainConnecInsc);
 
 
@@ -237,18 +316,17 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-        panelContainer.add(inscrMainPanel);
+        panelContainer.add(connecMainPanel);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////// TROISIEME PAGE A ETRE AFFICHEE : INSCRIPTION  ////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Initialisation :
-
-       // this.inscrMainPanel.setLayout(gblMainInscr);
-       // this.formInscrPanel.setLayout(gblMainBlabla);
-        //this.topPanelInscr.setLayout(innerGblTopPanel);
-        this.connecMainPanel.setBackground(Color.WHITE);
+        this.inscrMainPanel.setLayout(gridBagLayout);
+        this.inscrFormPanel.setLayout(gridBagLayout);
+        this.topPanelInscr.setLayout(gridBagLayout);
+        this.inscrMainPanel.setBackground(Color.WHITE);
 
 
         // Initialisation des contraintes :
@@ -271,14 +349,76 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraints2.gridx = 0;
         this.constraints2.gridy = 0;
         this.constraints2.anchor = GridBagConstraints.NORTHWEST;
+        this.constraints4.anchor = GridBagConstraints.NORTHWEST;
 
 
-        backToMainMenu.addMouseListener(this);
-
-        this.topPanelConnec.add(backToMainMenu, constraints2);
+        backToMainMenu2.addMouseListener(this);
+        this.topPanelInscr.add(backToMainMenu2, constraints2);
         this.constraints2.gridy = 1;
         this.constraints2.anchor = GridBagConstraints.CENTER;
-        this.topPanelConnec.add(legendaryMotorsportPanel2, constraints2);
+        this.topPanelInscr.add(legendaryMotorsportPanel3, constraints2);
+
+
+
+
+        //////////// AJOUTER LES CONTRAINTES/METTRE UNE LAYOUT POUR LE inscrFormPanel :
+        this.constraints4.gridx=0;
+        this.constraints4.gridy=0;
+        this.constraints4.anchor = GridBagConstraints.CENTER;
+        this.constraints4.weightx = 1.0;
+        this.constraints4.weighty = 1.0;
+
+
+        this.firstNameInscrTF.setColumns(20);
+        this.lastNameInscrTF.setColumns(20);
+        this.emailInscrTF.setColumns(20);
+        this.passwordInscrTF.setColumns(20);
+
+
+
+        this.inscrFormPanel.add(this.headerInscrForm, this.constraints4);
+        this.constraints4.gridy=1;
+        this.inscrFormPanel.add(this.firstNameInscrLabel, this.constraints4);
+        this.constraints4.gridy=2;
+        this.inscrFormPanel.add(this.firstNameInscrTF, this.constraints4);
+        this.constraints4.gridy=3;
+        this.inscrFormPanel.add(this.lastNameInscrLabel, this.constraints4);
+        this.constraints4.gridy=4;
+        this.inscrFormPanel.add(this.lastNameInscrTF, this.constraints4);
+        this.constraints4.gridy=5;
+        this.inscrFormPanel.add(this.emailInscrLabel, this.constraints4);
+        this.constraints4.gridy=6;
+        this.inscrFormPanel.add(this.emailInscrTF, this.constraints4);
+        this.constraints4.gridy=7;
+        this.inscrFormPanel.add(this.passwordInscrLabel, this.constraints4);
+        this.constraints4.gridy=8;
+        this.inscrFormPanel.add(this.passwordInscrTF, this.constraints4);
+        this.constraints4.gridy=9;
+        this.inscrFormPanel.add(this.alreadyMember, this.constraints4);
+        this.constraints4.gridy=10;
+        this.inscrFormPanel.add(this.signUpButton, this.constraints4);
+        this.constraints4.gridy=11;
+
+        ////////////////////////////////////////////METTRE UN IF toutes les conditions sont respectees (tous les champs
+        //  Sont remplis, les mdp/identifiants sont correctes)
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        this.signUpButton.setActionCommand("PAGE DE LOCATION");
+        this.signUpButton.addActionListener(this);
+        this.inscrFormPanel.add(signUpButton, this.constraints4);
+        this.constraints4.gridy=12;
+        this.inscrFormPanel.add(this.elementMissingInscr, this.constraints4);
+
+
+        this.constraints3.gridx=0;
+        this.constraints3.gridy=0;
+        this.constraints3.anchor = GridBagConstraints.CENTER;
+        this.constraints3.weightx = 1.0;
+        this.constraints3.weighty = 1.0;
+
+        this.inscrMainPanel.add(topPanelInscr, this.constraints3);
+        this.constraints3.gridy=1;
+        this.inscrMainPanel.add(inscrFormPanel, this.constraints3);
 
 
 
@@ -287,29 +427,148 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////  QUATRIEME PAGE ///////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        //// au top faut mettre le top
+
+
+/*
+        private JScrollBar scrollBarShop = new JScrollBar();
+        private JPanel mainPanelShop = new JPanel();
+        private JPanel topPanelShop = new JPanel();
+        private JPanel botPanelShop = new JPanel();
+        private JPanel topAndBotPanelShop = new JPanel();
+        private JPanel descImgPanelShop = new JPanel();
+        private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
+        private ImageIcon[] imagesCarsShop = new ImageIcon[10];
+        private JLabel[] descriptionShop = new JLabel[10];
+        private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
+
+*/
+        this.mainPanelShop.setLayout(new BorderLayout());
+        this.topPanelShop.setLayout(gridBagLayout);
+        this.botPanelShop.setLayout(gridBagLayout);
+        this.topAndBotPanelShop.setLayout(gridBagLayout);
+        this.topAndBotPanelShop.setBackground(Color.red);
+
+
+        for (int i = 0; i < numberOfRentableCars; i++){
+            this.rentableCarsPanelShop[i].setLayout(gridBagLayout);
+            rentableCarsPanelShop[i].setBackground(Color.BLUE);
+        }
+
+
+        ///////////////////////////// LE TOP :
+        this.legendaryMotorsportLabel4.setOpaque(true); // Permet de définir la couleur de fond
+        this.legendaryMotorsportLabel4.setForeground(Color.MAGENTA); // Couleur du texte
+        this.legendaryMotorsportLabel4.setFont(font1);
+        this.legendaryMotorsportPanel4.add(this.legendaryMotorsportLabel4);
+        this.legendaryMotorsportPanel4.setPreferredSize(dimensionLegendaryMotorsportPanel);
+
+
+        this.constraints5.gridx = 0;
+        this.constraints5.gridy = 0;
+        this.constraints5.anchor = GridBagConstraints.NORTHWEST;
+        this.constraints6.anchor = GridBagConstraints.NORTHEAST;
+
+
+        connexionButtonShop.addMouseListener(this);
+        this.topPanelShop.add(connexionButtonShop, constraints6);
+        this.constraints5.gridy = 1;
+        this.constraints5.anchor = GridBagConstraints.CENTER;
+        this.topPanelShop.add(legendaryMotorsportPanel4, constraints5);
 
 
 
 
+        /////////////////////////////////       BAS DE LA PAGE      ///////////////////////////////////////
+        //// Faut ajouter une description a chaque truc
+        int k = 0;
+        this.constraints7.gridy = 0;
+        constraints7.anchor = GridBagConstraints.CENTER;
+        constraints7.fill = GridBagConstraints.BOTH;
+        //constraints9.fill = GridBagConstraints.BOTH;
+        constraints9.gridx = 0;
+        constraints9.gridy = 0;
+        constraints9.anchor = GridBagConstraints.CENTER;
+        constraints9.fill = GridBagConstraints.BOTH;
+        for(int i = 0; i < (numberOfRentableCars + 3-numberOfRentableCars%3)/3; i++) {
+            this.constraints7.gridy = i;
+            constraints9.gridy = i;
+            for (int j = 0; j < 3; j++) {
+                if (k == numberOfRentableCars) {
+                    break;
+                }
+                constraints9.gridx = i;
+                constraints7.gridx = j;
+                rentableCarsPanelShop[k].add(imagesCarsLabelShop[k], constraints9);
+                //botPanelShop.add(rentableCarsPanelShop[k], constraints7);
+                k++;
+                System.out.println(k);
+
+            }
+
+        }
+        k=0;
+        for (int i = 0; i < (numberOfRentableCars + 3-numberOfRentableCars%3)/3; i++) {
+            this.constraints7.gridy = i;
+            for (int j = 0; j < 3; j++) {
+                if (k == numberOfRentableCars) {
+                    break;
+                }
+                constraints7.gridx = j;
+                botPanelShop.add(rentableCarsPanelShop[k], constraints7);
+                k++;
+            }
+        }
 
 
 
+        this.constraints6.gridx = 0;
+        this.constraints6.gridy = 0;
+        this.constraints6.anchor = GridBagConstraints.CENTER;
+        constraints6.fill = GridBagConstraints.BOTH;
+
+        this.topAndBotPanelShop.add(this.topPanelShop, this.constraints6);
+        this.constraints6.gridy = 1;
+        topAndBotPanelShop.setMaximumSize(new Dimension(1000, 800));
+        this.topAndBotPanelShop.add(this.botPanelShop, this.constraints6);
 
 
 
+        this.constraints8.gridx = 0;
+        this.constraints8.gridy = 0;
+        this.constraints8.anchor = GridBagConstraints.CENTER;
+        this.constraints8.weightx = 25;
+        constraints8.fill = GridBagConstraints.BOTH;
+
+        JScrollPane scrollPane = new JScrollPane(topAndBotPanelShop, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+       // scrollPane.setPreferredSize(new Dimension(800, 600));
+        //this.mainPanelShop.add(this.topAndBotPanelShop, this.constraints8);
 
 
+        //this.constraints8.anchor = GridBagConstraints.EAST;
+        this.constraints8.gridx = 1;
+        this.constraints8.weightx = 2;
 
-
-
-
-
+        //this.mainPanelShop.add(scrollPane, this.constraints8);
+        this.mainPanelShop.add(scrollPane, BorderLayout.CENTER);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         /////////////////////////////////// Ajout de toutes les pages au cardLayout  ///////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        panelContainer.add(inscrConnecMainPanel, "INSCRIPTION/CONNECTION");
+        panelContainer.add(connecMainPanel, "CONNECTION");
+        panelContainer.add(inscrMainPanel, "INSCRIPTION");
+        panelContainer.add(mainPanelShop, "PAGE DE LOCATION");
+        cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
 
 
 
@@ -318,14 +577,15 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////// LIGNES FINALES  ///////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        panelContainer.add(inscrConnecMainPanel, "INSCRIPTION/CONNECTION");
-        panelContainer.add(connecMainPanel, "CONNECTION");
-        panelContainer.add(inscrMainPanel, "INSCRIPTION");
-        cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
 
         frame.add(panelContainer);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    public String imagesName(int i) {
+        String s = "Picture1.png";
+        return s;
     }
 
 
@@ -456,7 +716,8 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
             case "INSCRIPTION/CONNECTION" -> cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
             case "CONNECTION" -> cardLayout.show(panelContainer, "CONNECTION");
             case "INSCRIPTION" -> cardLayout.show(panelContainer, "INSCRIPTION");
-            case "page4" -> cardLayout.show(panelContainer, "page4");
+            case "SIGN UP" -> cardLayout.show(panelContainer, "SIGN UP");
+            case "PAGE DE LOCATION" -> cardLayout.show(panelContainer, "PAGE DE LOCATION");
         }
     }
 }
