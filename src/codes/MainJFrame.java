@@ -272,8 +272,9 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.constraintsMainConnecInsc.gridx = 1;
         this.constraintsMainConnecInsc.gridy = 2;
         this.constraintsMainConnecInsc.anchor = GridBagConstraints.WEST;
+
         ////////////////////////////////////////// verifier que toutes les informations sont entrées ///////////////////
-        this.connectionButton.setActionCommand("PAGE DE LOCATION");
+        this.connectionButton.setActionCommand("BOUTON SE CONNECTER");
         this.connectionButton.addActionListener(this);
         this.usernamePWPanel.add(this.connectionButton, this.constraintsMainConnecInsc);
         this.constraintsMainConnecInsc.gridy = 3;
@@ -713,11 +714,31 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "INSCRIPTION/CONNECTION" -> cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
-            case "CONNECTION" -> cardLayout.show(panelContainer, "CONNECTION");
-            case "INSCRIPTION" -> cardLayout.show(panelContainer, "INSCRIPTION");
-            case "SIGN UP" -> cardLayout.show(panelContainer, "SIGN UP");
-            case "PAGE DE LOCATION" -> cardLayout.show(panelContainer, "PAGE DE LOCATION");
+            case "INSCRIPTION/CONNECTION" :
+                cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
+                break;
+            case "CONNECTION" :
+                cardLayout.show(panelContainer, "CONNECTION");
+                break;
+            case "INSCRIPTION" :
+                cardLayout.show(panelContainer, "INSCRIPTION");
+                break;
+            case "SIGN UP" :
+                cardLayout.show(panelContainer, "SIGN UP");
+                break;
+            case "BOUTON SE CONNECTER" :
+                if(this.passwordField.getPassword().equals("") || this.usernameField.getText().equals("")){
+                    elementMissingInscr.setVisible(true);
+                } else {
+                    cardLayout.show(panelContainer, "PAGE DE LOCATION");
+                    this.passwordField.getPassword();
+                    this.usernameField.getText();
+
+
+
+                    elementMissingInscr.setVisible(false);
+                }
+                break;
         }
     }
 }
