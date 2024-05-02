@@ -115,7 +115,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private JTextField firstNameInscrTF = new JTextField();
     private JTextField lastNameInscrTF = new JTextField();
     private JTextField emailInscrTF = new JTextField();
-    private JTextField passwordInscrTF = new JTextField();
+    private JPasswordField passwordInscrTF = new JPasswordField();
     private JButton signUpButton = new JButton("S'inscrire");
 
 
@@ -792,14 +792,33 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
                 }
                 break;
             case "PAGE S INSCRIRE" :
-                if(this.passwordInscrTF.getText().isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
+
+                System.out.println(this.passwordInscrTF);
+
+                if(this.passwordInscrTF.getPassword().equals("") || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
                     elementMissingInscr.setVisible(true);
                 }else {
                     cardLayout.show(panelContainer, "PAGE DE LOCATION");
-                    String password = this.passwordInscrTF.getText();
+                    char[] passwordF = this.passwordInscrTF.getPassword();
+                    String password = new String(passwordF);
                     String firstName = this.firstNameInscrTF.getText().toString();
                     String lastName = this.lastNameInscrTF.getText().toString();
                     String email = this.emailInscrTF.getText().toString();
+
+                    try(Connection connection = Mysql.openConnection()) {
+
+                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+                        Utilisateur utilisateur = new Utilisateur(-1, password, email);
+                        Client client = new Client(-1, null, null, firstName, lastName, null);
+
+                        utilisateurDao.addClient(client, utilisateur);
+
+                        System.out.println("Utilisateur ajouté avec succès !");
+
+                    } catch (SQLException er){
+                        er.printStackTrace();
+                    }
 
                 }
                 break;
