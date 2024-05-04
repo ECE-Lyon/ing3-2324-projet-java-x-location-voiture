@@ -3,11 +3,9 @@ package codes.model;
 public class Voiture {
     private int id_voiture;
     private float prix_par_jour;
+    private int id_modele;
 
-    public Voiture(int id_voiture, float prix_par_jour){
-        this.id_voiture = id_voiture;
-        this.prix_par_jour = prix_par_jour;
-    }
+    public Voiture(){}
 
     public int getId_voiture() {
         return id_voiture;
@@ -25,4 +23,9 @@ public class Voiture {
         this.prix_par_jour = prix_par_jour;
     }
 
+    public int getId_modele(){
+        return id_modele;
+    }
+
+    public void setId_modele(int id_modele){this.id_modele = id_modele;}
 }
