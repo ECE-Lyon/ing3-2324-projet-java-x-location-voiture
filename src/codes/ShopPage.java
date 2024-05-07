@@ -1,26 +1,17 @@
-/*package codes;
-
-import codes.dao.Mysql;
-import codes.dao.UtilisateurDaoImpl;
-import codes.model.Client;
-import codes.model.Employe;
-import codes.model.Entreprise;
-import codes.model.Utilisateur;
+package codes;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class ListingPanel extends JPanel implements ActionListener {
+public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
-    private int windowSizeWidth = GlobalVariable.getScreenWidth();
-    private int windowSizeHeight = GlobalVariable.getScreenHeight();
-    private JButton connexionButtonShop = new JButton("Identifiez-vous !");
-    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
 
+    private MainJFrame mainJFrame;
+    private InscrConnecPage inscrConnecPage;
 
     private final GridBagLayout gridBagLayout = new GridBagLayout();
     private final GridBagConstraints constraints5 = new GridBagConstraints();
@@ -28,27 +19,19 @@ public class ListingPanel extends JPanel implements ActionListener {
     private final GridBagConstraints constraints7 = new GridBagConstraints();
     private final GridBagConstraints constraints8 = new GridBagConstraints();
     private final GridBagConstraints constraints9 = new GridBagConstraints();
-    private final GridBagConstraints constraints10 = new GridBagConstraints();
-    private final JPanel mainPanelShop = new JPanel();
-    private final JPanel topPanelShop = new JPanel();
-    private final JPanel botPanelShop = new JPanel();
-    private final JPanel topAndBotPanelShop = new JPanel();
 
 
 
-    private int numberOfRentableCars = 50;
-    private JScrollBar scrollBarShop = new JScrollBar();
-    private JPanel descImgPanelShop = new JPanel();
-    private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
-    private ImageIcon[] imagesCarsShop = new ImageIcon[10];
-    private JLabel[] descriptionShop = new JLabel[10];
-    private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
+
+
     private JLabel legendaryMotorsportLabel4 = new JLabel("LEGENDARY MOTORSPORT");
+
     private JPanel legendaryMotorsportPanel4 = new JPanel();
-    private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
+
+    private int windowSizeWidth = GlobalVariable.getScreenWidth();
+    private int windowSizeHeight = GlobalVariable.getScreenHeight();
+    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
+
     private int fontSizeLM = 36;
     private Font font1 = new Font("Arial", Font.PLAIN, fontSizeLM);
 
@@ -57,10 +40,33 @@ public class ListingPanel extends JPanel implements ActionListener {
 
 
 
-    public ListingPanel() {
 
-        super();
-        setLayout(new BorderLayout());
+    /////////////////////////// LE SHOP ///////////////////////////////
+    private int numberOfRentableCars = 50;
+    private JScrollBar scrollBarShop = new JScrollBar();
+    private JPanel mainPanelShop = new JPanel();
+    private JPanel topPanelShop = new JPanel();
+    private JPanel botPanelShop = new JPanel();
+    private JPanel topAndBotPanelShop = new JPanel();
+    private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
+    private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
+    private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
+    private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
+    private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
+    private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
+    private JButton connexionButtonShop = new JButton("Identifiez-vous !");
+
+
+
+
+
+    public ShopPage(MainJFrame mainFrame) {
+
+
+        this.mainJFrame = mainFrame;
+        this.setLayout(new BorderLayout());
 
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
         int w, h;
@@ -86,6 +92,8 @@ public class ListingPanel extends JPanel implements ActionListener {
 
 
 
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////  QUATRIEME PAGE ///////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +102,22 @@ public class ListingPanel extends JPanel implements ActionListener {
         //// au top faut mettre le top
 
 
+/*
+        private JScrollBar scrollBarShop = new JScrollBar();
+        private JPanel mainPanelShop = new JPanel();
+        private JPanel topPanelShop = new JPanel();
+        private JPanel botPanelShop = new JPanel();
+        private JPanel topAndBotPanelShop = new JPanel();
+        private JPanel descImgPanelShop = new JPanel();
+        private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
+        private ImageIcon[] imagesCarsShop = new ImageIcon[10];
+        private JLabel[] descriptionShop = new JLabel[10];
+        private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
+        private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
+
+*/
         this.mainPanelShop.setLayout(new BorderLayout());
         this.topPanelShop.setLayout(gridBagLayout);
         this.botPanelShop.setLayout(gridBagLayout);
@@ -112,7 +136,6 @@ public class ListingPanel extends JPanel implements ActionListener {
         this.legendaryMotorsportLabel4.setForeground(Color.MAGENTA); // Couleur du texte
         this.legendaryMotorsportLabel4.setFont(font1);
         this.legendaryMotorsportPanel4.add(this.legendaryMotorsportLabel4);
-
         this.legendaryMotorsportPanel4.setPreferredSize(dimensionLegendaryMotorsportPanel);
 
 
@@ -193,8 +216,6 @@ public class ListingPanel extends JPanel implements ActionListener {
         constraints8.fill = GridBagConstraints.BOTH;
 
         JScrollPane scrollPane = new JScrollPane(topAndBotPanelShop, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        // scrollPane.setPreferredSize(new Dimension(800, 600));
-        //this.mainPanelShop.add(this.topAndBotPanelShop, this.constraints8);
 
 
         //this.constraints8.anchor = GridBagConstraints.EAST;
@@ -204,8 +225,9 @@ public class ListingPanel extends JPanel implements ActionListener {
         //this.mainPanelShop.add(scrollPane, this.constraints8);
         this.mainPanelShop.add(scrollPane, BorderLayout.CENTER);
 
+        add(mainPanelShop, BorderLayout.CENTER);
 
-
+        resetMainContent();
 
 
 
@@ -220,98 +242,49 @@ public class ListingPanel extends JPanel implements ActionListener {
         return s;
     }
 
+
+    public void resetMainContent() {
+        mainJFrame.getFrame().getContentPane().removeAll();
+
+        // Réinitialisez le contenu principal ici :
+        mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
+
+        mainJFrame.getFrame().revalidate();
+        mainJFrame.getFrame().repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "INSCRIPTION/CONNECTION" :
-                cardLayout.show(panelContainer, "INSCRIPTION/CONNECTION");
+            case "Identifiez-vous !" :
+                this.mainJFrame.getInscrConnecPage().resetMainContent();
                 break;
-            case "BOUTON SE CONNECTER" :
-                if(this.passwordField.getPassword().equals("") || this.usernameField.getText().equals("")){
-                    elementMissingInscr.setVisible(true);
-                } else {
-                    char[] passwordF = this.passwordField.getPassword();
-                    String email = this.usernameField.getText().toString();
+            }
+    }
 
-                    String password = new String(passwordF);
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
-                    System.out.println(email);
-                    System.out.println(password);
+    }
 
-                    try(Connection connection = Mysql.openConnection()) {
+    @Override
+    public void mousePressed(MouseEvent e) {
 
-                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+    }
 
-                        Utilisateur utilisateur = utilisateurDao.getUtilisateur(email, password);
+    @Override
+    public void mouseReleased(MouseEvent e) {
 
-                        if(utilisateur != null){
+    }
 
-                            if (utilisateur instanceof Client) {
-                                System.out.println("Informations du client :");
-                                Client client = (Client) utilisateur;
-                                System.out.println("Nom : " + client.getNom_client());
-                                System.out.println("Prénom : " + client.getPrenom_client());
-                                // Ajoutez d'autres informations si nécessaire
-                                cardLayout.show(panelContainer, "PAGE DE LOCATION");
-                            } else if (utilisateur instanceof Employe) {
-                                System.out.println("Informations de l'employé :");
-                                Employe employe = (Employe) utilisateur;
-                                System.out.println("Nom : " + employe.getNom_employe());
-                                System.out.println("Prénom : " + employe.getPrenom_employe());
-                                System.out.println("Poste : " + employe.getPoste());
-                                // Ajoutez d'autres informations si nécessaire
-                            } else if (utilisateur instanceof Entreprise) {
-                                System.out.println("Informations de l'entreprise :");
-                                Entreprise entreprise = (Entreprise) utilisateur;
-                                System.out.println("Nom : " + entreprise.getNom_entreprise());
-                                System.out.println("Siret : " + entreprise.getSiret());
-                                // Ajoutez d'autres informations si nécessaire
-                            }
+    @Override
+    public void mouseEntered(MouseEvent e) {
 
-                        } else {
-                            System.out.println("Aucun utilisateur trouvé avec ces informations d'identification.");
-                        }
+    }
 
-                    } catch (SQLException er){
-                        er.printStackTrace();
-                    }
+    @Override
+    public void mouseExited(MouseEvent e) {
 
-                    elementMissingInscr.setVisible(false);
-                }
-                break;
-            case "PAGE S INSCRIRE" :
-
-                System.out.println(this.passwordInscrTF);
-
-                if(this.passwordInscrTF.getPassword().equals("") || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
-                    elementMissingInscr.setVisible(true);
-                }else {
-                    cardLayout.show(panelContainer, "PAGE DE LOCATION");
-                    char[] passwordF = this.passwordInscrTF.getPassword();
-                    String password = new String(passwordF);
-                    String firstName = this.firstNameInscrTF.getText().toString();
-                    String lastName = this.lastNameInscrTF.getText().toString();
-                    String email = this.emailInscrTF.getText().toString();
-
-                    try(Connection connection = Mysql.openConnection()) {
-
-                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
-
-                        Utilisateur utilisateur = new Utilisateur(-1, password, email);
-                        Client client = new Client(-1, null, null, firstName, lastName, null);
-
-                        utilisateurDao.addClient(client, utilisateur);
-
-                        System.out.println("Utilisateur ajouté avec succès !");
-
-                    } catch (SQLException er){
-                        er.printStackTrace();
-                    }
-
-                }
-                break;
-        }
     }
 }
-*/
