@@ -243,6 +243,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                 if(password2.isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
                     elementMissingInscr.setVisible(true);
                 }else {
+                    this.mainJFrame.setConnected(true);
                     this.shop.resetMainContent();
 
                     try(Connection connection = Mysql.openConnection()) {

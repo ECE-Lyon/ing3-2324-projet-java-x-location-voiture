@@ -1,15 +1,5 @@
 package codes;
 
-import codes.dao.Mysql;
-import codes.dao.UtilisateurDaoImpl;
-import codes.model.Client;
-import codes.model.Employe;
-import codes.model.Entreprise;
-import codes.model.Utilisateur;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -31,17 +21,16 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+    private PrivateSpacePage privateSpacePage;
+
+
 
     private JPanel inscrConnecMainPanel = new JPanel();
 
-
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
-
     private JPanel legendaryMotorsportPanel = new JPanel();
     private JPanel connexionPanel = new JPanel();
     private JPanel inscriptionPanel = new JPanel();
-
-
 
     private int windowSizeWidth = GlobalVariable.getScreenWidth();
     private int windowSizeHeight = GlobalVariable.getScreenHeight();
@@ -50,17 +39,10 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private Dimension dimensionInscriptionPanel = new Dimension(windowSizeWidth/8, windowSizeHeight/10);
 
 
-    public InscrPage getInscrPage() {
-        return inscrPage;
-    }
 
-    public InscrConnecPage getInscrConnecPage() {
-        return inscrConnecPage;
-    }
 
-    public ConnecPage getConnecPage() {
-        return connecPage;
-    }
+    private boolean connectedState = false;
+
 
     public MainJFrame(){
         super("Client");
@@ -74,8 +56,10 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.inscrConnecPage = new InscrConnecPage(this, this.shopPage);
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
+        this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
 
 
+        //this.connectedState = false;
         this.shopPage.resetMainContent();
 
 
@@ -169,5 +153,29 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public JFrame getFrame() {
         return frame;
+    }
+
+    public PrivateSpacePage getPrivateSpacePage() {
+        return privateSpacePage;
+    }
+
+    public InscrPage getInscrPage() {
+        return inscrPage;
+    }
+
+    public InscrConnecPage getInscrConnecPage() {
+        return inscrConnecPage;
+    }
+
+    public ConnecPage getConnecPage() {
+        return connecPage;
+    }
+
+    public boolean isConnected() {
+        return connectedState;
+    }
+
+    public void setConnected(boolean connected) {
+        connectedState = connected;
     }
 }

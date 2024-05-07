@@ -245,7 +245,8 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 // Ajoutez d'autres informations si nécessaire
 
 
-                                shop.resetMainContent();
+                                this.mainJFrame.setConnected(true);
+                                this.shop.resetMainContent();
 
 
                             } else if (utilisateur instanceof Employe) {
