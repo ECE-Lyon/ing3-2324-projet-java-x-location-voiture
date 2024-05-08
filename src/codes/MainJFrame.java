@@ -66,6 +66,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public MainJFrame(){
         super("Client");
+
         frame.addWindowListener(this);
         frame.addComponentListener(this);
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
@@ -77,6 +78,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
+
 
 
         //this.connectedState = false;
