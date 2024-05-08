@@ -70,12 +70,10 @@ public class UneVoiture extends JFrame {
         infoPanel.add(descriptionLabel);
         infoPanel.add(descriptionArea);
 
-        // Panneau pour le calendrier de réservation
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
         calendarPanel.add(calendar, BorderLayout.CENTER);
 
-        // Boutons pour sélectionner la date de début et la date de fin
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
         JButton startDateButton = new JButton("Date de départ");
         JButton endDateButton = new JButton("Date de fin");
