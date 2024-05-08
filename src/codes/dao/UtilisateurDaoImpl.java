@@ -44,7 +44,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
             clientStatement.setString(1, client.getNom_client());
             clientStatement.setString(2, client.getPrenom_client());
             clientStatement.setInt(3, idUtilisateur);
-            clientStatement.setString(4, "nouveau");
+            clientStatement.setString(4, "NOUVEAU");
             clientStatement.executeUpdate();
 
         } catch (SQLException e){
@@ -299,7 +299,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
                 statement.setInt(1, idUtilisateur);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
-                        utilisateur = new Client(resultSet.getInt("idClient"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), null);
+                        utilisateur = new Client(resultSet.getInt("idClient"), mdp, email, resultSet.getString("nom"), resultSet.getString("prenom"), Client.Statut.valueOf(resultSet.getString("statut")));
                     }
                 }
             }

@@ -198,6 +198,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
                 try(Connection connection = Mysql.openConnection()){
 
+                    this.mainJFrame.getClient().getStatut();
+
                     String oldClientEmail = this.mainJFrame.getEmail();
                     String oldClientPassword = this.mainJFrame.getPassword();
 

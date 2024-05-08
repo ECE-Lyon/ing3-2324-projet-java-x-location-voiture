@@ -19,6 +19,9 @@ public class Client extends Utilisateur{
 
     public Client(ResultSet resultSet) throws SQLException {
         super(resultSet.getInt("idUser"), resultSet.getString("mdp"), resultSet.getString("email"));
+        this.nom_client = resultSet.getString("nom");
+        this.prenom_client = resultSet.getString("prenom");
+        this.statut = Statut.valueOf(resultSet.getString("statut"));
     }
 
     public String getNom_client() {
