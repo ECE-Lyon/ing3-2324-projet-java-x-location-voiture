@@ -11,4 +11,6 @@ public interface EntrepriseDao {
 
     List<Entreprise> searchEntreprise() throws SQLException;
 
+    void updateEntreprise(Entreprise entreprise, Utilisateur utilisateur, String email, String mdp) throws SQLException;
+
 }

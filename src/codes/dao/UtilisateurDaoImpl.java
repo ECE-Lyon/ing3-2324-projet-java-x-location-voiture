@@ -53,6 +53,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+    @Override
     public List<Client> searchClient() throws SQLException {
         List<Client> clients = new ArrayList<>();
         String query = "SELECT * FROM client";
@@ -76,6 +77,47 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         }
 
         return clients;
+    }
+
+    @Override
+    public void updateClient(Client client, Utilisateur utilisateur, String email, String mdp) throws SQLException {
+
+        PreparedStatement utilisateurStatement;
+        PreparedStatement clientStatement;
+
+        try {
+
+            int idUtilisateur = getIdUserByEmailAndMdp(email, mdp);
+
+            if (idUtilisateur != -1){
+
+                String updateUserQuery = "UPDATE utilisateur SET email = ?, mdp = ? WHERE id = ?";
+
+                utilisateurStatement = c.prepareStatement(updateUserQuery);
+                utilisateurStatement.setString(1, utilisateur.getEmail());
+                utilisateurStatement.setString(2, utilisateur.getMdp());
+                utilisateurStatement.setInt(3, idUtilisateur);
+                utilisateurStatement.executeUpdate();
+
+
+                String updateClientQuery = "UPDATE client SET nom = ?, prenom = ? WHERE idUser = ?";
+                clientStatement = c.prepareStatement(updateClientQuery);
+                clientStatement.setString(1, client.getNom_client());
+                clientStatement.setString(2, client.getPrenom_client());
+                clientStatement.setInt(3, idUtilisateur);
+                clientStatement.executeUpdate();
+
+
+                utilisateurStatement.close();
+                clientStatement.close();
+
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ces informations d'identification.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //EMPLOYE
@@ -105,6 +147,47 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
             employeStatement.executeUpdate();
 
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void updateEmploye(Employe employe, Utilisateur utilisateur, String email, String mdp) throws SQLException{
+
+        PreparedStatement utilisateurStatement;
+        PreparedStatement employeStatement;
+
+        try {
+
+            int idUtilisateur = getIdUserByEmailAndMdp(email, mdp);
+
+            if (idUtilisateur != -1){
+
+                String updateUserQuery = "UPDATE utilisateur SET email = ?, mdp = ? WHERE id = ?";
+                utilisateurStatement = c.prepareStatement(updateUserQuery);
+                utilisateurStatement.setString(1, utilisateur.getEmail());
+                utilisateurStatement.setString(2, utilisateur.getMdp());
+                utilisateurStatement.setInt(3, idUtilisateur);
+                utilisateurStatement.executeUpdate();
+
+
+                String updateEmployeQuery = "UPDATE employe SET nom = ?, prenom = ? WHERE idUser = ?";
+                employeStatement = c.prepareStatement(updateEmployeQuery);
+                employeStatement.setString(1, employe.getNom_employe());
+                employeStatement.setString(2, employe.getPrenom_employe());
+                employeStatement.setInt(3, idUtilisateur);
+                employeStatement.executeUpdate();
+
+
+                utilisateurStatement.close();
+                employeStatement.close();
+
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ces informations d'identification.");
+            }
+
+        } catch (SQLException e){
             e.printStackTrace();
         }
 
@@ -141,6 +224,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+    @Override
     public List<Entreprise> searchEntreprise() throws SQLException{
         List<Entreprise> entreprises = new ArrayList<>();
         String query = "SELECT * FROM entreprise";
@@ -161,11 +245,53 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         return entreprises;
     }
 
+    @Override
+    public void updateEntreprise(Entreprise entreprise, Utilisateur utilisateur, String email, String mdp) throws SQLException{
+
+        PreparedStatement utilisateurStatement;
+        PreparedStatement entrepriseStatement;
+
+        try {
+
+            //c = Mysql.openConnection();
+
+            int idUtilisateur = getIdUserByEmailAndMdp(email, mdp);
+
+            if (idUtilisateur != -1){
+
+                String updateUserQuery = "UPDATE utilisateur SET email = ?, mdp = ? WHERE id = ?";
+                utilisateurStatement = c.prepareStatement(updateUserQuery);
+                utilisateurStatement.setString(1, utilisateur.getEmail());
+                utilisateurStatement.setString(2, utilisateur.getMdp());
+                utilisateurStatement.setInt(3, idUtilisateur);
+                utilisateurStatement.executeUpdate();
+
+
+                String updateEntrepriseQuery = "UPDATE entreprise SET nom = ? WHERE idUser = ?";
+                entrepriseStatement = c.prepareStatement(updateEntrepriseQuery);
+                entrepriseStatement.setString(1, entreprise.getNom_entreprise());
+                entrepriseStatement.setInt(2, idUtilisateur);
+                entrepriseStatement.executeUpdate();
+
+
+                utilisateurStatement.close();
+                entrepriseStatement.close();
+
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ces informations d'identification.");
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
     //UTILISATEUR
     @Override
     public Utilisateur getUtilisateur(String email, String mdp) throws SQLException {
         Utilisateur utilisateur = null;
-        int idUtilisateur = getUserByEmailAndMdp(email, mdp);
+        int idUtilisateur = getIdUserByEmailAndMdp(email, mdp);
 
         if (idUtilisateur != -1) {
             // Vérifier s'il s'agit d'un client
@@ -224,7 +350,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         return lastInsertId;
     }
 
-    private int getUserByEmailAndMdp(String email, String mdp) throws SQLException {
+    private int getIdUserByEmailAndMdp(String email, String mdp) throws SQLException {
         int idUtilisateur = -1;
         try (PreparedStatement statement = c.prepareStatement("SELECT id FROM utilisateur WHERE email = ? AND mdp = ?")) {
             statement.setString(1, email);

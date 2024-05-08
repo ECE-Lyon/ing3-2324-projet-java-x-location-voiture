@@ -8,4 +8,6 @@ public interface EmployeDao {
 
     void addEmploye(Employe employe, Utilisateur utilisateur) throws SQLException;
 
+    void updateEmploye(Employe employe, Utilisateur utilisateur, String email, String mdp) throws SQLException;
+
 }

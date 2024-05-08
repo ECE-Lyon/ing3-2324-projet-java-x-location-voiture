@@ -10,4 +10,6 @@ public interface ClientDao {
 
     List<Client> searchClient() throws SQLException;
 
+    void updateClient(Client client, Utilisateur utilisateur, String email, String mdp) throws SQLException;
+
 }
