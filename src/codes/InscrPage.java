@@ -251,7 +251,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
                         Utilisateur utilisateur = new Utilisateur(-1, password2, email2);
-                        Client client = new Client(-1, null, null, firstName, lastName, null);
+                        Client client = new Client(-1, null, null, lastName, firstName, null);
 
                         utilisateurDao.addClient(client, utilisateur);
 

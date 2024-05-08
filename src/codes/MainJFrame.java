@@ -41,6 +41,12 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+    private String name;
+    private String firstName;
+    private String email;
+    private String password;
+
+
     private boolean connectedState = false;
 
 
@@ -177,5 +183,39 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setConnected(boolean connected) {
         connectedState = connected;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

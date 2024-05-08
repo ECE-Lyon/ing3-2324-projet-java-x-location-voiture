@@ -244,6 +244,10 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 System.out.println("Prénom : " + client.getPrenom_client());
                                 // Ajoutez d'autres informations si nécessaire
 
+                                this.mainJFrame.setEmail(email);
+                                this.mainJFrame.setPassword(password);
+                                this.mainJFrame.setName(client.getNom_client());
+                                this.mainJFrame.setFirstName(client.getPrenom_client());
 
                                 this.mainJFrame.setConnected(true);
                                 this.shop.resetMainContent();
