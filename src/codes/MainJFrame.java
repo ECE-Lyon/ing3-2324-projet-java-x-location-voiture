@@ -1,6 +1,8 @@
 package codes;
 
+import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
+import codes.model.Utilisateur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,6 +27,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
     Client client;
+    UtilisateurDaoImpl utilisateurDao;
+
+
+
+    Utilisateur utilisateur;
 
 
 
@@ -233,5 +240,21 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
+    }
+
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
+    }
+
+    public UtilisateurDaoImpl getUtilisateurDao() {
+        return utilisateurDao;
+    }
+
+    public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
+        this.utilisateurDao = utilisateurDao;
     }
 }

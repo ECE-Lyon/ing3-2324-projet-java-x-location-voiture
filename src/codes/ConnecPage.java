@@ -232,15 +232,15 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                 if(password.isEmpty() || this.usernameField.getText().isEmpty()){} else {
                     try(Connection connection = Mysql.openConnection()) {
 
-                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+                        this.mainJFrame.setUtilisateurDao(new UtilisateurDaoImpl(connection));
+                        this.mainJFrame.setUtilisateur(this.mainJFrame.getUtilisateurDao().getUtilisateur(email, password));
 
-                        Utilisateur utilisateur = utilisateurDao.getUtilisateur(email, password);
 
-                        if(utilisateur != null){
+                        if(this.mainJFrame.getUtilisateur() != null){
 
-                            if (utilisateur instanceof Client) {
+                            if (this.mainJFrame.getUtilisateur() instanceof Client) {
                                 System.out.println("Informations du client :");
-                                this.mainJFrame.setClient((Client) utilisateur);
+                                this.mainJFrame.setClient((Client) this.mainJFrame.getUtilisateur());
                                 System.out.println("Nom : " + this.mainJFrame.getClient().getNom_client());
                                 System.out.println("Prénom : " + this.mainJFrame.getClient().getPrenom_client());
                                 // Ajoutez d'autres informations si nécessaire
@@ -254,16 +254,16 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 this.shop.resetMainContent();
 
 
-                            } else if (utilisateur instanceof Employe) {
+                            } else if (this.mainJFrame.getUtilisateur() instanceof Employe) {
                                 System.out.println("Informations de l'employé :");
-                                Employe employe = (Employe) utilisateur;
+                                Employe employe = (Employe) this.mainJFrame.getUtilisateur();
                                 System.out.println("Nom : " + employe.getNom_employe());
                                 System.out.println("Prénom : " + employe.getPrenom_employe());
                                 System.out.println("Poste : " + employe.getPoste());
                                 // Ajoutez d'autres informations si nécessaire
-                            } else if (utilisateur instanceof Entreprise) {
+                            } else if (this.mainJFrame.getUtilisateur() instanceof Entreprise) {
                                 System.out.println("Informations de l'entreprise :");
-                                Entreprise entreprise = (Entreprise) utilisateur;
+                                Entreprise entreprise = (Entreprise) this.mainJFrame.getUtilisateur();
                                 System.out.println("Nom : " + entreprise.getNom_entreprise());
                                 System.out.println("Siret : " + entreprise.getSiret());
                                 // Ajoutez d'autres informations si nécessaire
