@@ -89,18 +89,28 @@ public class UneVoiture extends JFrame {
         dayChooser.addPropertyChangeListener("day", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                if (selectingStartDate) {
-                    selectedStartDate = calendar.getDate();
-                    startDateButton.setText("Date de départ sélectionnée");
-                    endDateButton.setEnabled(true);
-                    selectingStartDate = false;
-                    updateSelectedDates();
-                } else if (selectingEndDate) {
-                    selectedEndDate = calendar.getDate();
-                    endDateButton.setText("Date de fin sélectionnée");
-                    startDateButton.setEnabled(true);
-                    selectingEndDate = false;
-                    updateSelectedDates();
+                Date selectedDate = calendar.getDate();
+                Date currentDate = new Date();
+
+                // Vérifier si la date sélectionnée est dans le passé
+                if (selectedDate.before(currentDate)) {
+                    // Afficher un message à l'utilisateur
+                    JOptionPane.showMessageDialog(UneVoiture.this, "Vous ne pouvez pas sélectionner une date passée.", "Date invalide", JOptionPane.ERROR_MESSAGE);
+                    // Réinitialiser la date sélectionnée à la date actuelle
+                } else {
+                    if (selectingStartDate) {
+                        selectedStartDate = selectedDate;
+                        startDateButton.setText("Date de départ sélectionnée");
+                        endDateButton.setEnabled(true);
+                        selectingStartDate = true;
+                        updateSelectedDates();
+                    } else if (selectingEndDate) {
+                        selectedEndDate = selectedDate;
+                        endDateButton.setText("Date de fin sélectionnée");
+                        startDateButton.setEnabled(true);
+                        selectingEndDate = true;
+                        updateSelectedDates();
+                    }
                 }
             }
         });
