@@ -1,11 +1,17 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.UtilisateurDaoImpl;
+import codes.model.Client;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class PrivateSpacePage extends JPanel implements ActionListener, MouseListener {
 
@@ -189,10 +195,36 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 this.shopPage.resetMainContent();
                 break;
             case "APPLY" :
-                String oldClientEmail = this.mainJFrame.getEmail();
-                String oldClientPassword = this.mainJFrame.getPassword();
-                this.shopPage.resetMainContent();
-                ////// On récupère les valeurs des trucs
+
+                try(Connection connection = Mysql.openConnection()){
+
+                    String oldClientEmail = this.mainJFrame.getEmail();
+                    String oldClientPassword = this.mainJFrame.getPassword();
+
+                    this.mainJFrame.setUtilisateurDao(new UtilisateurDaoImpl(connection));
+                    this.mainJFrame.setUtilisateur(this.mainJFrame.getUtilisateurDao().getUtilisateur(oldClientEmail, oldClientPassword));
+
+                    ////// On récupère les valeurs des trucs
+
+                    String newLastNameClient = this.mainJFrame.getName();
+                    String newFirstNameClient = this.mainJFrame.getFirstName();
+                    String newPasswordClient = this.mainJFrame.getPassword();
+                    String newEmailClient = this.mainJFrame.getEmail();
+
+                    this.mainJFrame.setClient((Client) this.mainJFrame.getUtilisateur());
+
+                    this.mainJFrame.getClient().setNom_client(newLastNameClient);
+                    this.mainJFrame.getClient().setPrenom_client(newFirstNameClient);
+                    this.mainJFrame.getUtilisateur().setEmail(newEmailClient);
+                    this.mainJFrame.getUtilisateur().setMdp(newPasswordClient);
+
+                    this.mainJFrame.getUtilisateurDao().updateClient(this.mainJFrame.getClient(), this.mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
+
+                    this.shopPage.resetMainContent();
+
+                } catch (SQLException er){
+                    er.printStackTrace();
+                }
 
                 break;
 
