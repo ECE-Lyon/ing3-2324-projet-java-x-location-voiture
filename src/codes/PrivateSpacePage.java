@@ -188,7 +188,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
             case "BACK TO SHOP" :
                 this.shopPage.resetMainContent();
                 break;
-                case ""
+                //case ""
             case "APPLY" :
                 this.shopPage.resetMainContent();
                 ////// On récupère les valeurs des trucs
