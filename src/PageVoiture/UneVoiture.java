@@ -149,7 +149,6 @@ public class UneVoiture extends JFrame {
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
         // Désactivation de la décoration de la fenêtre pour cacher la barre de titre et la bordure
-        setUndecorated(false);
 
         pack();
         setLocationRelativeTo(null);
@@ -193,7 +192,7 @@ public class UneVoiture extends JFrame {
         SwingUtilities.invokeLater(() -> {
             // Exemple d'utilisation
             String titre = "Voiture à louer";
-            String description = "Super voiture en excellent état!";
+            String description = "Super voiture en excellent état !";
             ArrayList<String> images = new ArrayList<>();
             images.add("renault_20clioeditiononehb5b_noirétoilé.webp");
             images.add("téléchargement.webp");
