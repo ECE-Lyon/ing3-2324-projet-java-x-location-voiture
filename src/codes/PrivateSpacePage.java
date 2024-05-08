@@ -189,6 +189,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 this.shopPage.resetMainContent();
                 break;
             case "APPLY" :
+                String oldClientEmail = this.mainJFrame.getEmail();
+                String oldClientPassword = this.mainJFrame.getPassword();
                 this.shopPage.resetMainContent();
                 ////// On récupère les valeurs des trucs
 
