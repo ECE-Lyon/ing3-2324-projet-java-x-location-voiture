@@ -32,6 +32,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
 
 
+
     private JPanel connecMainPanel = new JPanel();
 
 
@@ -239,15 +240,15 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
                             if (utilisateur instanceof Client) {
                                 System.out.println("Informations du client :");
-                                Client client = (Client) utilisateur;
-                                System.out.println("Nom : " + client.getNom_client());
-                                System.out.println("Prénom : " + client.getPrenom_client());
+                                this.mainJFrame.setClient((Client) utilisateur);
+                                System.out.println("Nom : " + this.mainJFrame.getClient().getNom_client());
+                                System.out.println("Prénom : " + this.mainJFrame.getClient().getPrenom_client());
                                 // Ajoutez d'autres informations si nécessaire
 
                                 this.mainJFrame.setEmail(email);
                                 this.mainJFrame.setPassword(password);
-                                this.mainJFrame.setName(client.getNom_client());
-                                this.mainJFrame.setFirstName(client.getPrenom_client());
+                                this.mainJFrame.setName(this.mainJFrame.getClient().getNom_client());
+                                this.mainJFrame.setFirstName(this.mainJFrame.getClient().getPrenom_client());
 
                                 this.mainJFrame.setConnected(true);
                                 this.shop.resetMainContent();

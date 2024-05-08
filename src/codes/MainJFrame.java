@@ -1,5 +1,7 @@
 package codes;
 
+import codes.model.Client;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +20,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private InscrConnecPage inscrConnecPage;
     private ConnecPage connecPage;
     private ShopPage shopPage;
+
+
+
+
+    Client client;
 
 
 
@@ -217,5 +224,14 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }
