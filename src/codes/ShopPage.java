@@ -44,23 +44,28 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     /////////////////////////// LE SHOP ///////////////////////////////
     private int numberOfRentableCars = 50;
-    private JScrollBar scrollBarShop = new JScrollBar();
     private JPanel mainPanelShop = new JPanel();
     private JPanel topPanelShop = new JPanel();
+    private JPanel topButtons = new JPanel();
     private JPanel botPanelShop = new JPanel();
     private JPanel topAndBotPanelShop = new JPanel();
     private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
     private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
     private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
     private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
-    private final GridBagConstraints mainPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints topPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints botPanelShopConstraints = new GridBagConstraints();
-    private final GridBagConstraints rentableCarsPanelConstraints = new GridBagConstraints();
     private JButton connexionButtonShop = new JButton("Identifiez-vous !");
     private JButton mySpaceButtonShop = new JButton("Mon espace personnel");
+    private JButton disconnectButton = new JButton("Se déconnecter");
+    private JButton myBasketButton = new JButton("Voir mon panier");
 
 
+
+    private JDialog dialog = new JDialog(mainJFrame);
+
+
+    private final JLabel areUSureLabel = new JLabel("Etes vous sur de vouloir vous déconnecter ?");
+
+    private final JButton validateButton = new JButton("Valider");
 
 
 
@@ -126,13 +131,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.constraints5.gridx = 0;
         this.constraints5.gridy = 0;
         this.constraints5.anchor = GridBagConstraints.NORTHWEST;
-        this.constraints10.anchor = GridBagConstraints.NORTHEAST;
+
 
 
         updateButtonState();
 
-        this.constraints5.gridy = 1;
+        this.constraints5.gridx = 1;
         this.constraints5.anchor = GridBagConstraints.CENTER;
+        this.topPanelShop.add(topButtons, constraints5);
+        this.constraints5.gridy = 1;
         this.topPanelShop.add(legendaryMotorsportPanel4, constraints5);
 
 
@@ -222,16 +229,32 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
     public void updateButtonState(){
-        topPanelShop.remove(connexionButtonShop);
+        constraints10.gridx = 0;
         if (!this.mainJFrame.isConnected()) {
+            topButtons.removeAll();
+            this.constraints10.anchor = GridBagConstraints.NORTHEAST;
             connexionButtonShop.setActionCommand("CONNECTION/INSCRIPTION");
             connexionButtonShop.addActionListener(this);
-            this.topPanelShop.add(connexionButtonShop, constraints10);
+            this.topButtons.add(connexionButtonShop, constraints10);
         } else {
+            topButtons.remove(connexionButtonShop);
+            this.constraints10.anchor = GridBagConstraints.NORTHWEST;
+            disconnectButton.setActionCommand("DISCONNECT");
+            disconnectButton.addActionListener(this);
+            this.topButtons.add(disconnectButton, constraints10);
+            constraints10.gridx = 1;
+            this.constraints10.anchor = GridBagConstraints.NORTH;
+            myBasketButton.setActionCommand("MY BASKET");
+            myBasketButton.addActionListener(this);
+            this.topButtons.add(myBasketButton, constraints10);
+            constraints10.gridx = 2;
+            this.constraints10.anchor = GridBagConstraints.NORTHEAST;
             mySpaceButtonShop.setActionCommand("MON ESPACE PERSONNEL");
             mySpaceButtonShop.addActionListener(this);
-            this.topPanelShop.add(mySpaceButtonShop, constraints10);
+            this.topButtons.add(mySpaceButtonShop, constraints10);
         }
+        this.revalidate();
+        this.repaint();
     }
 
     public String imagesName(int i) {
@@ -261,7 +284,27 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             case "MON ESPACE PERSONNEL" :
                 mainJFrame.getPrivateSpacePage().resetMainContent();
                 break;
-            }
+            case "MY BASKET" :
+                mainJFrame.getBasketPage().resetMainContent();
+                break;
+            case "DISCONNECT" :
+                dialog.setSize(300, 100);
+                dialog.setLayout(gridBagLayout);
+                constraints9.gridx = 0;
+                constraints9.gridy = 0;
+                dialog.setLocationRelativeTo(this.mainJFrame.getFrame());
+                dialog.add(areUSureLabel, constraints9);
+                constraints9.gridy = 1;
+                validateButton.setActionCommand("EXIT DIALOG");
+                validateButton.addActionListener(this);
+                dialog.add(this.validateButton, constraints9);
+                dialog.setVisible(true);
+                break;
+            case "EXIT DIALOG" :
+                dialog.dispose();
+                this.mainJFrame.setConnected(false);
+                updateButtonState();
+        }
     }
 
     @Override
@@ -288,7 +331,4 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
-
-
-
 }

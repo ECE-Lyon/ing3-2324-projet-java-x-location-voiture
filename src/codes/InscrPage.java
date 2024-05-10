@@ -69,9 +69,6 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
         this.setLayout(new BorderLayout());
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////// TROISIEME PAGE A ETRE AFFICHEE : INSCRIPTION  ////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Initialisation :
         this.inscrMainPanel.setLayout(gridBagLayout);
@@ -243,7 +240,12 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                 if(password2.isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
                     elementMissingInscr.setVisible(true);
                 }else {
-
+                    this.mainJFrame.setConnected(true);
+                    this.mainJFrame.setName(lastName);
+                    this.mainJFrame.setFirstName(firstName);
+                    this.mainJFrame.setEmail(email2);
+                    this.mainJFrame.setPassword(password2);
+                    this.shop.resetMainContent();
 
                     try(Connection connection = Mysql.openConnection()) {
 
@@ -255,12 +257,6 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         utilisateurDao.addClient(client, utilisateur);
 
                         System.out.println("Utilisateur ajouté avec succès !");
-                        this.mainJFrame.setConnected(true);
-                        this.mainJFrame.setName(lastName);
-                        this.mainJFrame.setFirstName(firstName);
-                        this.mainJFrame.setEmail(email2);
-                        this.mainJFrame.setPassword(password2);
-                        this.shop.resetMainContent();
 
                     } catch (SQLException er){
                         er.printStackTrace();
