@@ -22,6 +22,17 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private InscrConnecPage inscrConnecPage;
     private ConnecPage connecPage;
     private ShopPage shopPage;
+    private PrivateSpacePage privateSpacePage;
+
+    public BasketPage getBasketPage() {
+        return basketPage;
+    }
+
+    public void setBasketPage(BasketPage basketPage) {
+        this.basketPage = basketPage;
+    }
+
+    private BasketPage basketPage;
 
 
 
@@ -35,7 +46,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-    private PrivateSpacePage privateSpacePage;
 
 
 
@@ -78,7 +88,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
-
+        this.basketPage = new BasketPage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
 
 
         //this.connectedState = false;

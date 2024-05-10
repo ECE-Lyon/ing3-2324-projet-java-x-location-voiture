@@ -201,6 +201,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.constraints4.anchor = GridBagConstraints.CENTER;
         this.botPanel.add(this.infoPanel, constraints4);
         this.constraints4.gridy = 1;
+        validate.setActionCommand("APPLY");
+        validate.addActionListener(this);
         this.botPanel.add(this.validate, constraints4);
 
         this.constraints5.gridx = 0;
