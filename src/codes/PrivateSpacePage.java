@@ -75,17 +75,22 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private JDialog dialog3 = new JDialog(mainJFrame);
     private JDialog dialog4 = new JDialog(mainJFrame);
     private JLabel newNameLabel = new JLabel("Saisir le nouveau nom : ");
-    private JLabel newFirstNameLabel = new JLabel("Saisir le nouveau nom : ");
-    private JLabel newEmailLabel = new JLabel("Saisir le nouveau nom : ");
-    private JLabel newPasswordLabel = new JLabel("Saisir le nouveau nom : ");
-    private JTextField newNameTF = new JTextField();
-    private JTextField newFirstNameTF = new JTextField();
-    private JTextField newEmailTF = new JTextField();
+    private final JLabel newFirstNameLabel = new JLabel("Saisir le nouveau nom : ");
+    private final JLabel newEmailLabel = new JLabel("Saisir le nouveau nom : ");
+    private final JLabel newPasswordLabel = new JLabel("Saisir le nouveau nom : ");
+    private final JTextField newNameTF = new JTextField();
+    private final JTextField newFirstNameTF = new JTextField();
+    private final JTextField newEmailTF = new JTextField();
     private JTextField newPasswordTF = new JTextField();
-    private JButton validateButton1 = new JButton("Valider");
-    private JButton validateButton2 = new JButton("Valider");
-    private JButton validateButton3 = new JButton("Valider");
-    private JButton validateButton4 = new JButton("Valider");
+    private final JButton validateButton1 = new JButton("Valider");
+    private final JButton validateButton2 = new JButton("Valider");
+    private final JButton validateButton3 = new JButton("Valider");
+    private final JButton validateButton4 = new JButton("Valider");
+
+    private String localName;
+    private String localFirstName;
+    private String localEmail;
+    private String localPassword;
 
 
     public PrivateSpacePage(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage){
@@ -96,16 +101,18 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.inscrPage = inscrPage;
         this.shopPage = shopPage;
 
+        localName = this.mainJFrame.getName();
+        localFirstName = this.mainJFrame.getFirstName();
+        localEmail = this.mainJFrame.getEmail();
+        localPassword = this.mainJFrame.getPassword();
+
+
         this.setLayout(new BorderLayout());
 
-        String text1 = "Nom : " + "sdf";
-        String text2 = "Prénom : " + "sdf";
-        String text3 = "E-mail : " + "sdf";
-        String text4 = "Mot de passe : " + "sdf";
-        name = new JLabel(text1);
-        firstName = new JLabel(text2);
-        email = new JLabel(text3);
-        password = new JLabel(text4);
+        name = new JLabel(localName);
+        firstName = new JLabel(localFirstName);
+        email = new JLabel(localEmail);
+        password = new JLabel(localPassword);
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,6 +219,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
+        updateLocal();
+
 
         // Réinitialisez le contenu principal ici :
         mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
@@ -220,11 +229,27 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         mainJFrame.getFrame().repaint();
     }
 
+    public void updateLocal(){
+        this.localName = this.mainJFrame.getName();
+        this.localFirstName = this.mainJFrame.getFirstName();
+        this.localEmail = this.mainJFrame.getEmail();
+        this.localPassword = this.mainJFrame.getPassword();
+        updateInfo();
+    }
+
+    public void updateInfo(){
+        name.setText(this.localName);
+        firstName.setText(this.localFirstName);
+        email.setText(this.localEmail);
+        password.setText(this.localPassword);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
             case "BACK TO SHOP" :
+                updateLocal();
                 this.shopPage.resetMainContent();
                 break;
             case "NAME" :
@@ -292,13 +317,22 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 dialog4.setVisible(true);
                 break;
             case "EXIT DIALOG" :
-                dialog4.dispose();
-                dialog3.dispose();
-                dialog2.dispose();
-                dialog1.dispose();
+                if(dialog1.isActive()){
+                    this.localName = newNameTF.getText();
+                    dialog1.dispose();
+                } else if(dialog2.isActive()){
+                    this.localFirstName = newFirstNameTF.getText();
+                    dialog2.dispose();
+                } else if(dialog3.isActive()){
+                    this.localEmail = newEmailTF.getText();
+                    dialog3.dispose();
+                }else if(dialog4.isActive()){
+                    this.localPassword = newPasswordTF.getText();
+                    dialog4.dispose();
+                }
+                updateInfo();
                 break;
             case "APPLY" :
-
                 try(Connection connection = Mysql.openConnection()){
 
                     this.mainJFrame.getClient().getStatut();
@@ -324,6 +358,11 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                     this.mainJFrame.getUtilisateur().setMdp(newPasswordClient);
 
                     this.mainJFrame.getUtilisateurDao().updateClient(this.mainJFrame.getClient(), this.mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
+
+                    this.mainJFrame.setName(this.localName);
+                    this.mainJFrame.setFirstName(this.localFirstName);
+                    this.mainJFrame.setEmail(this.localEmail);
+                    this.mainJFrame.setPassword(this.localPassword);
 
                     this.shopPage.resetMainContent();
 
