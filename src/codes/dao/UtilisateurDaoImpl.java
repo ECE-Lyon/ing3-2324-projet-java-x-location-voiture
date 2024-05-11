@@ -29,8 +29,6 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
         try{
 
-            c =Mysql.openConnection();
-
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);
             utilisateurStatement.setString(1, utilisateur.getEmail());
@@ -128,8 +126,6 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         PreparedStatement employeStatement;
         try {
 
-            c = Mysql.openConnection();
-
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);
             utilisateurStatement.setString(1, utilisateur.getEmail());
@@ -200,8 +196,6 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
         PreparedStatement utilisateurStatement;
         PreparedStatement entrepriseStatement;
         try {
-
-            c = Mysql.openConnection();
 
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);

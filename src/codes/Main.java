@@ -2,11 +2,12 @@ package codes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class Main extends JFrame {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // Obtenir le Toolkit par défaut
         Toolkit toolkit = Toolkit.getDefaultToolkit();
 

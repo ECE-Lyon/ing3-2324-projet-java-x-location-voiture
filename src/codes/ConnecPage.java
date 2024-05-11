@@ -1,6 +1,7 @@
 package codes;
 
 import codes.dao.Mysql;
+import codes.dao.UtilisateurDao;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.model.Employe;
@@ -67,15 +68,16 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
 
 
+    private Connection connection;
 
 
-
-    public ConnecPage(MainJFrame mainJFrame, ShopPage shop, InscrConnecPage inscrConnecPage, InscrPage inscrPage){
+    public ConnecPage(MainJFrame mainJFrame, ShopPage shop, InscrConnecPage inscrConnecPage, InscrPage inscrPage) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.inscrConnecPage = inscrConnecPage;
         this.inscrPage = inscrPage;
         this.shop = shop;
 
+        this.connection = Mysql.openConnection();
 
         this.setLayout(new BorderLayout());
 
@@ -230,9 +232,11 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
                 String password = new String(passwordF);
                 if(password.isEmpty() || this.usernameField.getText().isEmpty()){} else {
-                    try(Connection connection = Mysql.openConnection()) {
+                    try {
 
-                        this.mainJFrame.setUtilisateurDao(new UtilisateurDaoImpl(connection));
+                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+                        this.mainJFrame.setUtilisateurDao(utilisateurDao);
                         this.mainJFrame.setUtilisateur(this.mainJFrame.getUtilisateurDao().getUtilisateur(email, password));
 
 
