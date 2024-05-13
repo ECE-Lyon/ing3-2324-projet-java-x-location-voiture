@@ -29,6 +29,13 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
         try{
 
+            if (verifEmailInscription(utilisateur.getEmail())){
+
+                System.out.println("email déjà existant, vous avez déjà un compte.");
+                return;
+
+            }
+
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);
             utilisateurStatement.setString(1, utilisateur.getEmail());
@@ -124,7 +131,15 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
         PreparedStatement utilisateurStatement;
         PreparedStatement employeStatement;
+
         try {
+
+            if (verifEmailInscription(utilisateur.getEmail())){
+
+                System.out.println("email déjà existant, vous avez déjà un compte.");
+                return;
+
+            }
 
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);
@@ -195,7 +210,15 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
         PreparedStatement utilisateurStatement;
         PreparedStatement entrepriseStatement;
+
         try {
+
+            if (verifEmailInscription(utilisateur.getEmail())){
+
+                System.out.println("email déjà existant, vous avez déjà un compte.");
+                return;
+
+            }
 
             String addUserQuery = "INSERT INTO utilisateur (email, mdp) VALUES (?, ?)";
             utilisateurStatement = c.prepareStatement(addUserQuery);
@@ -356,6 +379,29 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
             }
         }
         return idUtilisateur;
+    }
+
+    public boolean verifEmailInscription(String email) throws SQLException {
+
+        String query = "SELECT COUNT(*) AS count FROM utilisateur WHERE email = ?";
+
+        try(PreparedStatement statement = c.prepareStatement(query)) {
+
+            statement.setString(1, email);
+
+            try(ResultSet resultSet = statement.executeQuery()) {
+
+                if (resultSet.next()) {
+                    int count = resultSet.getInt("count");
+                    return count > 0;
+                }
+
+            }
+
+        }
+
+        return false;
+
     }
 
 }
