@@ -164,7 +164,7 @@ public class UneVoiture extends JFrame {
             int w = imageIcon.getIconWidth();
             int h = imageIcon.getIconHeight();
             double wh = (double) w/h;
-            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(650, (int)(650/wh), Image.SCALE_SMOOTH));
+            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(1000, (int)(1000/wh), Image.SCALE_SMOOTH));
             // Mettre à jour l'imageLabel avec l'image chargée
             imageLabel.setIcon(imageIcon);
         }
@@ -198,7 +198,7 @@ public class UneVoiture extends JFrame {
             ArrayList<String> images = new ArrayList<>();
             images.add("renault-clio-2 (1).png");
             images.add("renault_PNG1.png");
-            images.add("renault_PNG1.png");
+            images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
             String prix = "100 € par jour";
             String annee = "2018";
             new UneVoiture(titre, description, images, prix, annee);
