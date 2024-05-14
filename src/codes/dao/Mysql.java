@@ -1,9 +1,7 @@
 package codes.dao;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
 public class Mysql {
 
     private static String database = "reservationvoiture";
@@ -27,5 +25,4 @@ public class Mysql {
         }
         return connection;
     }
-
 }
