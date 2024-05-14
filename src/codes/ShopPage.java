@@ -96,7 +96,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-        /////////////////////////// NUMBERVOITURE IL FAUT CHERCHER LE NBR DE VOITURES DIFFERENTES DANS LA BDDD
+        /////////////////////////// je veux que tu me permettte d'afficher toutes les voitures (parcourir les ID et je veux
+        // pas d'erreur si l'ID n'existe pas stppp. Je veux recevoir de ta fonction un ID et une Image
 
 
 
