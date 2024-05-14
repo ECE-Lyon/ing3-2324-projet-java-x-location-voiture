@@ -3,6 +3,7 @@ package codes;
 import codes.dao.Mysql;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
+import codes.model.Entreprise;
 import codes.model.Utilisateur;
 
 import javax.swing.*;
@@ -26,6 +27,9 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
     private final GridBagConstraints constraints2 = new GridBagConstraints();
     private final GridBagConstraints constraints3 = new GridBagConstraints();
     private final GridBagConstraints constraints4 = new GridBagConstraints();
+    private final GridBagConstraints constraints5 = new GridBagConstraints();
+    private final GridBagConstraints constraints6 = new GridBagConstraints();
+
 
     private JPanel topPanelInscr = new JPanel();
     private JLabel legendaryMotorsportLabel3 = new JLabel("LEGENDARY MOTORSPORT");
@@ -44,7 +48,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
 
     /////// INSCRIPTION
-    private JPanel inscrFormPanel = new JPanel();
+    private JPanel inscrFormPanel1 = new JPanel();
     private JLabel headerInscrForm = new JLabel("Inscription");
     private JLabel firstNameInscrLabel = new JLabel("Prénom : ");
     private JLabel lastNameInscrLabel = new JLabel("Nom : ");
@@ -56,8 +60,24 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
     private JTextField lastNameInscrTF = new JTextField();
     private JTextField emailInscrTF = new JTextField();
     private JPasswordField passwordInscrTF = new JPasswordField();
-    private JButton signUpButton = new JButton("S'inscrire");
+    private JButton signUpButton1 = new JButton("S'inscrire");
 
+
+    private JPanel inscrFormPanel2 = new JPanel();
+    private JLabel nameCompanyLabel = new JLabel("Nom de l'entreprise : ");
+    private JLabel siretCompanyLabel = new JLabel("Siret : ");
+    private JLabel emailCompanyLabel = new JLabel("Email : ");
+    private JLabel passwordCompanyLabel = new JLabel("Mot de passe : ");
+    private JTextField nameCompanyTF = new JTextField();
+    private JTextField siretCompanyTF = new JTextField();
+    private JTextField emailCompanyTF = new JTextField();
+    private JPasswordField passwordCompanyTF = new JPasswordField();
+    private JRadioButton radioClient = new JRadioButton("Je souhaite m'inscrire en temps que particulier.");
+    private JRadioButton radioCompany = new JRadioButton("Je souhaite m'inscrire en temps qu'entreprise.");
+    private ButtonGroup buttonGroup = new ButtonGroup();
+
+
+    private JPanel inscrFormPanelMain = new JPanel();
 
 
     public InscrPage(MainJFrame main, ShopPage shop, InscrConnecPage inscrConnecPage){
@@ -72,7 +92,9 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
         // Initialisation :
         this.inscrMainPanel.setLayout(gridBagLayout);
-        this.inscrFormPanel.setLayout(gridBagLayout);
+        this.inscrFormPanel1.setLayout(gridBagLayout);
+        this.inscrFormPanel2.setLayout(gridBagLayout);
+        this.inscrFormPanelMain.setLayout(gridBagLayout);
         this.topPanelInscr.setLayout(gridBagLayout);
         this.inscrMainPanel.setBackground(Color.WHITE);
 
@@ -109,6 +131,22 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
 
 
+        this.inscrFormPanel1.setVisible(false);
+        this.inscrFormPanel2.setVisible(false);
+
+        buttonGroup.add(this.radioClient);
+        buttonGroup.add(this.radioCompany);
+        this.constraints6.gridx = 0;
+        this.constraints6.gridy = 0;
+        this.radioClient.setActionCommand("RADIO BUTTON 1");
+        this.radioClient.addActionListener(this);
+        this.inscrFormPanelMain.add(radioClient, constraints6);
+        this.radioCompany.setActionCommand("RADIO BUTTON 2");
+        this.radioCompany.addActionListener(this);
+        this.constraints6.gridx = 1;
+        this.inscrFormPanelMain.add(radioCompany, constraints6);
+
+
         //////////// AJOUTER LES CONTRAINTES/METTRE UNE LAYOUT POUR LE inscrFormPanel :
         this.constraints4.gridx=0;
         this.constraints4.gridy=0;
@@ -124,38 +162,81 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-        this.inscrFormPanel.add(this.headerInscrForm, this.constraints4);
+        this.inscrFormPanel1.add(this.headerInscrForm, this.constraints4);
         this.constraints4.gridy=1;
-        this.inscrFormPanel.add(this.firstNameInscrLabel, this.constraints4);
+        this.inscrFormPanel1.add(this.firstNameInscrLabel, this.constraints4);
         this.constraints4.gridy=2;
-        this.inscrFormPanel.add(this.firstNameInscrTF, this.constraints4);
+        this.inscrFormPanel1.add(this.firstNameInscrTF, this.constraints4);
         this.constraints4.gridy=3;
-        this.inscrFormPanel.add(this.lastNameInscrLabel, this.constraints4);
+        this.inscrFormPanel1.add(this.lastNameInscrLabel, this.constraints4);
         this.constraints4.gridy=4;
-        this.inscrFormPanel.add(this.lastNameInscrTF, this.constraints4);
+        this.inscrFormPanel1.add(this.lastNameInscrTF, this.constraints4);
         this.constraints4.gridy=5;
-        this.inscrFormPanel.add(this.emailInscrLabel, this.constraints4);
+        this.inscrFormPanel1.add(this.emailInscrLabel, this.constraints4);
         this.constraints4.gridy=6;
-        this.inscrFormPanel.add(this.emailInscrTF, this.constraints4);
+        this.inscrFormPanel1.add(this.emailInscrTF, this.constraints4);
         this.constraints4.gridy=7;
-        this.inscrFormPanel.add(this.passwordInscrLabel, this.constraints4);
+        this.inscrFormPanel1.add(this.passwordInscrLabel, this.constraints4);
         this.constraints4.gridy=8;
-        this.inscrFormPanel.add(this.passwordInscrTF, this.constraints4);
-        this.constraints4.gridy=9;
-        this.inscrFormPanel.add(this.alreadyMember, this.constraints4);
-        this.constraints4.gridy=10;
-        this.inscrFormPanel.add(this.signUpButton, this.constraints4);
-        this.constraints4.gridy=11;
+        this.inscrFormPanel1.add(this.passwordInscrTF, this.constraints4);
 
-        ////////////////////////////////////////////METTRE UN IF toutes les conditions sont respectees (tous les champs
-        //  Sont remplis, les mdp/identifiants sont correctes)
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        this.signUpButton.setActionCommand("PAGE S INSCRIRE");
-        this.signUpButton.addActionListener(this);
-        this.inscrFormPanel.add(signUpButton, this.constraints4);
-        this.constraints4.gridy=12;
-        this.inscrFormPanel.add(this.elementMissingInscr, this.constraints4);
+
+
+        //////////////////////////////TRUC DE DROITE : ///////////////////////////////////
+        this.constraints5.gridx=0;
+        this.constraints5.gridy=0;
+        this.constraints5.anchor = GridBagConstraints.CENTER;
+        this.constraints5.weightx = 1.0;
+        this.constraints5.weighty = 1.0;
+
+
+        this.nameCompanyTF.setColumns(20);
+        this.siretCompanyTF.setColumns(20);
+        this.emailCompanyTF.setColumns(20);
+        this.passwordCompanyTF.setColumns(20);
+
+        this.inscrFormPanel2.add(this.nameCompanyLabel, this.constraints5);
+        this.constraints5.gridy=1;
+        this.inscrFormPanel2.add(this.nameCompanyTF, this.constraints5);
+        this.constraints5.gridy=2;
+        this.inscrFormPanel2.add(this.siretCompanyLabel, this.constraints5);
+        this.constraints5.gridy=3;
+        this.inscrFormPanel2.add(this.siretCompanyTF, this.constraints5);
+        this.constraints5.gridy=4;
+        this.inscrFormPanel2.add(this.emailCompanyLabel, this.constraints5);
+        this.constraints5.gridy=5;
+        this.inscrFormPanel2.add(this.emailCompanyTF, this.constraints5);
+        this.constraints5.gridy=6;
+        this.inscrFormPanel2.add(this.passwordCompanyLabel, this.constraints5);
+        this.constraints5.gridy=7;
+        this.inscrFormPanel2.add(this.passwordCompanyTF, this.constraints5);
+        this.constraints5.gridy=8;
+
+
+
+        this.constraints6.gridx = 0;
+        this.constraints6.gridy = 1;
+
+        this.inscrFormPanelMain.add(inscrFormPanel1, constraints6);
+        this.constraints6.gridx = 1;
+        this.inscrFormPanelMain.add(inscrFormPanel2, constraints6);
+
+
+        this.constraints6.gridx = 0;
+        this.constraints6.gridwidth = 2;
+        this.constraints6.gridy = 2;
+        this.inscrFormPanelMain.add(this.alreadyMember, this.constraints6);
+        this.constraints6.gridy = 3;
+
+        this.signUpButton1.setActionCommand("PAGE S INSCRIRE");
+        this.signUpButton1.addActionListener(this);
+        this.inscrFormPanelMain.add(signUpButton1, this.constraints6);
+        this.constraints6.gridy = 4;
+        this.inscrFormPanelMain.add(this.elementMissingInscr, this.constraints6);
+
+
+
 
 
         this.constraints3.gridx=0;
@@ -166,7 +247,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
         this.inscrMainPanel.add(topPanelInscr, this.constraints3);
         this.constraints3.gridy=1;
-        this.inscrMainPanel.add(inscrFormPanel, this.constraints3);
+        this.inscrMainPanel.add(inscrFormPanelMain, this.constraints3);
 
 
         this.add(inscrMainPanel, BorderLayout.CENTER);
@@ -182,6 +263,16 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
         mainJFrame.getFrame().revalidate();
         mainJFrame.getFrame().repaint();
+    }
+
+    public void displayRadioButton(int thisRadio){
+        if (thisRadio == 0){
+            this.inscrFormPanel1.setVisible(true);
+            this.inscrFormPanel2.setVisible(false);
+        } else {
+            this.inscrFormPanel1.setVisible(false);
+            this.inscrFormPanel2.setVisible(true);
+        }
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -231,35 +322,78 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
             case "CONNECTION":
                 this.mainJFrame.getConnecPage().resetMainContent();
                 break;
+            case "RADIO BUTTON 1":
+                displayRadioButton(0);
+                break;
+            case "RADIO BUTTON 2":
+                displayRadioButton(1);
+                break;
             case "PAGE S INSCRIRE" :
-                char[] passwordF2 = this.passwordInscrTF.getPassword();
-                String password2 = new String(passwordF2);
-                String firstName = this.firstNameInscrTF.getText();
-                String lastName = this.lastNameInscrTF.getText();
-                String email2 = this.emailInscrTF.getText();
-                if(password2.isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
-                    elementMissingInscr.setVisible(true);
-                }else {
-                    this.mainJFrame.setConnected(true);
-                    this.mainJFrame.setName(lastName);
-                    this.mainJFrame.setFirstName(firstName);
-                    this.mainJFrame.setEmail(email2);
-                    this.mainJFrame.setPassword(password2);
-                    this.shop.resetMainContent();
+                if (inscrFormPanel1.isVisible()) {
+                    char[] passwordF2 = this.passwordInscrTF.getPassword();
+                    String password2 = new String(passwordF2);
+                    String firstName = this.firstNameInscrTF.getText();
+                    String lastName = this.lastNameInscrTF.getText();
+                    String email2 = this.emailInscrTF.getText();
+                    if (password2.isEmpty() || this.firstNameInscrTF.getText().isEmpty() || this.lastNameInscrTF.getText().isEmpty() || this.emailInscrTF.getText().isEmpty()){
+                        elementMissingInscr.setVisible(true);
+                    } else {
+                        this.mainJFrame.setConnected(true);
+                        this.mainJFrame.setName(lastName);
+                        this.mainJFrame.setFirstName(firstName);
+                        this.mainJFrame.setEmail(email2);
+                        this.mainJFrame.setPassword(password2);
+                        this.shop.resetMainContent();
 
-                    try(Connection connection = Mysql.openConnection()) {
+                        try(Connection connection = Mysql.openConnection()) {
 
-                        UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+                            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
-                        Utilisateur utilisateur = new Utilisateur(-1, password2, email2);
-                        Client client = new Client(-1, null, null, lastName, firstName, null);
+                            Utilisateur utilisateur = new Utilisateur(-1, password2, email2);
+                            Client client = new Client(-1, null, null, lastName, firstName, null);
 
-                        utilisateurDao.addClient(client, utilisateur);
+                            utilisateurDao.addClient(client, utilisateur);
 
-                        System.out.println("Utilisateur ajouté avec succès !");
+                            System.out.println("Utilisateur ajouté avec succès !");
 
-                    } catch (SQLException er){
-                        er.printStackTrace();
+                        } catch (SQLException er){
+                            er.printStackTrace();
+                        }
+                    }
+                } else if (inscrFormPanel2.isVisible()){
+                    char[] passwordF2 = this.passwordCompanyTF.getPassword();
+                    String password2 = new String(passwordF2);
+                    String name = this.nameCompanyTF.getText();
+                    long siret = Long.parseLong(this.siretCompanyTF.getText());
+                    String email2 = this.emailCompanyTF.getText();
+                    if (this.nameCompanyTF.getText().isEmpty() || this.siretCompanyTF.getText().isEmpty() || this.emailCompanyTF.getText().isEmpty() || password2.isEmpty()){
+                        elementMissingInscr.setVisible(true);
+                    } else {
+                        this.mainJFrame.setConnected(true);
+                        this.mainJFrame.setSiret(siret);
+                        this.mainJFrame.setCompanyName(name);
+                        this.mainJFrame.setEmail(email2);
+                        this.mainJFrame.setPassword(password2);
+                        this.shop.resetMainContent();
+
+                        try(Connection connection = Mysql.openConnection()) {
+
+                            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+                            Utilisateur utilisateur = new Utilisateur(-1, password2, email2);
+                            Entreprise entreprise = new Entreprise(-1, null, null, name, siret);
+
+                            utilisateurDao.addEntreprise(entreprise, utilisateur);
+
+                            this.mainJFrame.setUtilisateurDao(utilisateurDao);
+                            this.mainJFrame.setEntreprise(entreprise);
+
+
+                            System.out.println("Utilisateur ajouté avec succès !");
+
+                        } catch (SQLException er){
+                            er.printStackTrace();
+                        }
                     }
 
                 }

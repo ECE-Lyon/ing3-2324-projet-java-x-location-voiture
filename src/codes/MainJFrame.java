@@ -2,6 +2,8 @@ package codes;
 
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
+import codes.model.Employe;
+import codes.model.Entreprise;
 import codes.model.Utilisateur;
 
 import javax.swing.*;
@@ -42,6 +44,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+    Entreprise entreprise;
+    Employe employe;
+
+
+
     Utilisateur utilisateur;
 
 
@@ -69,6 +76,8 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private String firstName;
     private String email;
     private String password;
+    private long Siret;
+    private String companyName;
 
 
     private boolean connectedState = false;
@@ -245,6 +254,22 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.password = password;
     }
 
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
+
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
+
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
 
     public Client getClient() {
         return client;
@@ -260,6 +285,22 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public long getSiret() {
+        return Siret;
+    }
+
+    public void setSiret(long siret) {
+        Siret = siret;
     }
 
     public UtilisateurDaoImpl getUtilisateurDao() {
