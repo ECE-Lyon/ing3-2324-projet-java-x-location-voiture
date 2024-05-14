@@ -21,6 +21,8 @@ public class Mysql {
                 e.printStackTrace();
             } catch (Exception ex) {
                 System.err.println("Impossible de sauvegarder les données. La base de données ne répond pas.");
+                ex.printStackTrace();
+
             }
         }
         return connection;
