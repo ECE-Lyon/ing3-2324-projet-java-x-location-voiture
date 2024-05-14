@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.Serial;
+import java.sql.SQLException;
 
 public class MainJFrame extends JFrame implements WindowListener, ComponentListener {
 
@@ -83,7 +84,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private boolean connectedState = false;
 
 
-    public MainJFrame(){
+    public MainJFrame() throws SQLException {
         super("Client");
 
         frame.addWindowListener(this);
@@ -310,4 +311,18 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
         this.utilisateurDao = utilisateurDao;
     }
+
+    public void initializeClient(String name, String firstName, String email, String password) {
+        this.client = new Client(-1, name, firstName, email, password, null);
+    }
+
+    public void updateClientInformation(String name, String firstName, String email, String password) {
+        if (this.client != null) {
+            this.client.setNom_client(name);
+            this.client.setPrenom_client(firstName);
+            this.client.setEmail(email);
+            this.client.setMdp(password);
+        }
+    }
+
 }

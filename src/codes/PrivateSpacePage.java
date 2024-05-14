@@ -92,14 +92,17 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private String localEmail;
     private String localPassword;
 
+    private Connection connection;
 
-    public PrivateSpacePage(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage){
+    public PrivateSpacePage(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage) throws SQLException {
 
         this.mainJFrame = mainJFrame;
         this.connecPage = connecPage;
         this.inscrConnecPage = inscrConnecPage;
         this.inscrPage = inscrPage;
         this.shopPage = shopPage;
+
+        this.connection = Mysql.openConnection();
 
         localName = this.mainJFrame.getName();
         localFirstName = this.mainJFrame.getFirstName();
@@ -335,38 +338,32 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 updateInfo();
                 break;
             case "APPLY" :
-                try(Connection connection = Mysql.openConnection()){
+                try {
 
-                    this.mainJFrame.getClient().getStatut();
+                    String oldClientEmail = mainJFrame.getEmail();
+                    String oldClientPassword = mainJFrame.getPassword();
 
-                    String oldClientEmail = this.mainJFrame.getEmail();
-                    String oldClientPassword = this.mainJFrame.getPassword();
+                    String newLastNameClient = localName;
+                    String newFirstNameClient = localFirstName;
+                    String newEmailClient = localEmail;
+                    String newPasswordClient = localPassword;
 
-                    this.mainJFrame.setUtilisateurDao(new UtilisateurDaoImpl(connection));
-                    this.mainJFrame.setUtilisateur(this.mainJFrame.getUtilisateurDao().getUtilisateur(oldClientEmail, oldClientPassword));
+                    updateInfo();
 
-                    ////// On récupère les valeurs des trucs
+                    if (mainJFrame.getClient() == null) {
+                        mainJFrame.initializeClient(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                    } else {
+                        mainJFrame.updateClientInformation(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                    }
 
-                    String newLastNameClient = this.mainJFrame.getName();
-                    String newFirstNameClient = this.mainJFrame.getFirstName();
-                    String newPasswordClient = this.mainJFrame.getPassword();
-                    String newEmailClient = this.mainJFrame.getEmail();
+                    mainJFrame.getUtilisateurDao().updateClient(mainJFrame.getClient(), mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
 
-                    this.mainJFrame.setClient((Client) this.mainJFrame.getUtilisateur());
+                    mainJFrame.setName(newLastNameClient);
+                    mainJFrame.setFirstName(newFirstNameClient);
+                    mainJFrame.setEmail(newEmailClient);
+                    mainJFrame.setPassword(newPasswordClient);
 
-                    this.mainJFrame.getClient().setNom_client(newLastNameClient);
-                    this.mainJFrame.getClient().setPrenom_client(newFirstNameClient);
-                    this.mainJFrame.getUtilisateur().setEmail(newEmailClient);
-                    this.mainJFrame.getUtilisateur().setMdp(newPasswordClient);
-
-                    this.mainJFrame.getUtilisateurDao().updateClient(this.mainJFrame.getClient(), this.mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
-
-                    this.mainJFrame.setName(this.localName);
-                    this.mainJFrame.setFirstName(this.localFirstName);
-                    this.mainJFrame.setEmail(this.localEmail);
-                    this.mainJFrame.setPassword(this.localPassword);
-
-                    this.shopPage.resetMainContent();
+                    shopPage.resetMainContent();
 
                 } catch (SQLException er){
                     er.printStackTrace();
