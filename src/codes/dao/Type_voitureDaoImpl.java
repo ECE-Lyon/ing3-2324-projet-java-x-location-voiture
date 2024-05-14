@@ -45,14 +45,20 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
 
         PreparedStatement modeleStatement;
 
-        connection =Mysql.openConnection();
+        //connection =Mysql.openConnection();
 
-        String addModeleQuery = "INSERT INTO modele (nom, marque, type) VALUES (?, ?, ?)";
-        modeleStatement = connection.prepareStatement(addModeleQuery);
-        modeleStatement.setString(1, modele.getNom_type_voiture());
-        modeleStatement.setString(2, modele.getMarque_voiture());
-        modeleStatement.setString(3, modele.getType().toString());
-        modeleStatement.executeUpdate();
+        try {
+
+            String addModeleQuery = "INSERT INTO modele (nom, marque, type) VALUES (?, ?, ?)";
+            modeleStatement = connection.prepareStatement(addModeleQuery);
+            modeleStatement.setString(1, modele.getNom_type_voiture());
+            modeleStatement.setString(2, modele.getMarque_voiture());
+            modeleStatement.setString(3, modele.getType().toString());
+            modeleStatement.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 

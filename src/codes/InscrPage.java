@@ -79,12 +79,16 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
     private JPanel inscrFormPanelMain = new JPanel();
 
+    private Connection connection;
 
-    public InscrPage(MainJFrame main, ShopPage shop, InscrConnecPage inscrConnecPage){
+
+    public InscrPage(MainJFrame main, ShopPage shop, InscrConnecPage inscrConnecPage) throws SQLException {
         this.inscrConnecPage = inscrConnecPage;
         this.shop = shop;
         this.mainJFrame = main;
         elementMissingInscr.setVisible(false);
+
+        this.connection = Mysql.openConnection();
 
 
         this.setLayout(new BorderLayout());
@@ -345,7 +349,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         this.mainJFrame.setPassword(password2);
                         this.shop.resetMainContent();
 
-                        try(Connection connection = Mysql.openConnection()) {
+                        try{
 
                             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
@@ -376,7 +380,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         this.mainJFrame.setPassword(password2);
                         this.shop.resetMainContent();
 
-                        try(Connection connection = Mysql.openConnection()) {
+                        try{
 
                             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 

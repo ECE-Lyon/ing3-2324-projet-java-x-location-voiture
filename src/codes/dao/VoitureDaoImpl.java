@@ -15,10 +15,21 @@ public class VoitureDaoImpl implements VoitureDao {
 
     @Override
     public void addVoiture(Voiture voiture) throws SQLException {
-        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO voiture (prixParJour, id_modele) VALUES (?, ?)")) {
+
+        PreparedStatement preparedStatement;
+
+        try{
+
+            String query = "INSERT INTO voiture (prixParJour, id_modele) VALUES (?, ?)";
+
+            preparedStatement = connection.prepareStatement(query);
+
             preparedStatement.setFloat(1, voiture.getPrix_par_jour());
             preparedStatement.setInt(2, voiture.getId_modele());
             preparedStatement.execute();
+
+        } catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -26,7 +37,14 @@ public class VoitureDaoImpl implements VoitureDao {
     public Voiture getVoiture(int id_voiture) throws SQLException {
         Voiture voiture = null;
 
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM voiture WHERE id=?")){
+        PreparedStatement statement;
+
+        try {
+
+            String query = "SELECT * FROM voiture WHERE id=?";
+
+            statement = connection.prepareStatement(query);
+
             statement.setInt(1, id_voiture);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()){
@@ -36,6 +54,8 @@ public class VoitureDaoImpl implements VoitureDao {
                     voiture.setId_modele(resultSet.getInt("id_modele"));
                 }
             }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
         return voiture;
     }

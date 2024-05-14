@@ -17,13 +17,23 @@ public class ReservationDaoImpl implements ReservationDao{
 
     @Override
     public void addReservation(Reservation reservation) throws SQLException {
-        try(PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO reservation (dateDebut, dateFin, remise, idUser, idVoiture) VALUES (?, ?, ?, ?, ?)")) {
+
+        PreparedStatement preparedStatement;
+
+        try {
+
+            String query = "INSERT INTO reservation (dateDebut, dateFin, remise, idUser, idVoiture) VALUES (?, ?, ?, ?, ?)";
+
+            preparedStatement = connection.prepareStatement(query);
+
             preparedStatement.setDate(1, reservation.getDate_debut());
             preparedStatement.setDate(2, reservation.getDate_fin());
             preparedStatement.setFloat(3, reservation.getRemise());
             preparedStatement.setInt(4, reservation.getIdUser());
             preparedStatement.setInt(5, reservation.getIdVoiture());
             preparedStatement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -31,9 +41,17 @@ public class ReservationDaoImpl implements ReservationDao{
     public Reservation getReservation(int id) throws SQLException {
         Reservation reservation = null;
 
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM reservation WHERE id=?")){
+        PreparedStatement statement;
+
+        try{
+
+            String query = "SELECT * FROM reservation WHERE id=?";
+
+            statement = connection.prepareStatement(query);
+
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
+
                 if (resultSet.next()){
                     reservation = new Reservation();
                     reservation.setId_reservation(resultSet.getInt("id"));
@@ -44,6 +62,8 @@ public class ReservationDaoImpl implements ReservationDao{
                     reservation.setIdVoiture((resultSet.getInt("idVoiture")));
                 }
             }
+        } catch (SQLException e){
+            e.printStackTrace();
         }
         return reservation;
     }

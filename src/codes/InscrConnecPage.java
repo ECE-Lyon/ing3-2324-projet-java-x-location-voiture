@@ -1,5 +1,7 @@
 package codes;
 
+import codes.dao.Mysql;
+
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class InscrConnecPage extends JPanel implements ActionListener, MouseListener {
 
@@ -45,11 +49,14 @@ public class InscrConnecPage extends JPanel implements ActionListener, MouseList
     private Font font2 = new Font("Arial", Font.PLAIN, fontSizeConnexion);
     private Font font3 = new Font("Arial", Font.PLAIN, getFontSizeInscription);
 
+    private Connection connection;
 
-    public InscrConnecPage(MainJFrame main, ShopPage shop){
+
+    public InscrConnecPage(MainJFrame main, ShopPage shop) throws SQLException {
         this.mainJFrame = main;
         this.shop = shop;
 
+        this.connection = Mysql.openConnection();
 
 
 
