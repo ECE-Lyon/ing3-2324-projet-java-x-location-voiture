@@ -1,14 +1,15 @@
 package PageVoiture;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDayChooser;
+
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import com.toedter.calendar.JCalendar;
-import com.toedter.calendar.JDayChooser;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 public class UneVoiture extends JFrame {
     private int currentImageIndex = 0;
@@ -141,8 +142,8 @@ public class UneVoiture extends JFrame {
         selectedDatesArea.setEditable(false);
         calendarPanel.add(selectedDatesArea, BorderLayout.SOUTH);
 
-        mainPanel.add(carouselPanel, BorderLayout.WEST);
-        mainPanel.add(infoPanel, BorderLayout.CENTER);
+        mainPanel.add(carouselPanel, BorderLayout.CENTER);
+        mainPanel.add(infoPanel, BorderLayout.EAST);
         mainPanel.add(calendarPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
 
@@ -161,6 +162,10 @@ public class UneVoiture extends JFrame {
             currentImageIndex = index;
             // Charger l'image correspondante
             ImageIcon imageIcon = new ImageIcon(getClass().getResource(images.get(index)));
+            int w = imageIcon.getIconWidth();
+            int h = imageIcon.getIconHeight();
+            double wh = (double) w/h;
+            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(1000, (int)(1000/wh), Image.SCALE_SMOOTH));
             // Mettre à jour l'imageLabel avec l'image chargée
             imageLabel.setIcon(imageIcon);
         }
@@ -192,8 +197,9 @@ public class UneVoiture extends JFrame {
             String titre = "Voiture à louer";
             String description = "Super voiture en excellent état !";
             ArrayList<String> images = new ArrayList<>();
-            images.add("renault_20clioeditiononehb5b_noirétoilé.webp");
-            images.add("téléchargement.webp");
+            images.add("renault-clio-2 (1).png");
+            images.add("renault_PNG1.png");
+            images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
             String prix = "100 € par jour";
             String annee = "2018";
             new UneVoiture(titre, description, images, prix, annee);
