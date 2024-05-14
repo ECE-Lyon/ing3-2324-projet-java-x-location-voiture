@@ -67,6 +67,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     private final JButton validateButton = new JButton("Valider");
 
+    private JButton addFilterButton = new JButton("Filtres");
+    private JDialog dialogFilters = new JDialog(mainJFrame);
+    private JMenu menu;
+    private JMenuItem downToUpPrice, upToDownPrice, carType, carPrice;
+    private JMenuBar menubar = new JMenuBar();
 
 
     public ShopPage(MainJFrame mainFrame) {
@@ -79,6 +84,41 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         int w, h;
         double wh;
         String fileName = "";
+
+        menu = new JMenu("Menu");
+        // Créer le sous menu
+        menu = new JMenu("Sous Menu");
+        // Créer les éléments du menu et sous menu
+        carPrice = new JMenuItem("Prix décroissant");
+        carType = new JMenuItem("Prix croissant");
+        upToDownPrice = new JMenuItem("upToDownPrice");
+        downToUpPrice = new JMenuItem(" 4");
+
+
+
+        /////////////////////////// NUMBERVOITURE IL FAUT CHERCHER LE NBR DE VOITURES DIFFERENTES DANS LA BDDD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         for (int i = 0; i < numberOfRentableCars-1; i++) {
             fileName = "src/images/" + imagesName(i);
@@ -304,6 +344,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 dialog.dispose();
                 this.mainJFrame.setConnected(false);
                 updateButtonState();
+                break;
+            case "CLICK ON AN IMG":
+                ////////////////Ici faut qu'on révupère l'ID voiture /////
+
+                //Ensuite on va sur la page de PAULOOOOOOOO
+                //this.mainJFrame.get
+                break;
+            case "FILTER BUTTON":
+
         }
     }
 
