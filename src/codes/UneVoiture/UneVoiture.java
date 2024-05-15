@@ -9,6 +9,7 @@ import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Calendar;
 
 public class UneVoiture extends JFrame {
     private int currentImageIndex = 0;
@@ -20,13 +21,16 @@ public class UneVoiture extends JFrame {
     private Date selectedEndDate;
     private boolean selectingStartDate = false;
     private boolean selectingEndDate = false;
+    private JComboBox<String> startTimeComboBox;
+    private JComboBox<String> endTimeComboBox;
+    private com.toedter.calendar.JDayChooser dayChooser;
 
     public UneVoiture(String titre, String description, ArrayList<String> images, String prix, String annee) {
         setTitle(titre);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Récupérer les dimensions de l'écran
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setExtendedState(JFrame.MAXIMIZED_BOTH); // Ouvrir en plein écran
 
         JPanel mainPanel = new JPanel(new BorderLayout());
 
@@ -34,7 +38,6 @@ public class UneVoiture extends JFrame {
         JPanel carouselPanel = new JPanel(new BorderLayout());
         this.images = images;
         imageLabel = new JLabel();
-        imageLabel.setPreferredSize(new Dimension(screenSize.width / 3, screenSize.height / 2));
         JButton prevImageButton = new JButton("Précédent");
         JButton nextImageButton = new JButton("Suivant");
 
@@ -70,16 +73,30 @@ public class UneVoiture extends JFrame {
         infoPanel.add(descriptionLabel);
         infoPanel.add(descriptionArea);
 
+        // Ajouter le bouton "Réservé"
+        JButton reserveButton = new JButton("Réservez !");
+        reserveButton.setForeground(new Color(0, 128, 0)); // Vert
+        infoPanel.add(reserveButton);
+
         JPanel calendarPanel = new JPanel(new BorderLayout());
         JCalendar calendar = new JCalendar();
+
+        // Configurer la date minimum autorisée
+        Calendar minDate = Calendar.getInstance();
+        minDate.add(Calendar.DAY_OF_MONTH, -1);
+        calendar.setMinSelectableDate(minDate.getTime());
+
         calendarPanel.add(calendar, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1));
         JButton startDateButton = new JButton("Date de départ");
         JButton endDateButton = new JButton("Date de fin");
 
+        Dimension buttonSize = new Dimension(200, 30); // Taille fixe pour les boutons
+        startDateButton.setPreferredSize(buttonSize);
+        endDateButton.setPreferredSize(buttonSize);
+
         // Appliquer un fond bleu lorsque les boutons sont sélectionnés
-        Color selectedColor = new Color(30, 144, 255); // Bleu royal
         startDateButton.setBackground(UIManager.getColor("Button.background"));
         endDateButton.setBackground(UIManager.getColor("Button.background"));
 
@@ -88,21 +105,27 @@ public class UneVoiture extends JFrame {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 Date selectedDate = calendar.getDate();
-                Date currentDate = new Date();
 
                 // Vérifier si la date sélectionnée est dans le passé
-                if (selectedDate.before(currentDate)) {
-                    // Afficher un message à l'utilisateur
+                if (selectedDate.before(minDate.getTime())) {
+
                     JOptionPane.showMessageDialog(UneVoiture.this, "Vous ne pouvez pas sélectionner une date passée.", "Date invalide", JOptionPane.ERROR_MESSAGE);
-                    // Réinitialiser la date sélectionnée à la date actuelle
-                } else {
-                    if (selectingStartDate) {
-                        selectedStartDate = selectedDate;
-                        startDateButton.setText("Date de départ sélectionnée");
-                        endDateButton.setEnabled(true);
-                        selectingStartDate = true;
+                } else if (selectingStartDate) {
+                    selectedStartDate = selectedDate;
+                    startDateButton.setText("Date de départ sélectionnée");
+                    endDateButton.setEnabled(true);
+                    selectingStartDate = true;
+                    selectingEndDate = true;
+                    if(selectedStartDate != null && selectedEndDate != null && selectedDate.after(selectedEndDate)) {
+                        JOptionPane.showMessageDialog(UneVoiture.this, "La date de début ne peut pas être postérieur à la date de fin.", "Date invalide", JOptionPane.ERROR_MESSAGE);
+                    }
+                    else {
                         updateSelectedDates();
-                    } else if (selectingEndDate) {
+                    }
+                } else if (selectingEndDate) {
+                    if (selectedDate.before(selectedStartDate)) {
+                        JOptionPane.showMessageDialog(UneVoiture.this, "La date de fin ne peut pas être antérieure à la date de départ.", "Date invalide", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         selectedEndDate = selectedDate;
                         endDateButton.setText("Date de fin sélectionnée");
                         startDateButton.setEnabled(true);
@@ -134,10 +157,20 @@ public class UneVoiture extends JFrame {
         buttonPanel.add(startDateButton);
         buttonPanel.add(endDateButton);
 
+        // Ajouter les menus déroulants pour l'heure de départ et de retour
+        JPanel timePanel = new JPanel(new GridLayout(2, 2));
+        timePanel.add(new JLabel("Heure de départ:"));
+        startTimeComboBox = new JComboBox<>(generateTimeOptions());
+        timePanel.add(startTimeComboBox);
+        timePanel.add(new JLabel("Heure de retour:"));
+        endTimeComboBox = new JComboBox<>(generateTimeOptions());
+        timePanel.add(endTimeComboBox);
+
         calendarPanel.add(buttonPanel, BorderLayout.EAST);
+        calendarPanel.add(timePanel, BorderLayout.WEST);
 
         // JTextArea pour afficher les dates sélectionnées
-        selectedDatesArea = new JTextArea("Dates de début:\nDates de fin:");
+        selectedDatesArea = new JTextArea("Date de début:\nDate de fin:");
         selectedDatesArea.setEditable(false);
         calendarPanel.add(selectedDatesArea, BorderLayout.SOUTH);
 
@@ -145,8 +178,6 @@ public class UneVoiture extends JFrame {
         mainPanel.add(infoPanel, BorderLayout.EAST);
         mainPanel.add(calendarPanel, BorderLayout.SOUTH);
         getContentPane().add(mainPanel, BorderLayout.CENTER);
-
-        // Désactivation de la décoration de la fenêtre pour cacher la barre de titre et la bordure
 
         pack();
         setLocationRelativeTo(null);
@@ -156,6 +187,15 @@ public class UneVoiture extends JFrame {
         showImage(0);
     }
 
+    private String[] generateTimeOptions() {
+        String[] options = new String[48];
+        for (int i = 0; i < 24; i++) {
+            options[2 * i] = String.format("%02d:00", i);
+            options[2 * i + 1] = String.format("%02d:30", i);
+        }
+        return options;
+    }
+
     private void showImage(int index) {
         if (index >= 0 && index < images.size()) {
             currentImageIndex = index;
@@ -163,8 +203,8 @@ public class UneVoiture extends JFrame {
             ImageIcon imageIcon = new ImageIcon(getClass().getResource(images.get(index)));
             int w = imageIcon.getIconWidth();
             int h = imageIcon.getIconHeight();
-            double wh = (double) w/h;
-            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(1000, (int)(1000/wh), Image.SCALE_SMOOTH));
+            double wh = (double) w / h;
+            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(1000, (int) (1000 / wh), Image.SCALE_SMOOTH));
             // Mettre à jour l'imageLabel avec l'image chargée
             imageLabel.setIcon(imageIcon);
         }
@@ -188,6 +228,28 @@ public class UneVoiture extends JFrame {
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
 
         selectedDatesArea.setText("Date de début: " + startDateString + "\nDate de fin: " + endDateString);
+    }
+
+    private void colorSelectedDates() {
+        if (selectedStartDate != null && selectedEndDate != null) {
+            Calendar startCal = Calendar.getInstance();
+            startCal.setTime(selectedStartDate);
+            Calendar endCal = Calendar.getInstance();
+            endCal.setTime(selectedEndDate);
+
+            for (Component comp : dayChooser.getDayPanel().getComponents()) {
+                comp.setBackground(UIManager.getColor("Panel.background")); // Réinitialiser la couleur
+            }
+
+            while (!startCal.after(endCal)) {
+                int day = startCal.get(Calendar.DAY_OF_MONTH);
+                Component dayComponent = dayChooser.getDayPanel().getComponent(day - 1);
+                if (dayComponent != null) {
+                    dayComponent.setBackground(new Color(200, 216, 230));
+                }
+                startCal.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        }
     }
 
     public static void main(String[] args) {
