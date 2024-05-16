@@ -138,10 +138,10 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
         this.inscrFormPanel1.setVisible(false);
         this.inscrFormPanel2.setVisible(false);
 
-        buttonGroup.add(this.radioClient);
-        buttonGroup.add(this.radioCompany);
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
+        buttonGroup.add(this.radioClient);
+        buttonGroup.add(this.radioCompany);
         this.radioClient.setActionCommand("RADIO BUTTON 1");
         this.radioClient.addActionListener(this);
         this.inscrFormPanelMain.add(radioClient, constraints6);
@@ -166,22 +166,20 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-        this.inscrFormPanel1.add(this.headerInscrForm, this.constraints4);
-        this.constraints4.gridy=1;
         this.inscrFormPanel1.add(this.firstNameInscrLabel, this.constraints4);
-        this.constraints4.gridy=2;
+        this.constraints4.gridy=1;
         this.inscrFormPanel1.add(this.firstNameInscrTF, this.constraints4);
-        this.constraints4.gridy=3;
+        this.constraints4.gridy=2;
         this.inscrFormPanel1.add(this.lastNameInscrLabel, this.constraints4);
-        this.constraints4.gridy=4;
+        this.constraints4.gridy=3;
         this.inscrFormPanel1.add(this.lastNameInscrTF, this.constraints4);
-        this.constraints4.gridy=5;
+        this.constraints4.gridy=4;
         this.inscrFormPanel1.add(this.emailInscrLabel, this.constraints4);
-        this.constraints4.gridy=6;
+        this.constraints4.gridy=5;
         this.inscrFormPanel1.add(this.emailInscrTF, this.constraints4);
-        this.constraints4.gridy=7;
+        this.constraints4.gridy=6;
         this.inscrFormPanel1.add(this.passwordInscrLabel, this.constraints4);
-        this.constraints4.gridy=8;
+        this.constraints4.gridy=7;
         this.inscrFormPanel1.add(this.passwordInscrTF, this.constraints4);
 
 
@@ -347,6 +345,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         this.mainJFrame.setFirstName(firstName);
                         this.mainJFrame.setEmail(email2);
                         this.mainJFrame.setPassword(password2);
+                        this.mainJFrame.getPrivateSpacePage().setCompany(false);
                         this.shop.resetMainContent();
 
                         try{
@@ -380,6 +379,7 @@ public class InscrPage extends JPanel implements ActionListener, MouseListener {
                         this.mainJFrame.setCompanyName(name);
                         this.mainJFrame.setEmail(email2);
                         this.mainJFrame.setPassword(password2);
+                        this.mainJFrame.getPrivateSpacePage().setCompany(true);
                         this.shop.resetMainContent();
 
                         try{

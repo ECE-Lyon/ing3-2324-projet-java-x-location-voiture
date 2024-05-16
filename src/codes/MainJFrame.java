@@ -26,30 +26,19 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private ConnecPage connecPage;
     private ShopPage shopPage;
     private PrivateSpacePage privateSpacePage;
-
-    public BasketPage getBasketPage() {
-        return basketPage;
-    }
-
-    public void setBasketPage(BasketPage basketPage) {
-        this.basketPage = basketPage;
-    }
-
     private BasketPage basketPage;
+    private DisplayCars displayCars;
+
+
+
 
 
 
 
     Client client;
     UtilisateurDaoImpl utilisateurDao;
-
-
-
     Entreprise entreprise;
     Employe employe;
-
-
-
     Utilisateur utilisateur;
 
 
@@ -92,14 +81,15 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
 
+        System.out.println("Updating images");
 
+        this.displayCars = new DisplayCars();
         this.shopPage = new ShopPage(this);
         this.inscrConnecPage = new InscrConnecPage(this, this.shopPage);
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
         this.basketPage = new BasketPage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
-
 
         //this.connectedState = false;
         this.shopPage.resetMainContent();
@@ -296,6 +286,14 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.companyName = companyName;
     }
 
+    public BasketPage getBasketPage() {
+        return basketPage;
+    }
+
+    public void setBasketPage(BasketPage basketPage) {
+        this.basketPage = basketPage;
+    }
+
     public long getSiret() {
         return Siret;
     }
@@ -310,6 +308,14 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
         this.utilisateurDao = utilisateurDao;
+    }
+
+    public DisplayCars getDisplayCars() {
+        return displayCars;
+    }
+
+    public void setDisplayCars(DisplayCars displayCars) {
+        this.displayCars = displayCars;
     }
 
     public void initializeClient(String name, String firstName, String email, String password) {

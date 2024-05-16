@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.ImageObserver;
+import java.util.ArrayList;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
@@ -50,7 +52,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JPanel botPanelShop = new JPanel();
     private JPanel topAndBotPanelShop = new JPanel();
     private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
-    private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
+    //private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
     private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
     private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
     private JButton connexionButtonShop = new JButton("Identifiez-vous !");
@@ -66,6 +68,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private final JLabel areUSureLabel = new JLabel("Etes vous sur de vouloir vous déconnecter ?");
 
     private final JButton validateButton = new JButton("Valider");
+
+    private ArrayList<ImageIcon> imagesArrayList = new ArrayList<>();
+    private ArrayList<Integer> idArrayList = new ArrayList<>();
 
     private JButton addFilterButton = new JButton("Filtres");
     private JDialog dialogFilters = new JDialog(mainJFrame);
@@ -111,40 +116,29 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-
-
-
-
-
-
-
-
-
-
-        for (int i = 0; i < numberOfRentableCars-1; i++) {
-            fileName = "src/images/" + imagesName(i);
-            imagesCarsShop[i] = new ImageIcon(fileName);
+        this.mainJFrame.getDisplayCars().updateImages();
+        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
+        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
+        for (int i = 0; i < this.mainJFrame.getDisplayCars().getImages().size(); i++){
+            this.imagesArrayList.add(new ImageIcon(this.mainJFrame.getDisplayCars().getImages().get(i)));
         }
-        imagesCarsShop[numberOfRentableCars-1] = new ImageIcon("C:/ECE/2023-2024/2nd semestre/info/codes/ing3-2324-projet-java-x-location-voiture/src/images/lambo.png");
+
+
+
+
+
 
         for(int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
-            w = imagesCarsShop[i].getIconWidth();
-            h = imagesCarsShop[i].getIconHeight();
+            w = this.imagesArrayList.get(i).getIconWidth();
+            h = this.imagesArrayList.get(i).getIconHeight();
             wh = (double) w/h;
-            imagesCarsShop[i] = new ImageIcon(imagesCarsShop[i].getImage().getScaledInstance(100, (int)(100/wh), Image.SCALE_SMOOTH));
-            imagesCarsLabelShop[i] = new JLabel(imagesCarsShop[i]);
+            this.imagesArrayList.set(i, new ImageIcon(this.imagesArrayList.get(i).getImage().getScaledInstance(100, (int)(100/wh), Image.SCALE_SMOOTH)));
+            imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList.get(i));
             descriptionShop[i] = new JLabel("Description");
         }
 
 
-
-
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////  QUATRIEME PAGE ///////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -296,11 +290,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         }
         this.revalidate();
         this.repaint();
-    }
-
-    public String imagesName(int i) {
-        String s = "Picture1.png";
-        return s;
     }
 
 

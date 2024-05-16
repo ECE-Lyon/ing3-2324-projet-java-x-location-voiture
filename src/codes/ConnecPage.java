@@ -255,6 +255,8 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 this.mainJFrame.setFirstName(this.mainJFrame.getClient().getPrenom_client());
 
                                 this.mainJFrame.setConnected(true);
+
+                                this.mainJFrame.getPrivateSpacePage().setCompany(false);
                                 this.shop.resetMainContent();
 
 
@@ -264,12 +266,15 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 System.out.println("Nom : " + employe.getNom_employe());
                                 System.out.println("Prénom : " + employe.getPrenom_employe());
                                 System.out.println("Poste : " + employe.getPoste());
+                                this.mainJFrame.getPrivateSpacePage().setCompany(false);
                                 // Ajoutez d'autres informations si nécessaire
                             } else if (this.mainJFrame.getUtilisateur() instanceof Entreprise) {
                                 System.out.println("Informations de l'entreprise :");
                                 Entreprise entreprise = (Entreprise) this.mainJFrame.getUtilisateur();
                                 System.out.println("Nom : " + entreprise.getNom_entreprise());
                                 System.out.println("Siret : " + entreprise.getSiret());
+                                this.mainJFrame.getPrivateSpacePage().setCompany(true);
+                                this.shop.resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire
                             }
 

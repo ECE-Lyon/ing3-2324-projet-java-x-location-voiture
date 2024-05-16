@@ -81,7 +81,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private final JTextField newNameTF = new JTextField();
     private final JTextField newFirstNameTF = new JTextField();
     private final JTextField newEmailTF = new JTextField();
-    private JTextField newPasswordTF = new JTextField();
+    private final JTextField newPasswordTF = new JTextField();
     private final JButton validateButton1 = new JButton("Valider");
     private final JButton validateButton2 = new JButton("Valider");
     private final JButton validateButton3 = new JButton("Valider");
@@ -92,7 +92,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private String localEmail;
     private String localPassword;
 
-    private Connection connection;
+    private boolean isCompany = false;
+    Connection connection;
 
     public PrivateSpacePage(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage) throws SQLException {
 
@@ -225,6 +226,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
         updateLocal();
+        differentIfIsCompany();
 
 
         // Réinitialisez le contenu principal ici :
@@ -247,6 +249,16 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         firstName.setText(this.localFirstName);
         email.setText(this.localEmail);
         password.setText(this.localPassword);
+    }
+
+    public void differentIfIsCompany (){
+        if (!this.isCompany){
+            newNameLabel.setText("Saisir le nouveau nom de l'entreprise : ");
+            newFirstNameLabel.setText("Saisir le nouveau SIRET : ");
+        } else {
+            newNameLabel.setText("Saisir le nouveau nom : ");
+            newFirstNameLabel.setText("Saisir le nouveau prénom : ");
+        }
     }
 
     @Override
@@ -397,5 +409,13 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public boolean isCompany() {
+        return isCompany;
+    }
+
+    public void setCompany(boolean company) {
+        isCompany = company;
     }
 }
