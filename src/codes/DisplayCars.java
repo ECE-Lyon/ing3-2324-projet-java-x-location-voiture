@@ -86,19 +86,4 @@ public class DisplayCars {
         bis.close();
         return bufferedImage;
     }
-
-    public void afficherImage(Image image, int carId) {
-        SwingUtilities.invokeLater(() -> {
-            JFrame frame = new JFrame("Affichage d'image");
-            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Ferme seulement la fenêtre d'affichage d'image
-            JLabel label = new JLabel();
-            if (image != null) {
-                label.setIcon(new ImageIcon(image));
-            }
-            label.setText("ID du modèle : " + carId);
-            frame.getContentPane().add(label, BorderLayout.CENTER);
-            frame.pack();
-            frame.setVisible(true);
-        });
-    }
 }
