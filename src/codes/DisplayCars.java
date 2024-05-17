@@ -18,14 +18,12 @@ public class DisplayCars {
 
     private static Connection connection;
 
-    private ArrayList<Image> images1 = new ArrayList<>();
-    private ArrayList<Image> images2 = new ArrayList<>();
-    private ArrayList<Image> images3 = new ArrayList<>();
+    private ArrayList<ImageIcon> images1 = new ArrayList<>();
+    private ArrayList<ImageIcon> images2 = new ArrayList<>();
+    private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
 
     public DisplayCars () throws SQLException {
-
-
         connection = Mysql.openConnection();
         updateImages();
     }
@@ -51,7 +49,7 @@ public class DisplayCars {
 
                         //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
                         id.add(carId);
-                        images1.add(obtenirImage(imageData));
+                        images1.add(toImageIcon(obtenirImage(imageData)));
                         Image image = obtenirImage(imageData);
                         found = true;
                     }
@@ -74,27 +72,27 @@ public class DisplayCars {
     }
 
 
-    public ArrayList<Image> getImages2() {
+    public ArrayList<ImageIcon> getImages2() {
         return images2;
     }
 
-    public void setImages2(ArrayList<Image> images2) {
+    public void setImages2(ArrayList<ImageIcon> images2) {
         this.images2 = images2;
     }
 
-    public ArrayList<Image> getImages3() {
+    public ArrayList<ImageIcon> getImages3() {
         return images3;
     }
 
-    public void setImages3(ArrayList<Image> images3) {
+    public void setImages3(ArrayList<ImageIcon> images3) {
         this.images3 = images3;
     }
 
-    public ArrayList<Image> getImages1() {
+    public ArrayList<ImageIcon> getImages1() {
         return images1;
     }
 
-    public void setImages1(ArrayList<Image> images1, ArrayList<Image> images2, ArrayList<Image> images3) {
+    public void setImages1(ArrayList<ImageIcon> images1) {
         this.images1 = images1;
     }
 
@@ -104,5 +102,10 @@ public class DisplayCars {
 
     public void setId(ArrayList<Integer> id) {
         this.id = id;
+    }
+
+    public ImageIcon toImageIcon(Image img){
+        ImageIcon imgI = new ImageIcon(img);
+        return imgI;
     }
 }

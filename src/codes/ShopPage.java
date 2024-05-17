@@ -106,9 +106,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
-        for (int i = 0; i < this.mainJFrame.getDisplayCars().getImages1().size(); i++){
-            this.imagesArrayList.add(new ImageIcon(this.mainJFrame.getDisplayCars().getImages1().get(i)));
-        }
+        this.imagesArrayList.addAll(this.mainJFrame.getDisplayCars().getImages1());
 
 
 
@@ -121,6 +119,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             this.imagesArrayList.set(i, new ImageIcon(this.imagesArrayList.get(i).getImage().getScaledInstance(300, (int)(300/wh), Image.SCALE_SMOOTH)));
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
+            imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
             descriptionShop[i] = new JLabel("Description");
         }
 
@@ -400,9 +399,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        /////////////////////////////////////////////////FINIR DE FAIRE QUE QUAND ON CLIQUE SUR UNE VOITURE CA FAIT QUELQUE CHOSE
+        ////////////////////////////////////FINIR DE FAIRE QUE QUAND ON CLIQUE SUR UNE VOITURE CA FAIT QUELQUE CHOSE
+
+        JLabel sourceLabel = (JLabel) e.getSource();
+        Integer carId = (Integer) sourceLabel.getClientProperty("carId");
+        System.out.println("Car ID: " + carId);
+
         ImageIcon[] img = new ImageIcon[imagesArrayList.size()];
-        for (int i = 0; i < img.length; i++){
+        for (int i = 0; i < 3; i++){
             img[i] = imagesArrayList.get(i);
         }
         if(this.mainJFrame.getUneVoiture() == null){
@@ -411,10 +415,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
         }
 
-        JLabel sourceLabel = (JLabel) e.getSource();
-        String command = sourceLabel.getText();
-        System.out.println(sourceLabel);
-        actionPerformed(new ActionEvent((JLabel)e.getSource(), ActionEvent.ACTION_PERFORMED, command));
     }
 
     @Override
