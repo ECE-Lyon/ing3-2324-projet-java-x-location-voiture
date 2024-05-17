@@ -7,14 +7,16 @@ public class Type_voiture {
     private String marque_voiture;
     public enum Type{BREAK, BERLINE, SUV, SPORT, LIMOUSINE, PICK_UP};
     private Type type;
+    private String description;
 
     public Type_voiture(){}
 
-    public Type_voiture(int id_type_voiture, String nom_type_voiture, String marque_voiture, Type type){
+    public Type_voiture(int id_type_voiture, String nom_type_voiture, String marque_voiture, Type type, String description){
         this.id_type_voiture = id_type_voiture;
         this.nom_type_voiture = nom_type_voiture;
         this.marque_voiture = marque_voiture;
         this.type = type;
+        this.description = description;
     }
 
     public int getId_type_voiture() {
@@ -48,4 +50,13 @@ public class Type_voiture {
     public void setType(Type type) {
         this.type = type;
     }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
 }

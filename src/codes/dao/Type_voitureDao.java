@@ -16,4 +16,6 @@ public interface Type_voitureDao {
 
     Set<String> searchAllMarques() throws SQLException;
 
+    List<Type_voiture> searchAllModele() throws SQLException;
+
 }

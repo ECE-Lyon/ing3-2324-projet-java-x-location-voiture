@@ -18,6 +18,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
 
 
     // CHERCHE UN MODELE EN FONCTION DU TYPE (SUV, SPORT, BERLINE...)
+    @Override
     public List<Type_voiture> searchType(String type_voiture) throws SQLException{
 
         List<Type_voiture> results = new ArrayList<>();
@@ -28,7 +29,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             statement.setString(1, type_voiture);
             try (ResultSet resultSet = statement.executeQuery()){
                 while(resultSet.next()){
-                    Type_voiture modele = new Type_voiture(-1, null, null, null);
+                    Type_voiture modele = new Type_voiture(-1, null, null, null, null);
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
@@ -43,6 +44,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
 
 
     // PERMET D'AJOUTER UN MODELE
+    @Override
     public void addModele(Type_voiture modele) throws SQLException {
 
         PreparedStatement modeleStatement;
@@ -65,6 +67,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     }
 
     // PERMET DE RECHERCHE TOUTES LES MARQUES DISTINCTES
+    @Override
     public Set<String> searchAllMarques() throws SQLException {
         Set<String> marques = new HashSet<>();
 
@@ -80,6 +83,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     }
 
     // PERMET DE RECHERCHER UN MODELE EN FONCTION DE LA MARQUE (AUDI, BMW..)
+    @Override
     public List<Type_voiture> searchModele(String marque) throws SQLException {
         List<Type_voiture> modeles = new ArrayList<>();
         String query = "SELECT * FROM modele WHERE marque = ?";
@@ -87,7 +91,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             statement.setString(1, marque);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Type_voiture modele = new Type_voiture(-1, null, null, null);
+                    Type_voiture modele = new Type_voiture(-1, null, null, null, null);
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
@@ -96,6 +100,38 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             }
         }
         return modeles;
+    }
+
+    // PERMET DE RECHERCHER TOUS LES MODELES DANS LA BDD
+    @Override
+    public List<Type_voiture> searchAllModele() throws SQLException {
+
+        List<Type_voiture> typeVoitures = new ArrayList<>();
+        String query = "SELECT * FROM modele";
+        PreparedStatement statement;
+
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet.getString("type"));
+
+                Type_voiture type_voiture = new Type_voiture(
+                        resultSet.getInt("id"),
+                        resultSet.getString("nom"),
+                        resultSet.getString("marque"),
+                        type,
+                        resultSet.getString("description")
+                );
+                typeVoitures.add(type_voiture);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return typeVoitures;
     }
 
     // PERMET DE SUPPRIMER UN MODELE GRACE A UN ID
