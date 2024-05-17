@@ -2,16 +2,26 @@ package codes.UneVoiture;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import codes.dao.VoitureDao;
+import codes.dao.VoitureDaoImpl;
+import codes.model.Reservation;
+import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
-public class UneVoiture extends JFrame {
+public class UneVoiture extends JFrame implements ActionListener, MouseListener {
     private int currentImageIndex = 0;
     private ArrayList<String> images;
     private JLabel imageLabel;
@@ -25,8 +35,13 @@ public class UneVoiture extends JFrame {
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
 
-    public UneVoiture(String titre, String description, ArrayList<String> images, int prix, int annee) {
-        setTitle(titre);
+
+    private GridBagLayout gridBagLayout = new GridBagLayout();
+    private JButton validateButton = new JButton("Valider");
+    private JLabel areUSureLabel = new JLabel("Souhaitez-vous vraiment ajouter ce produit au panier ?");
+    private GridBagConstraints constraints = new GridBagConstraints();
+    public UneVoiture(String description, ArrayList<String> images, int prix, int annee) {
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Récupérer les dimensions de l'écran
@@ -75,6 +90,8 @@ public class UneVoiture extends JFrame {
 
         // Ajouter le bouton "Réservé"
         JButton reserveButton = new JButton("Réservez !");
+        reserveButton.setActionCommand("RESERVEZ!");
+        reserveButton.addActionListener(this);
         reserveButton.setForeground(new Color(0, 128, 0)); // Vert
         infoPanel.add(reserveButton);
 
@@ -222,7 +239,7 @@ public class UneVoiture extends JFrame {
 
     // Mettre à jour le JTextArea avec les dates de début et de fin sélectionnées
     private void updateSelectedDates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         String startDateString = selectedStartDate != null ? dateFormat.format(selectedStartDate) : "Non sélectionnée";
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
@@ -263,5 +280,43 @@ public class UneVoiture extends JFrame {
             images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
             new UneVoiture(titre, description, images, 100, 2020);
         });
+    }
+    public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
+        // Récupérer l'ID de la voiture
+        int idVoiture = voiture.getId_voiture();
+        VoitureDaoImpl voitureDaoImpl = new VoitureDaoImpl(connection);
+
+        // Modifier le statut de la voiture
+        voiture.setId_voiture(idVoiture);
+        modifVoiture(voiture);
+
+        // Créer la réservation
+        reservation.setIdVoiture(idVoiture);
+        addReservation(reservation);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
