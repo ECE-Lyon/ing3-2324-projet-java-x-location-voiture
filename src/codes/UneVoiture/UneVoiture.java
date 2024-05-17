@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 public class UneVoiture extends JPanel implements ActionListener, MouseListener {
     private int currentImageIndex = 0;
-    private ArrayList<ImageIcon> images;
+    private ArrayList<ImageIcon> images = new ArrayList<>();
     private JLabel imageLabel;
     private JTextArea descriptionArea;
     private JTextArea selectedDatesArea;
@@ -53,9 +53,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
-        this.images.set(0, image[0]);
-        this.images.set(1, image[1]);
-        this.images.set(2, image[2]);
+        this.images.add(image[0]);
+        this.images.add(image[1]);
+        this.images.add(image[2]);
         this.id = id;
         this.description = desc;
         this.prix = prix;
@@ -209,6 +209,10 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.add(mainPanel, BorderLayout.CENTER);
 
         showImage(0);
+        mainJFrame.getFrame().getContentPane().removeAll();
+        mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
+        mainJFrame.getFrame().revalidate();
+        mainJFrame.getFrame().repaint();
     }
 
     private String[] generateTimeOptions() {
@@ -270,19 +274,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            // Exemple d'utilisation
-            String titre = "Voiture à louer";
-            String description = "Super voiture en excellent état !";
-            ArrayList<String> images = new ArrayList<>();
-            images.add("renault-clio-2 (1).png");
-            images.add("renault_PNG1.png");
-            images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
-            //new UneVoiture(description, images, 100, 2020);
-        });
-    }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -320,9 +311,11 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     public void resetMainContent(int id, ImageIcon[] image, String desc, int prix) {
         mainJFrame.getFrame().getContentPane().removeAll();
-        this.images.set(0, image[0]);
-        this.images.set(1, image[1]);
-        this.images.set(2, image[2]);
+        this.images.clear();
+        this.images.add(image[0]);
+        this.images.add(image[1]);
+        this.images.add(image[2]);
+
         this.id = id;
         this.description = desc;
         this.prix = prix;
