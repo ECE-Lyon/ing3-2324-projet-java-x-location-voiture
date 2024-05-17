@@ -144,5 +144,23 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
         }
     }
 
+    // PERMET DE RECUPERER LA DESCRIPTION GRACE A L'ID
+    public String getDescriptionById(int modeleId) throws SQLException {
+        PreparedStatement statement;
+        try {
+            String query = "SELECT description FROM modele WHERE id = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, modeleId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("description");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }

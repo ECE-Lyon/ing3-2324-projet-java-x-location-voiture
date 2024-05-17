@@ -2,18 +2,29 @@ package codes.UneVoiture;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import codes.MainJFrame;
+import codes.dao.VoitureDao;
+import codes.dao.VoitureDaoImpl;
+import codes.model.Reservation;
+import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 
-public class UneVoiture extends JFrame {
+public class UneVoiture extends JPanel implements ActionListener, MouseListener {
     private int currentImageIndex = 0;
-    private ArrayList<String> images;
+    private ArrayList<ImageIcon> images;
     private JLabel imageLabel;
     private JTextArea descriptionArea;
     private JTextArea selectedDatesArea;
@@ -25,18 +36,33 @@ public class UneVoiture extends JFrame {
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
 
-    public UneVoiture(String titre, String description, ArrayList<String> images, int prix, int annee) {
-        setTitle(titre);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Récupérer les dimensions de l'écran
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Ouvrir en plein écran
+    private MainJFrame mainJFrame;
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+    JPanel mainPanel = new JPanel(new BorderLayout());
+    private String description;
+    private int prix;
+    private int id;
+
+
+
+    private GridBagLayout gridBagLayout = new GridBagLayout();
+    private JButton validateButton = new JButton("Valider");
+    private JLabel areUSureLabel = new JLabel("Souhaitez-vous vraiment ajouter ce produit au panier ?");
+    private GridBagConstraints constraints = new GridBagConstraints();
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
+        this.mainJFrame = mainJFrame;
+        this.setLayout(new BorderLayout());
+        this.images.set(0, image[0]);
+        this.images.set(1, image[1]);
+        this.images.set(2, image[2]);
+        this.id = id;
+        this.description = desc;
+        this.prix = prix;
+
 
         // Panneau pour le carrousel d'images
         JPanel carouselPanel = new JPanel(new BorderLayout());
-        this.images = images;
         imageLabel = new JLabel();
         JButton prevImageButton = new JButton("Précédent");
         JButton nextImageButton = new JButton("Suivant");
@@ -61,7 +87,6 @@ public class UneVoiture extends JFrame {
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
         JLabel prixLabel = new JLabel("Prix: " + prix+" €/j");
-        JLabel anneeLabel = new JLabel("Année: " + annee);
         JLabel descriptionLabel = new JLabel("Description:");
         descriptionArea = new JTextArea(description);
         descriptionArea.setEditable(false);
@@ -69,12 +94,13 @@ public class UneVoiture extends JFrame {
         descriptionArea.setWrapStyleWord(true);
 
         infoPanel.add(prixLabel);
-        infoPanel.add(anneeLabel);
         infoPanel.add(descriptionLabel);
         infoPanel.add(descriptionArea);
 
         // Ajouter le bouton "Réservé"
         JButton reserveButton = new JButton("Réservez !");
+        reserveButton.setActionCommand("RESERVEZ!");
+        reserveButton.addActionListener(this);
         reserveButton.setForeground(new Color(0, 128, 0)); // Vert
         infoPanel.add(reserveButton);
 
@@ -177,13 +203,11 @@ public class UneVoiture extends JFrame {
         mainPanel.add(carouselPanel, BorderLayout.CENTER);
         mainPanel.add(infoPanel, BorderLayout.EAST);
         mainPanel.add(calendarPanel, BorderLayout.SOUTH);
-        getContentPane().add(mainPanel, BorderLayout.CENTER);
 
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
 
-        // Afficher la première image au démarrage
+
+        this.add(mainPanel, BorderLayout.CENTER);
+
         showImage(0);
     }
 
@@ -199,14 +223,8 @@ public class UneVoiture extends JFrame {
     private void showImage(int index) {
         if (index >= 0 && index < images.size()) {
             currentImageIndex = index;
-            // Charger l'image correspondante
-            ImageIcon imageIcon = new ImageIcon(getClass().getResource(images.get(index)));
-            int w = imageIcon.getIconWidth();
-            int h = imageIcon.getIconHeight();
-            double wh = (double) w / h;
-            imageIcon = new ImageIcon(imageIcon.getImage().getScaledInstance(1000, (int) (1000 / wh), Image.SCALE_SMOOTH));
             // Mettre à jour l'imageLabel avec l'image chargée
-            imageLabel.setIcon(imageIcon);
+            imageLabel.setIcon(images.get(index));
         }
     }
 
@@ -222,7 +240,7 @@ public class UneVoiture extends JFrame {
 
     // Mettre à jour le JTextArea avec les dates de début et de fin sélectionnées
     private void updateSelectedDates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
         String startDateString = selectedStartDate != null ? dateFormat.format(selectedStartDate) : "Non sélectionnée";
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
@@ -261,7 +279,59 @@ public class UneVoiture extends JFrame {
             images.add("renault-clio-2 (1).png");
             images.add("renault_PNG1.png");
             images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
-            new UneVoiture(titre, description, images, 100, 2020);
+            //new UneVoiture(description, images, 100, 2020);
         });
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
+    public void updateContent(){
+
+    }
+
+    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix) {
+        mainJFrame.getFrame().getContentPane().removeAll();
+        this.images.set(0, image[0]);
+        this.images.set(1, image[1]);
+        this.images.set(2, image[2]);
+        this.id = id;
+        this.description = desc;
+        this.prix = prix;
+
+
+        // Réinitialisez le contenu principal ici, par exemple :
+        mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
+
+        mainJFrame.getFrame().revalidate();
+        mainJFrame.getFrame().repaint();
     }
 }

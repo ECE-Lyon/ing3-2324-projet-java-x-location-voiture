@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class ModifyModelPage extends JPanel implements ActionListener, MouseListener {
     private MainJFrame mainJFrame;
@@ -14,7 +15,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     private final GridBagLayout gridBagLayout = new GridBagLayout();
     private final GridBagConstraints constraintsTop = new GridBagConstraints();
     private final GridBagConstraints constraintsMain = new GridBagConstraints();
-    private final GridBagConstraints constraints10 = new GridBagConstraints();
+    private final GridBagConstraints constraintsBot = new GridBagConstraints();
 
 
 
@@ -39,6 +40,9 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     private JPanel topButtons = new JPanel();
     private JPanel botPanel = new JPanel();
 
+
+    private int nbrOfLine = 3;
+    private JTable table;
 
 
     public ModifyModelPage(MainJFrame mainJFrame) {
@@ -90,9 +94,30 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
 
 
+        ArrayList<String[]> data = new ArrayList<>();
+        String text1 ="1";
+        String text2 ="Alice";
+        String text3 ="Mathélmatiques";
+
+        for (int i = 0; i < nbrOfLine; i++){
+            data.add(new String[]{text1, text2, text3});
+            text1 = "dsfsfd";
+            text2 = "dsfsfd";
+            text3 = "dsfsfd";
+        }
 
 
 
+        // Définir les en-têtes de colonne
+        String[] columnNames = {"ID", "Nom", "Sujet"};
+        String[][] dataArray = new String[data.size()][];
+        data.toArray(dataArray);
+        table = new JTable(dataArray, columnNames);
+
+
+
+
+        this.botPanel.add(table, constraintsBot);
 
 
 
