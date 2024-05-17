@@ -278,7 +278,7 @@ public class UneVoiture extends JFrame implements ActionListener, MouseListener 
             images.add("renault-clio-2 (1).png");
             images.add("renault_PNG1.png");
             images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
-            new UneVoiture(titre, description, images, 100, 2020);
+            new UneVoiture(description, images, 100, 2020);
         });
     }
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
