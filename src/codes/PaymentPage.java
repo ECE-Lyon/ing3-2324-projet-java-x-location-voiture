@@ -13,7 +13,7 @@ public class PaymentPage {
         // Créer le frame principal
         JFrame frame = new JFrame("Paiement");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH); // Ouvrir en plein écran
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLayout(new GridLayout(7, 1));
 
         // Titre
@@ -42,12 +42,12 @@ public class PaymentPage {
         JPanel cardPanel = new JPanel(new GridLayout(5, 2, 10, 2));
         cardPanel.setBorder(BorderFactory.createTitledBorder("Détails de la carte"));
 
-        JTextField cardNumberField = createHintTextField("1234 5678 9012 3456");
+        JTextField cardNumberField = new JTextField();
         JTextField expirationDateField = createHintTextField("MM/AA");
         JTextField securityCodeField = createHintTextField("123");
         JTextField cardHolderNameField = createHintTextField("J. Smith");
 
-        addDocumentFilter(cardNumberField, 16, true, false, "#### #### #### ####");
+        addDocumentFilter(cardNumberField, 16, true, false, null);
         addDocumentFilter(securityCodeField, 3, true, false, null);
         addDocumentFilter(cardHolderNameField, 26, false, true, null);
 
@@ -161,7 +161,7 @@ public class PaymentPage {
             public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
                 if (string == null || !isValidString(string)) return;
                 if (doc.getLength() + string.length() <= maxLength) {
-                    super.insertString(fb, offset, formatString(string, offset), attr);
+                    super.insertString(fb, offset, string, attr);
                 }
             }
 
@@ -169,7 +169,7 @@ public class PaymentPage {
             public void replace(FilterBypass fb, int offset, int length, String string, AttributeSet attrs) throws BadLocationException {
                 if (string == null || !isValidString(string)) return;
                 if (doc.getLength() - length + string.length() <= maxLength) {
-                    super.replace(fb, offset, length, formatString(string, offset), attrs);
+                    super.replace(fb, offset, length, string, attrs);
                 }
             }
 
@@ -181,22 +181,6 @@ public class PaymentPage {
                     return string.matches("[a-zA-Z\\-\\.\\s]*");
                 }
                 return true;
-            }
-
-            private String formatString(String string, int offset) throws BadLocationException {
-                if (format != null) {
-                    String currentText = doc.getText(0, offset) + string + doc.getText(offset, doc.getLength() - offset);
-                    currentText = currentText.replaceAll("\\D", ""); // remove non-digits
-                    StringBuilder sb = new StringBuilder();
-                    for (int i = 0; i < currentText.length(); i++) {
-                        sb.append(currentText.charAt(i));
-                        if ((i + 1) % 4 == 0 && i + 1 < currentText.length()) {
-                            sb.append(" ");
-                        }
-                    }
-                    return sb.toString();
-                }
-                return string;
             }
         });
     }
