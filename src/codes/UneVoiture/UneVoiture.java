@@ -25,7 +25,7 @@ public class UneVoiture extends JFrame {
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
 
-    public UneVoiture(String titre, String description, ArrayList<String> images, String prix, String annee) {
+    public UneVoiture(String titre, String description, ArrayList<String> images, int prix, int annee) {
         setTitle(titre);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -60,7 +60,7 @@ public class UneVoiture extends JFrame {
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
-        JLabel prixLabel = new JLabel("Prix: " + prix);
+        JLabel prixLabel = new JLabel("Prix: " + prix+" €/j");
         JLabel anneeLabel = new JLabel("Année: " + annee);
         JLabel descriptionLabel = new JLabel("Description:");
         descriptionArea = new JTextArea(description);
@@ -261,9 +261,7 @@ public class UneVoiture extends JFrame {
             images.add("renault-clio-2 (1).png");
             images.add("renault_PNG1.png");
             images.add("cover-r4x3w1200-5798f0940a24d-renault-clio-iii-collection-2012.jpg");
-            String prix = "100 € par jour";
-            String annee = "2018";
-            new UneVoiture(titre, description, images, prix, annee);
+            new UneVoiture(titre, description, images, 100, 2020);
         });
     }
 }
