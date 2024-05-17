@@ -404,4 +404,38 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+    public int nbReservations(int idUtilisateur) throws SQLException {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM reservation WHERE idUser = ?";
+        try (PreparedStatement statement = c.prepareStatement(query)) {
+            statement.setInt(1, idUtilisateur);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        }
+        return count;
+    }
+
+    public void updateStatutClient(Utilisateur utilisateur) throws SQLException {
+        int nbReservations = nbReservations(utilisateur.getId_utilisateur());
+        String newStatut;
+        if (nbReservations >= 0 && nbReservations <= 5) {
+            newStatut = String.valueOf(Client.Statut.NOUVEAU);
+        } else if (nbReservations >= 6 && nbReservations <= 15) {
+            newStatut = String.valueOf(Client.Statut.ADHERENT);
+        } else {
+            newStatut = String.valueOf(Client.Statut.VIP);
+        }
+
+        // Mettre à jour le statut dans la base de données
+        String query = "UPDATE client SET statut = ? WHERE idUser = ?";
+        try (PreparedStatement statement = c.prepareStatement(query)) {
+            statement.setString(1, newStatut);
+            statement.setInt(2, utilisateur.getId_utilisateur()); // Définir la valeur du deuxième paramètre
+            statement.executeUpdate();
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     }
 
 
+    // CHERCHE UN MODELE EN FONCTION DU TYPE (SUV, SPORT, BERLINE...)
     public List<Type_voiture> searchType(String type_voiture) throws SQLException{
 
         List<Type_voiture> results = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     }
 
 
+    // PERMET D'AJOUTER UN MODELE
     public void addModele(Type_voiture modele) throws SQLException {
 
         PreparedStatement modeleStatement;
@@ -62,6 +64,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
 
     }
 
+    // PERMET DE RECHERCHE TOUTES LES MARQUES DISTINCTES
     public Set<String> searchAllMarques() throws SQLException {
         Set<String> marques = new HashSet<>();
 
@@ -76,6 +79,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
         return marques;
     }
 
+    // PERMET DE RECHERCHER UN MODELE EN FONCTION DE LA MARQUE (AUDI, BMW..)
     public List<Type_voiture> searchModele(String marque) throws SQLException {
         List<Type_voiture> modeles = new ArrayList<>();
         String query = "SELECT * FROM modele WHERE marque = ?";
@@ -93,5 +97,51 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
         }
         return modeles;
     }
+
+    // PERMET DE SUPPRIMER UN MODELE GRACE A UN ID
+    public void deleteModele(int modeleId) throws SQLException {
+        PreparedStatement deleteStatement = null;
+        try {
+            String deleteModeleQuery = "DELETE FROM modele WHERE id = ?";
+            deleteStatement = connection.prepareStatement(deleteModeleQuery);
+            deleteStatement.setInt(1, modeleId);
+            int rowsAffected = deleteStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                System.out.println("Aucun modèle trouvé avec l'ID spécifié.");
+            } else {
+                System.out.println("Modèle supprimé avec succès.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (deleteStatement != null) {
+                deleteStatement.close();
+            }
+        }
+    }
+
+    // PERMET D'AJOUTER UNE DESCRIPTION A UN MODELE
+    public void addDescriptionToModele(int modeleId, String description) throws SQLException {
+        PreparedStatement updateStatement = null;
+        try {
+            String updateQuery = "UPDATE modele SET description = ? WHERE id = ?";
+            updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setString(1, description);
+            updateStatement.setInt(2, modeleId);
+            int rowsAffected = updateStatement.executeUpdate();
+            if (rowsAffected == 0) {
+                System.out.println("Aucun modèle trouvé avec l'ID spécifié.");
+            } else {
+                System.out.println("Description ajoutée avec succès au modèle.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (updateStatement != null) {
+                updateStatement.close();
+            }
+        }
+    }
+
 
 }
