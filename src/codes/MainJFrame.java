@@ -1,5 +1,6 @@
 package codes;
 
+import codes.UneVoiture.UneVoiture;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.model.Employe;
@@ -32,6 +33,10 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private EmployeeMainPage employeeMainPage;
     private PopularityPage popularityPage;
     private ClientInfosPage clientInfosPage;
+
+
+
+    private UneVoiture uneVoiture;
 
 
 
@@ -98,7 +103,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.employeeMainPage = new EmployeeMainPage(this);
         this.popularityPage = new PopularityPage(this);
         this.clientInfosPage = new ClientInfosPage(this);
-        //this.connectedState = false;
         this.shopPage.resetMainContent();
 
 
@@ -370,4 +374,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         }
     }
 
+    public UneVoiture getUneVoiture() {
+        return uneVoiture;
+    }
+
+    public void setUneVoiture(UneVoiture uneVoiture) {
+        this.uneVoiture = uneVoiture;
+    }
 }

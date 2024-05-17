@@ -1,5 +1,7 @@
 package codes;
 
+import codes.UneVoiture.UneVoiture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -71,6 +73,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     private ArrayList<ImageIcon> imagesArrayList = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
+    private String description;
+    private int prix;
 
     private JButton addFilterButton = new JButton("Ajouter un filtre");
     private JDialog dialogFilters = new JDialog(mainJFrame);
@@ -102,8 +106,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
-        for (int i = 0; i < this.mainJFrame.getDisplayCars().getImages().size(); i++){
-            this.imagesArrayList.add(new ImageIcon(this.mainJFrame.getDisplayCars().getImages().get(i)));
+        for (int i = 0; i < this.mainJFrame.getDisplayCars().getImages1().size(); i++){
+            this.imagesArrayList.add(new ImageIcon(this.mainJFrame.getDisplayCars().getImages1().get(i)));
         }
 
 
@@ -397,6 +401,16 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         /////////////////////////////////////////////////FINIR DE FAIRE QUE QUAND ON CLIQUE SUR UNE VOITURE CA FAIT QUELQUE CHOSE
+        ImageIcon[] img = new ImageIcon[imagesArrayList.size()];
+        for (int i = 0; i < img.length; i++){
+            img[i] = imagesArrayList.get(i);
+        }
+        if(this.mainJFrame.getUneVoiture() == null){
+            this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(1), img, description, prix));
+        } else {
+            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
+        }
+
         JLabel sourceLabel = (JLabel) e.getSource();
         String command = sourceLabel.getText();
         System.out.println(sourceLabel);

@@ -18,23 +18,9 @@ public class DisplayCars {
 
     private static Connection connection;
 
-    public ArrayList<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(ArrayList<Image> images) {
-        this.images = images;
-    }
-
-    public ArrayList<Integer> getId() {
-        return id;
-    }
-
-    public void setId(ArrayList<Integer> id) {
-        this.id = id;
-    }
-
-    private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<Image> images1 = new ArrayList<>();
+    private ArrayList<Image> images2 = new ArrayList<>();
+    private ArrayList<Image> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
 
     public DisplayCars () throws SQLException {
@@ -46,7 +32,7 @@ public class DisplayCars {
 
     public void updateImages() {
         this.id.clear();
-        this.images.clear();
+        this.images1.clear();
         if (connection == null) {
             JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
@@ -65,7 +51,7 @@ public class DisplayCars {
 
                         //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
                         id.add(carId);
-                        images.add(obtenirImage(imageData));
+                        images1.add(obtenirImage(imageData));
                         Image image = obtenirImage(imageData);
                         found = true;
                     }
@@ -85,5 +71,38 @@ public class DisplayCars {
         BufferedImage bufferedImage = ImageIO.read(bis);
         bis.close();
         return bufferedImage;
+    }
+
+
+    public ArrayList<Image> getImages2() {
+        return images2;
+    }
+
+    public void setImages2(ArrayList<Image> images2) {
+        this.images2 = images2;
+    }
+
+    public ArrayList<Image> getImages3() {
+        return images3;
+    }
+
+    public void setImages3(ArrayList<Image> images3) {
+        this.images3 = images3;
+    }
+
+    public ArrayList<Image> getImages1() {
+        return images1;
+    }
+
+    public void setImages1(ArrayList<Image> images1, ArrayList<Image> images2, ArrayList<Image> images3) {
+        this.images1 = images1;
+    }
+
+    public ArrayList<Integer> getId() {
+        return id;
+    }
+
+    public void setId(ArrayList<Integer> id) {
+        this.id = id;
     }
 }
