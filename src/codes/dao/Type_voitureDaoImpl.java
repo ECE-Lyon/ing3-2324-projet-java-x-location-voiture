@@ -120,6 +120,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
         }
     }
 
+
     // PERMET D'AJOUTER UNE DESCRIPTION A UN MODELE
     public void addDescriptionToModele(int modeleId, String description) throws SQLException {
         PreparedStatement updateStatement = null;

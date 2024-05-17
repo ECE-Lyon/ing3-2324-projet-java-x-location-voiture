@@ -404,6 +404,7 @@ public class UtilisateurDaoImpl implements ClientDao, EmployeDao, EntrepriseDao,
 
     }
 
+
     public int nbReservations(int idUtilisateur) throws SQLException {
         int count = 0;
         String query = "SELECT COUNT(*) FROM reservation WHERE idUser = ?";
