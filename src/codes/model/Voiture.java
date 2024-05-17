@@ -4,6 +4,7 @@ public class Voiture {
     private int id_voiture;
     private float prix_par_jour;
     private int id_modele;
+    private int statut;
 
     public Voiture(){}
 
@@ -28,4 +29,14 @@ public class Voiture {
     }
 
     public void setId_modele(int id_modele){this.id_modele = id_modele;}
+
+
+    public int getStatut() {
+        return statut;
+    }
+
+    public void setStatut(int statut) {
+        this.statut = statut;
+    }
+
 }
