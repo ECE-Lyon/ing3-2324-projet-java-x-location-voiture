@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
@@ -16,12 +15,13 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private InscrConnecPage inscrConnecPage;
 
     private final GridBagLayout gridBagLayout = new GridBagLayout();
-    private final GridBagConstraints constraints5 = new GridBagConstraints();
+    private final GridBagConstraints constraintsTop = new GridBagConstraints();
     private final GridBagConstraints constraints6 = new GridBagConstraints();
     private final GridBagConstraints constraints7 = new GridBagConstraints();
     private final GridBagConstraints constraints8 = new GridBagConstraints();
     private final GridBagConstraints constraints9 = new GridBagConstraints();
     private final GridBagConstraints constraints10 = new GridBagConstraints();
+    private final GridBagConstraints constraints11 = new GridBagConstraints();
 
 
 
@@ -72,11 +72,10 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private ArrayList<ImageIcon> imagesArrayList = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
 
-    private JButton addFilterButton = new JButton("Filtres");
+    private JButton addFilterButton = new JButton("Ajouter un filtre");
     private JDialog dialogFilters = new JDialog(mainJFrame);
-    private JMenu menu;
-    private JMenuItem downToUpPrice, upToDownPrice, carType, carPrice;
-    private JMenuBar menubar = new JMenuBar();
+    private JButton validateFilterButton = new JButton("Filtrer");
+
 
 
     public ShopPage(MainJFrame mainFrame) {
@@ -88,22 +87,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
         int w, h;
         double wh;
-        String fileName = "";
-
-        menu = new JMenu("Menu");
-        // Créer le sous menu
-        menu = new JMenu("Sous Menu");
-        // Créer les éléments du menu et sous menu
-        carPrice = new JMenuItem("Prix décroissant");
-        carType = new JMenuItem("Prix croissant");
-        upToDownPrice = new JMenuItem("upToDownPrice");
-        downToUpPrice = new JMenuItem(" 4");
-
-
-
-        /////////////////////////// je veux que tu me permettte d'afficher toutes les voitures (parcourir les ID et je veux
-        // pas d'erreur si l'ID n'existe pas stppp. Je veux recevoir de ta fonction un ID et une Image
-
 
 
 
@@ -126,15 +109,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-
-
         for(int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
             w = this.imagesArrayList.get(i).getIconWidth();
             h = this.imagesArrayList.get(i).getIconHeight();
             wh = (double) w/h;
-            this.imagesArrayList.set(i, new ImageIcon(this.imagesArrayList.get(i).getImage().getScaledInstance(100, (int)(100/wh), Image.SCALE_SMOOTH)));
+            this.imagesArrayList.set(i, new ImageIcon(this.imagesArrayList.get(i).getImage().getScaledInstance(300, (int)(300/wh), Image.SCALE_SMOOTH)));
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList.get(i));
+            imagesCarsLabelShop[i].addMouseListener(this);
             descriptionShop[i] = new JLabel("Description");
         }
 
@@ -146,12 +128,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.topPanelShop.setLayout(gridBagLayout);
         this.botPanelShop.setLayout(gridBagLayout);
         this.topAndBotPanelShop.setLayout(gridBagLayout);
-        this.topAndBotPanelShop.setBackground(Color.red);
+        this.topAndBotPanelShop.setBackground(Color.white);
 
 
         for (int i = 0; i < numberOfRentableCars; i++){
             this.rentableCarsPanelShop[i].setLayout(gridBagLayout);
-            rentableCarsPanelShop[i].setBackground(Color.BLUE);
         }
 
 
@@ -163,19 +144,20 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.legendaryMotorsportPanel4.setPreferredSize(dimensionLegendaryMotorsportPanel);
 
 
-        this.constraints5.gridx = 0;
-        this.constraints5.gridy = 0;
-        this.constraints5.anchor = GridBagConstraints.NORTHWEST;
+        this.constraintsTop.gridx = 0;
+        this.constraintsTop.gridy = 0;
+        this.constraintsTop.anchor = GridBagConstraints.NORTHWEST;
 
 
 
         updateButtonState();
 
-        this.constraints5.gridx = 1;
-        this.constraints5.anchor = GridBagConstraints.CENTER;
-        this.topPanelShop.add(topButtons, constraints5);
-        this.constraints5.gridy = 1;
-        this.topPanelShop.add(legendaryMotorsportPanel4, constraints5);
+        this.constraintsTop.gridx = 1;
+        this.constraintsTop.anchor = GridBagConstraints.CENTER;
+        this.topPanelShop.add(topButtons, constraintsTop);
+        this.constraintsTop.gridy = 1;
+        this.topPanelShop.setMaximumSize(new Dimension(windowSizeWidth / 5, windowSizeHeight / 10));
+        this.topPanelShop.add(legendaryMotorsportPanel4, constraintsTop);
 
 
 
@@ -186,7 +168,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.constraints7.gridy = 0;
         constraints7.anchor = GridBagConstraints.CENTER;
         constraints7.fill = GridBagConstraints.BOTH;
-        //constraints9.fill = GridBagConstraints.BOTH;
         constraints9.gridx = 0;
         constraints9.gridy = 0;
         constraints9.anchor = GridBagConstraints.CENTER;
@@ -200,8 +181,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 }
                 constraints9.gridx = i;
                 constraints7.gridx = j;
+
+                constraints9.gridy = 0;
                 rentableCarsPanelShop[k].add(imagesCarsLabelShop[k], constraints9);
-                //botPanelShop.add(rentableCarsPanelShop[k], constraints7);
+                constraints9.gridy = 1;
+                rentableCarsPanelShop[k].add(descriptionShop[k], constraints9);
                 k++;
 
             }
@@ -210,6 +194,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         k=0;
         for (int i = 0; i < (numberOfRentableCars + 3-numberOfRentableCars%3)/3; i++) {
             this.constraints7.gridy = i;
+            this.constraints7.ipadx = 150;
+            this.constraints7.ipady = 10;
             for (int j = 0; j < 3; j++) {
                 if (k == numberOfRentableCars) {
                     break;
@@ -226,9 +212,16 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.constraints6.gridy = 0;
         this.constraints6.anchor = GridBagConstraints.CENTER;
         constraints6.fill = GridBagConstraints.BOTH;
+        this.legendaryMotorsportPanel4.setMaximumSize(new Dimension(windowSizeWidth / 5, windowSizeHeight / 10));
 
         this.topAndBotPanelShop.add(this.topPanelShop, this.constraints6);
         this.constraints6.gridy = 1;
+
+        addFilterButton.setActionCommand("FILTER");
+        addFilterButton.addActionListener(this);
+        this.topAndBotPanelShop.add(addFilterButton, constraints6);
+
+        this.constraints6.gridy = 2;
         topAndBotPanelShop.setMaximumSize(new Dimension(1000, 800));
         this.topAndBotPanelShop.add(this.botPanelShop, this.constraints6);
 
@@ -322,6 +315,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 dialog.setLayout(gridBagLayout);
                 constraints9.gridx = 0;
                 constraints9.gridy = 0;
+                dialog.setAlwaysOnTop(true);
                 dialog.setLocationRelativeTo(this.mainJFrame.getFrame());
                 dialog.add(areUSureLabel, constraints9);
                 constraints9.gridy = 1;
@@ -331,24 +325,82 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 dialog.setVisible(true);
                 break;
             case "EXIT DIALOG" :
-                dialog.dispose();
-                this.mainJFrame.setConnected(false);
-                updateButtonState();
+                if (dialog.isActive()) {
+                    dialog.dispose();
+                    this.mainJFrame.setConnected(false);
+                    updateButtonState();
+                } else if(dialogFilters.isActive()){
+                    dialogFilters.dispose();
+                }
                 break;
-            case "CLICK ON AN IMG":
-                ////////////////Ici faut qu'on révupère l'ID voiture /////
+            case "CLICK ON CAR":
+                System.out.println(e.getActionCommand());
+                /*if (e.getSource() == ) {
+                    JOptionPane.showMessageDialog(this, "Label 1 clicked");
+                } else if (e.getSource() == label2) {
+                    JOptionPane.showMessageDialog(this, "Label 2 clicked");
+                } else if (e.getSource() == label3) {
+                    JOptionPane.showMessageDialog(this, "Label 3 clicked");
+                }*/
 
                 //Ensuite on va sur la page de PAULOOOOOOOO
                 //this.mainJFrame.get
                 break;
-            case "FILTER BUTTON":
+            case "FILTER":
+                dialogFilters.setSize(300, 100);
+                dialogFilters.setLayout(gridBagLayout);
+                constraints11.gridx = 0;
+                constraints11.gridy = 0;
+                dialogFilters.setAlwaysOnTop(true);
+                dialogFilters.setLocationRelativeTo(this.mainJFrame.getFrame());
 
+                JPanel panel = new JPanel();
+                dialogFilters.add(panel);
+
+                DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
+                JComboBox<String> parentComboBox = new JComboBox<>(parentComboBoxModel);
+                panel.add(parentComboBox);
+
+                JComboBox<String> childComboBox = new JComboBox<>();
+
+                parentComboBoxModel.addElement("Prix croissant");
+                parentComboBoxModel.addElement("Prix décroissant");
+                parentComboBoxModel.addElement("Trier par type de véhicule");
+                childComboBox.addItem("Break");
+                childComboBox.addItem("Berline");
+                childComboBox.addItem("SUV");
+                childComboBox.addItem("Sport");
+                childComboBox.addItem("Limousine");
+                childComboBox.addItem("Pick-up");
+                panel.add(childComboBox);
+
+                childComboBox.setVisible(false);
+
+                parentComboBox.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (parentComboBox.getSelectedIndex() == 2) {
+                            childComboBox.setVisible(true);
+                        } else {
+                            childComboBox.setVisible(false);
+                        }
+                    }
+                });
+                constraints11.gridy = 1;
+                validateFilterButton.setActionCommand("EXIT DIALOG");
+                validateFilterButton.addActionListener(this);
+                dialogFilters.add(this.validateFilterButton, constraints11);
+                dialogFilters.setVisible(true);
+                break;
         }
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        /////////////////////////////////////////////////FINIR DE FAIRE QUE QUAND ON CLIQUE SUR UNE VOITURE CA FAIT QUELQUE CHOSE
+        JLabel sourceLabel = (JLabel) e.getSource();
+        String command = sourceLabel.getText();
+        System.out.println(sourceLabel);
+        actionPerformed(new ActionEvent((JLabel)e.getSource(), ActionEvent.ACTION_PERFORMED, command));
     }
 
     @Override

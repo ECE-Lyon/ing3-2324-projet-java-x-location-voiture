@@ -81,9 +81,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
         this.setLayout(new BorderLayout());
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////// SECONDE PAGE A ETRE AFFICHEE : CONNEXION  //////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         // Initialisation :
         this.connecMainPanel.setLayout(gridBagLayout);
@@ -266,13 +264,16 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 System.out.println("Nom : " + employe.getNom_employe());
                                 System.out.println("Prénom : " + employe.getPrenom_employe());
                                 System.out.println("Poste : " + employe.getPoste());
+                                this.mainJFrame.setConnected(true);
                                 this.mainJFrame.getPrivateSpacePage().setCompany(false);
+                                this.mainJFrame.getEmployeeMainPage().resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire
                             } else if (this.mainJFrame.getUtilisateur() instanceof Entreprise) {
                                 System.out.println("Informations de l'entreprise :");
                                 Entreprise entreprise = (Entreprise) this.mainJFrame.getUtilisateur();
                                 System.out.println("Nom : " + entreprise.getNom_entreprise());
                                 System.out.println("Siret : " + entreprise.getSiret());
+                                this.mainJFrame.setConnected(true);
                                 this.mainJFrame.getPrivateSpacePage().setCompany(true);
                                 this.shop.resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire
