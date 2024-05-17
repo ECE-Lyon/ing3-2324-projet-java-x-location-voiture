@@ -26,30 +26,23 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private ConnecPage connecPage;
     private ShopPage shopPage;
     private PrivateSpacePage privateSpacePage;
-
-    public BasketPage getBasketPage() {
-        return basketPage;
-    }
-
-    public void setBasketPage(BasketPage basketPage) {
-        this.basketPage = basketPage;
-    }
-
     private BasketPage basketPage;
+    private DisplayCars displayCars;
+    private ModifyModelPage modifyModelPage;
+    private EmployeeMainPage employeeMainPage;
+    private PopularityPage popularityPage;
+    private ClientInfosPage clientInfosPage;
+
+
+
 
 
 
 
     Client client;
     UtilisateurDaoImpl utilisateurDao;
-
-
-
     Entreprise entreprise;
     Employe employe;
-
-
-
     Utilisateur utilisateur;
 
 
@@ -92,15 +85,19 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         frame.setSize(GlobalVariable.getScreenWidth(), GlobalVariable.getScreenHeight());
 
 
+        System.out.println("Updating images");
 
+        this.displayCars = new DisplayCars();
         this.shopPage = new ShopPage(this);
         this.inscrConnecPage = new InscrConnecPage(this, this.shopPage);
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
         this.basketPage = new BasketPage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
-
-
+        this.modifyModelPage = new ModifyModelPage(this);
+        this.employeeMainPage = new EmployeeMainPage(this);
+        this.popularityPage = new PopularityPage(this);
+        this.clientInfosPage = new ClientInfosPage(this);
         //this.connectedState = false;
         this.shopPage.resetMainContent();
 
@@ -296,6 +293,14 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.companyName = companyName;
     }
 
+    public BasketPage getBasketPage() {
+        return basketPage;
+    }
+
+    public void setBasketPage(BasketPage basketPage) {
+        this.basketPage = basketPage;
+    }
+
     public long getSiret() {
         return Siret;
     }
@@ -310,6 +315,46 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
         this.utilisateurDao = utilisateurDao;
+    }
+
+    public DisplayCars getDisplayCars() {
+        return displayCars;
+    }
+
+    public void setDisplayCars(DisplayCars displayCars) {
+        this.displayCars = displayCars;
+    }
+
+    public ModifyModelPage getModifyModelPage() {
+        return modifyModelPage;
+    }
+
+    public void setModifyModelPage(ModifyModelPage modifyModelPage) {
+        this.modifyModelPage = modifyModelPage;
+    }
+
+    public PopularityPage getPopularityPage() {
+        return popularityPage;
+    }
+
+    public void setPopularityPage(PopularityPage popularityPage) {
+        this.popularityPage = popularityPage;
+    }
+
+    public ClientInfosPage getClientInfosPage() {
+        return clientInfosPage;
+    }
+
+    public void setClientInfosPage(ClientInfosPage clientInfosPage) {
+        this.clientInfosPage = clientInfosPage;
+    }
+
+    public EmployeeMainPage getEmployeeMainPage() {
+        return employeeMainPage;
+    }
+
+    public void setEmployeeMainPage(EmployeeMainPage employeeMainPage) {
+        this.employeeMainPage = employeeMainPage;
     }
 
     public void initializeClient(String name, String firstName, String email, String password) {
