@@ -214,4 +214,124 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     }
 
 
+    @Override
+    public List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleASCPrice() throws SQLException {
+        List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = new ArrayList<>();
+        String queryTypeVoiture = "SELECT * FROM modele";
+        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? ORDER BY prixParJour ASC LIMIT 1";
+        PreparedStatement statement1;
+        PreparedStatement statement2;
+
+        try {
+            statement1 = connection.prepareStatement(queryTypeVoiture);
+            ResultSet resultSet1 = statement1.executeQuery();
+
+            while (resultSet1.next()) {
+                Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
+
+                Type_voiture type_voiture = new Type_voiture(
+                        resultSet1.getInt("id"),
+                        resultSet1.getString("nom"),
+                        resultSet1.getString("marque"),
+                        type,
+                        resultSet1.getString("description")
+                );
+
+                statement2 = connection.prepareStatement(queryVoiture);
+                statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
+                ResultSet resultSet2 = statement2.executeQuery();
+
+                Voiture voiture = null;
+                if (resultSet2.next()) {
+                    voiture = new Voiture(
+                            resultSet2.getInt("id"),
+                            resultSet2.getFloat("prixParJour"),
+                            resultSet2.getInt("id_modele")
+                    );
+                }
+
+                modeleVoiturePairs.add(new ConnectionUrlParser.Pair<>(type_voiture, voiture));
+            }
+
+            // Trier la liste basée sur le prix des voitures
+            Collections.sort(modeleVoiturePairs, new Comparator<ConnectionUrlParser.Pair<Type_voiture, Voiture>>() {
+                @Override
+                public int compare(ConnectionUrlParser.Pair<Type_voiture, Voiture> o1, ConnectionUrlParser.Pair<Type_voiture, Voiture> o2) {
+                    if (o1.right != null && o2.right != null) {
+                        return Float.compare(o1.right.getPrix_par_jour(), o2.right.getPrix_par_jour());
+                    } else if (o1.right == null) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return modeleVoiturePairs;
+    }
+
+
+    @Override
+    public List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleDESCPrice() throws SQLException {
+        List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = new ArrayList<>();
+        String queryTypeVoiture = "SELECT * FROM modele";
+        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? ORDER BY prixParJour DESC LIMIT 1";
+        PreparedStatement statement1;
+        PreparedStatement statement2;
+
+        try {
+            statement1 = connection.prepareStatement(queryTypeVoiture);
+            ResultSet resultSet1 = statement1.executeQuery();
+
+            while (resultSet1.next()) {
+                Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
+
+                Type_voiture type_voiture = new Type_voiture(
+                        resultSet1.getInt("id"),
+                        resultSet1.getString("nom"),
+                        resultSet1.getString("marque"),
+                        type,
+                        resultSet1.getString("description")
+                );
+
+                statement2 = connection.prepareStatement(queryVoiture);
+                statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
+                ResultSet resultSet2 = statement2.executeQuery();
+
+                Voiture voiture = null;
+                if (resultSet2.next()) {
+                    voiture = new Voiture(
+                            resultSet2.getInt("id"),
+                            resultSet2.getFloat("prixParJour"),
+                            resultSet2.getInt("id_modele")
+                    );
+                }
+
+                modeleVoiturePairs.add(new ConnectionUrlParser.Pair<>(type_voiture, voiture));
+            }
+
+            // Trier la liste basée sur le prix des voitures de manière décroissante
+            Collections.sort(modeleVoiturePairs, new Comparator<ConnectionUrlParser.Pair<Type_voiture, Voiture>>() {
+                @Override
+                public int compare(ConnectionUrlParser.Pair<Type_voiture, Voiture> o1, ConnectionUrlParser.Pair<Type_voiture, Voiture> o2) {
+                    if (o1.right != null && o2.right != null) {
+                        return Float.compare(o2.right.getPrix_par_jour(), o1.right.getPrix_par_jour());
+                    } else if (o1.right == null) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                }
+            });
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return modeleVoiturePairs;
+    }
+
+
 }

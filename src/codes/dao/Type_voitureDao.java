@@ -20,4 +20,8 @@ public interface Type_voitureDao {
 
     List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModele() throws SQLException;
 
+    List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleASCPrice() throws SQLException;
+
+    List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleDESCPrice() throws SQLException;
+
 }
