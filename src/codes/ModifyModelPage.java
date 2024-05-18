@@ -106,6 +106,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         parentComboBox = new JComboBox<>();
         childComboBox = new JComboBox<>();
 
+        setupUI();
 
 
 
@@ -234,6 +235,37 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         resetMainContent();
     }
 
+    private void setupUI() {
+        // Configurez les JComboBox et autres composants ici
+        DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
+        parentComboBox.setModel(parentComboBoxModel);
+        parentComboBoxModel.addElement("Prix croissant");
+        parentComboBoxModel.addElement("Prix décroissant");
+        parentComboBoxModel.addElement("Trier par type de véhicule");
+
+        childComboBox.addItem("Break");
+        childComboBox.addItem("Berline");
+        childComboBox.addItem("SUV");
+        childComboBox.addItem("Sport");
+        childComboBox.addItem("Limousine");
+        childComboBox.addItem("Pick-up");
+
+        childComboBox.setVisible(false);
+
+        parentComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (parentComboBox.getSelectedIndex() == 2) {
+                    childComboBox.setVisible(true);
+                } else {
+                    childComboBox.setVisible(false);
+                }
+            }
+        });
+
+        // Ajoutez les JComboBox au panel ou aux dialogs appropriés
+    }
+
+
 
 
 
@@ -280,42 +312,18 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 constraints3.gridwidth=2;
 
 
-
-                DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
-                panel.add(parentComboBox);
-
-
-                parentComboBoxModel.addElement("Prix croissant");
-                parentComboBoxModel.addElement("Prix décroissant");
-                parentComboBoxModel.addElement("Trier par type de véhicule");
-                childComboBox.addItem("Break");
-                childComboBox.addItem("Berline");
-                childComboBox.addItem("SUV");
-                childComboBox.addItem("Sport");
-                childComboBox.addItem("Limousine");
-                childComboBox.addItem("Pick-up");
-                panel.add(childComboBox);
-
-                childComboBox.setVisible(false);
-
-                parentComboBox.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (parentComboBox.getSelectedIndex() == 2) {
-                            childComboBox.setVisible(true);
-                        } else {
-                            childComboBox.setVisible(false);
-                        }
-                    }
-                });
-                dialog3.add(panel);
+                panel.add(parentComboBox, constraints3);
+                panel.add(childComboBox, constraints3);
                 constraints3.gridy = 3;
+
+                dialog3.add(panel);
                 validateButton3.setActionCommand("EXIT DIALOG");
                 validateButton3.addActionListener(this);
                 dialog3.add(this.validateButton3, constraints3);
                 dialog3.setVisible(true);
                 break;
             case "SUPP VEHICLE":
-                dialog2.setSize(300, 100);
+                dialog2.setSize(800, 300);
 
                 this.tfId2.setColumns(20);
                 this.tfPrixParJour2.setColumns(20);
@@ -328,10 +336,10 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
                 dialog2.add(idModelLabel2, constraints2);
                 constraints2.gridx = 1;
-                dialog2.add(prixParJourLabel2, constraints2);
+                dialog2.add(tfId2, constraints2);
                 constraints2.gridx = 0;
                 constraints2.gridy = 1;
-                dialog2.add(tfId2, constraints2);
+                dialog2.add(prixParJourLabel2, constraints2);
                 constraints2.gridx = 1;
                 dialog2.add(tfPrixParJour2, constraints2);
                 constraints2.gridx = 0;
@@ -344,7 +352,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog2.setVisible(true);
                 break;
             case "ADD VEHICLE":
-                dialog1.setSize(300, 100);
+                dialog1.setSize(800, 300);
 
                 this.tfId.setColumns(20);
                 this.tfPrixParJour.setColumns(20);
@@ -357,10 +365,10 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
                 dialog1.add(idModelLabel, constraints);
                 constraints.gridx = 1;
-                dialog1.add(prixParJourLabel, constraints);
+                dialog1.add(tfId, constraints);
                 constraints.gridx = 0;
                 constraints.gridy = 1;
-                dialog1.add(tfId, constraints);
+                dialog1.add(prixParJourLabel, constraints);
                 constraints.gridx = 1;
                 dialog1.add(tfPrixParJour, constraints);
                 constraints.gridx = 0;
