@@ -6,10 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+
+
+import codes.model.Reservation;
+import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
@@ -125,7 +133,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         dayChooser.addPropertyChangeListener("day", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                Date selectedDate = calendar.getDate();
+                Date selectedDate = new Date(calendar.getDate().getTime());
 
                 // Vérifier si la date sélectionnée est dans le passé
                 if (selectedDate.before(minDate.getTime())) {
@@ -239,7 +247,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     // Mettre à jour le JTextArea avec les dates de début et de fin sélectionnées
     private void updateSelectedDates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         String startDateString = selectedStartDate != null ? dateFormat.format(selectedStartDate) : "Non sélectionnée";
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
@@ -303,6 +311,21 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                 if(this.mainJFrame.isConnected()) {
                     this.mainJFrame.addToIdVoitureAchetees(id);
                     this.mainJFrame.getShopPage().resetMainContent();
+                    Voiture voiture = new Voiture();
+                    voiture.setId_modele(1); // Exemple d'ID de modèle
+
+                    Reservation reservation = new Reservation();
+                    reservation.setDate_debut(selectedStartDate);
+                    reservation.setDate_fin(selectedEndDate);
+                    reservation.setRemise(0.1f);
+                    reservation.setIdUser(123); // Exemple d'ID utilisateur
+
+                    try {
+                        processReservation(voiture, reservation);
+                        System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     GridBagConstraints constraints9 = new GridBagConstraints();
                     dialog.setSize(300, 100);
@@ -346,5 +369,19 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
         mainJFrame.getFrame().revalidate();
         mainJFrame.getFrame().repaint();
+    }
+
+    public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
+        // Récupérer l'ID de la voiture
+        Voi
+        int idVoiture = getIdVoiture(voiture);
+
+        // Modifier le statut de la voiture
+        voiture.setId_voiture(idVoiture);
+        modifVoiture(voiture);
+
+        // Créer la réservation
+        reservation.setIdVoiture(idVoiture);
+        addReservation(reservation);
     }
 }
