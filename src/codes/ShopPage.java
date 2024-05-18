@@ -249,6 +249,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
         updateImages();
 
+        this.revalidate();
+        this.repaint();
     }
 
     public void updateImages(){
