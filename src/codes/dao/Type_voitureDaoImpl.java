@@ -35,6 +35,11 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
+                    modele.setType(Type_voiture.Type.valueOf(resultSet.getString("type")));
+                    modele.setDescription(resultSet.getString("description"));
+                    modele.setImage1(resultSet.getBytes("image1"));
+                    modele.setImage2(resultSet.getBytes("image2"));
+                    modele.setImage3(resultSet.getBytes("image3"));
 
                     results.add(modele);
                 }
@@ -97,6 +102,11 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
+                    modele.setType(Type_voiture.Type.valueOf(resultSet.getString("type")));
+                    modele.setDescription(resultSet.getString("description"));
+                    modele.setImage1(resultSet.getBytes("image1"));
+                    modele.setImage2(resultSet.getBytes("image2"));
+                    modele.setImage3(resultSet.getBytes("image3"));
                     modeles.add(modele);
                 }
             }
@@ -118,18 +128,17 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             ResultSet resultSet1 = statement1.executeQuery();
 
             while (resultSet1.next()) {
+
+                int id = resultSet1.getInt("id");
+                String nom = resultSet1.getString("nom");
+                String marque = resultSet1.getString("marque");
+                byte[] image1 = resultSet1.getBytes("image1");
+                byte[] image2 = resultSet1.getBytes("image2");
+                byte[] image3 = resultSet1.getBytes("image3");
+                String description = resultSet1.getString("description");
                 Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
 
-                Type_voiture type_voiture = new Type_voiture(
-                        resultSet1.getInt("id"),
-                        resultSet1.getString("nom"),
-                        resultSet1.getString("marque"),
-                        type,
-                        resultSet1.getString("description"),
-                        null,
-                        null,
-                        null
-                );
+                Type_voiture type_voiture = new Type_voiture(id, nom, marque, type, description, image1, image2, image3);
 
                 statement2 = connection.prepareStatement(queryVoiture);
                 statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
