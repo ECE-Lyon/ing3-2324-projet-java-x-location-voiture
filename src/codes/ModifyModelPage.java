@@ -299,21 +299,21 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
 
 
-                dialog2.add(nameLabel, constraints3);
+                dialog3.add(nameLabel, constraints3);
                 constraints3.gridx = 1;
-                dialog2.add(nameTf, constraints3);
+                dialog3.add(nameTf, constraints3);
                 constraints3.gridx = 0;
                 constraints3.gridy = 1;
-                dialog2.add(marqueLabel, constraints3);
+                dialog3.add(marqueLabel, constraints3);
                 constraints3.gridx = 1;
-                dialog2.add(marqueTf, constraints3);
+                dialog3.add(marqueTf, constraints3);
                 constraints3.gridx = 0;
                 constraints3.gridy = 2;
                 constraints3.gridwidth=2;
 
 
-                panel.add(parentComboBox, constraints3);
-                panel.add(childComboBox, constraints3);
+                panel.add(parentComboBox);
+                panel.add(childComboBox);
                 constraints3.gridy = 3;
 
                 dialog3.add(panel);
