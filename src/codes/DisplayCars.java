@@ -72,7 +72,9 @@ public class DisplayCars {
                     JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la récupération des images des voitures.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
-            case "":
+            case "BMW":
+                break;
+            case "AUDI":
                 break;
             case "Prix croissant":
                 break;
