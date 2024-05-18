@@ -256,17 +256,6 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
             case "INSCRIPTION":
                 //inscrPage.resetMainContent();
                 break;
-        }
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        JLabel labelClic = (JLabel) e.getSource();
-        String text = labelClic.getText();
-        switch (text){
-            case "RETOUR":
-                this.mainJFrame.getEmployeeMainPage().resetMainContent();
-                break;
             case "ADD MODEL":
                 dialog3.setSize(300, 100);
                 dialog3.setLayout(gridBagLayout);
@@ -391,6 +380,18 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
             case "LETS CREATE IT" :
                 dialog1.dispose();
                 break;
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        JLabel labelClic = (JLabel) e.getSource();
+        String text = labelClic.getText();
+        switch (text){
+            case "RETOUR":
+                this.mainJFrame.getEmployeeMainPage().resetMainContent();
+                break;
+
         }
     }
 
