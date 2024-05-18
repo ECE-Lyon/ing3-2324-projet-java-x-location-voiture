@@ -317,7 +317,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     this.mainJFrame.addToIdVoitureAchetees(id);
                     this.mainJFrame.getShopPage().resetMainContent();
                     Voiture voiture = new Voiture();
-                    voiture.setId_modele(1); // Exemple d'ID de modèle
+                    voiture.setId_modele(5); // Exemple d'ID de modèle
 
                     Reservation reservation = new Reservation();
                     reservation.setDate_debut(selectedStartDate);
