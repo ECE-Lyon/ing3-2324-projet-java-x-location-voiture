@@ -24,6 +24,7 @@ public class PaymentPage extends JPanel {
     public void createPaymentPage() {
         // Créer le frame principal
         this.setLayout(new BorderLayout());
+        this.mainPanel.setLayout(new GridLayout(6,1));
 
 
 
