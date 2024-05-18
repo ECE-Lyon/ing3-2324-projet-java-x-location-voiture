@@ -413,6 +413,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 } else if (dialogFilters.isActive()) {
                     String selectedParent = (String) parentComboBox.getSelectedItem();
                     String selectedChild = (String) childComboBox.getSelectedItem();
+                    String selectedChild2 = (String) childComboBox2.getSelectedItem();
                     if (Objects.equals(selectedParent, "Prix croissant")) {
                         this.mainJFrame.setFilter("Prix croissant");
                     } else if (Objects.equals(selectedParent, "Prix décroissant")) {
@@ -433,9 +434,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                         }
                     }
                     else if (Objects.equals(selectedParent, "Trier par marques")) {
-                        if (Objects.equals(selectedChild, "BMW")) {
+                        if (Objects.equals(selectedChild2, "BMW")) {
                             this.mainJFrame.setFilter("BMW");
-                        } else if (Objects.equals(selectedChild, "AUDI")) {
+                        } else if (Objects.equals(selectedChild2, "AUDI")) {
                             this.mainJFrame.setFilter("AUDI");
                         }
                     } else if (Objects.equals(selectedParent, "Supprimer les filtres")){
