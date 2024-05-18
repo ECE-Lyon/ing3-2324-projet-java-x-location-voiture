@@ -240,7 +240,7 @@ public class PaymentPage {
                     return string.matches("[\\d/]*");
                 }
                 if (lettersOnly) {
-                    return string.matches("[\\p{L}\\-\\.\\s]*");
+                    return string.matches("[\\p{L}\\-\\.\\s]*"); // Ajout des caractères accentués
                 }
                 return true;
             }
