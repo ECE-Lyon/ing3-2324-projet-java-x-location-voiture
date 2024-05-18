@@ -109,7 +109,6 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
 
         ArrayList<String[]> data = new ArrayList<>();
-        data.add(new String[]{"ID : ", "Nom : ", "Marque : ", "Type : ", "Description : "});
 
 
         try {
@@ -129,8 +128,6 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                     System.out.println("Type: " + typeVoiture.getType());
                     System.out.println("Description: " + typeVoiture.getDescription());*/
 
-                    data.add(new String[]{"" + typeVoiture.getId_type_voiture(), typeVoiture.getNom_type_voiture(),
-                            typeVoiture.getMarque_voiture(), "" + typeVoiture.getType(), typeVoiture.getDescription()});
 
 
                     if (voiture != null) {
@@ -138,6 +135,9 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                     } else {
                         System.out.println("Prix par jour: N/A");
                     }
+                    data.add(new String[]{"" + typeVoiture.getId_type_voiture(), typeVoiture.getNom_type_voiture(),
+                            typeVoiture.getMarque_voiture(), "" + typeVoiture.getType(), typeVoiture.getDescription(),
+                            "" + voiture.getPrix_par_jour()});
                     System.out.println("------------------------------");
                 }
             } else {
@@ -149,7 +149,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         }
 
         // Définir les en-têtes de colonne
-        String[] columnNames = {"ID", "Nom", "Sujet"};
+        String[] columnNames = {"ID : ", "Nom : ", "Marque : ", "Type : ", "Description : ", "Prix : "};
         String[][] dataArray = new String[data.size()][];
         data.toArray(dataArray);
         table = new JTable(dataArray, columnNames);

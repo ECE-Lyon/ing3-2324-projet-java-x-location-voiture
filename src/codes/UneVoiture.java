@@ -43,7 +43,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
     private JLabel areUSureLabel = new JLabel("Souhaitez-vous vraiment ajouter ce produit au panier ?");
-    private GridBagConstraints constraints = new GridBagConstraints();
     public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
