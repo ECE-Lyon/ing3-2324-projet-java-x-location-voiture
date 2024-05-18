@@ -179,7 +179,7 @@ public class VoitureDaoImpl implements VoitureDao {
                     int id = resultSet.getInt("id");
                     String nom = resultSet.getString("nom");
                     String marque = resultSet.getString("marque");
-                    modele = new Type_voiture(id, nom, marque, null, null);
+                    modele = new Type_voiture(id, nom, marque, null, null, null, null, null);
                 }
             }
         } catch (SQLException e) {

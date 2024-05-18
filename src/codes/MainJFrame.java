@@ -84,7 +84,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-    private String filter = "No filters";
+    private String filter = "No filter";
 
 
 

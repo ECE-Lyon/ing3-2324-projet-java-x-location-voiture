@@ -8,15 +8,21 @@ public class Type_voiture {
     public enum Type{BREAK, BERLINE, SUV, SPORT, LIMOUSINE, PICK_UP};
     private Type type;
     private String description;
+    private byte[] image1;
+    private byte[] image2;
+    private byte[] image3;
 
     public Type_voiture(){}
 
-    public Type_voiture(int id_type_voiture, String nom_type_voiture, String marque_voiture, Type type, String description){
+    public Type_voiture(int id_type_voiture, String nom_type_voiture, String marque_voiture, Type type, String description, byte[] image1, byte[] image2, byte[] image3){
         this.id_type_voiture = id_type_voiture;
         this.nom_type_voiture = nom_type_voiture;
         this.marque_voiture = marque_voiture;
         this.type = type;
         this.description = description;
+        this.image1 = image1;
+        this.image2 = image2;
+        this.image3 = image3;
     }
 
     public int getId_type_voiture() {
@@ -57,6 +63,30 @@ public class Type_voiture {
 
     public String getDescription(){
         return description;
+    }
+
+    public byte[] getImage1() {
+        return image1;
+    }
+
+    public void setImage1(byte[] image1) {
+        this.image1 = image1;
+    }
+
+    public byte[] getImage2() {
+        return image2;
+    }
+
+    public void setImage2(byte[] image2) {
+        this.image2 = image2;
+    }
+
+    public byte[] getImage3() {
+        return image3;
+    }
+
+    public void setImage3(byte[] image3) {
+        this.image3 = image3;
     }
 
 }
