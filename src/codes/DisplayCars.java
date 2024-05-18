@@ -101,6 +101,8 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                System.out.println(modele.getId_type_voiture());
+                                System.out.println(modele.getDescription());
                             }
                         }
                     } else {
