@@ -37,12 +37,14 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private String description;
     private int prix;
     private int id;
+    private JDialog dialog = new JDialog();
+    private JDialog dialog1 = new JDialog();
 
 
 
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
-    private JLabel areUSureLabel = new JLabel("Souhaitez-vous vraiment ajouter ce produit au panier ?");
+    private JLabel areUSureLabel = new JLabel("Vous devez être connecté po");
     public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
@@ -299,9 +301,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         switch (command) {
             case "acheter":
                 if(this.mainJFrame.isConnected()) {
-                    this.mainJFrame.getInscrConnecPage().resetMainContent();
+                    this.mainJFrame.addToIdVoitureAchetees(id);
+                    this.mainJFrame.getShopPage().resetMainContent();
                 } else {
-                    JDialog dialog = new JDialog();
                     GridBagConstraints constraints9 = new GridBagConstraints();
                     dialog.setSize(300, 100);
                     dialog.setLayout(gridBagLayout);
@@ -316,6 +318,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     dialog.add(this.validateButton, constraints9);
                     dialog.setVisible(true);
                 }
+                break;
+            case "EXIT DIALOG":
+                dialog.dispose();
                 break;
         }
     }

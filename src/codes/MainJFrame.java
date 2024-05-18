@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.Serial;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class MainJFrame extends JFrame implements WindowListener, ComponentListener {
 
@@ -76,6 +77,10 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private String password;
     private long Siret;
     private String companyName;
+
+
+
+    private ArrayList<Integer> idVoitureAchetees = new ArrayList<>();
 
 
     private boolean connectedState = false;
@@ -379,5 +384,25 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setUneVoiture(UneVoiture uneVoiture) {
         this.uneVoiture = uneVoiture;
+    }
+
+    public ArrayList<Integer> getIdVoitureAchetees() {
+        return idVoitureAchetees;
+    }
+
+    public void setIdVoitureAchetees(ArrayList<Integer> idVoitureAchetées) {
+        this.idVoitureAchetees = idVoitureAchetées;
+    }
+
+    public void addToIdVoitureAchetees(int i){
+        this.idVoitureAchetees.add(i);
+    }
+
+    public ShopPage getShopPage() {
+        return shopPage;
+    }
+
+    public void setShopPage(ShopPage shopPage) {
+        this.shopPage = shopPage;
     }
 }

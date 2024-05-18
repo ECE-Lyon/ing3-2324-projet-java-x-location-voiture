@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientInfosPage extends JPanel implements ActionListener, MouseListener {
@@ -26,16 +27,13 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
     private final GridBagConstraints constraints10 = new GridBagConstraints();
 
 
-
-
-
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
 
     private JPanel legendaryMotorsportPanel = new JPanel();
 
     private int windowSizeWidth = GlobalVariable.getScreenWidth();
     private int windowSizeHeight = GlobalVariable.getScreenHeight();
-    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
+    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth / 3, windowSizeHeight / 10);
 
     private int fontSizeLM = 36;
     private Font fontTop = new Font("Arial", Font.PLAIN, fontSizeLM);
@@ -47,6 +45,10 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
     private JPanel topPanel = new JPanel();
     private JPanel topButtons = new JPanel();
     private JPanel botPanel = new JPanel();
+
+
+    private JTable table;
+    private JTable table2;
 
 
     private Connection connection;
@@ -99,42 +101,46 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
         this.topPanel.add(legendaryMotorsportPanel, constraintsTop);
 
 
+        ArrayList<String[]> data = new ArrayList<>();
+        ArrayList<String[]> data2 = new ArrayList<>();
 
-
-        try{
+        try {
 
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
-            if (this.mainJFrame.getPrivateSpacePage().isCompany()){
 
-                List<Entreprise> entreprises = utilisateurDao.searchEntreprise();
-                System.out.println("Informations des entreprises :");
-                for (Entreprise entreprise : entreprises) {
-                    System.out.println("Nom : " + entreprise.getNom_entreprise());
-                    System.out.println("Siret : " + entreprise.getSiret());
-                    // Ajoutez d'autres informations si nécessaire
-                }
-
-            } else {
-
-                List<Client> clients = utilisateurDao.searchClient();
-                System.out.println("Informations des clients :");
-                for (Client client : clients) {
-                    System.out.println("Nom : " + client.getNom_client());
-                    System.out.println("Prénom : " + client.getPrenom_client());
-                    System.out.println("Statut : " + client.getStatut());
-                    // Ajoutez d'autres informations si nécessaire
-                }
-
+            List<Entreprise> entreprises = utilisateurDao.searchEntreprise();
+            System.out.println("Informations des entreprises :");
+            for (Entreprise entreprise : entreprises) {
+                System.out.println("Nom : " + entreprise.getNom_entreprise());
+                System.out.println("Siret : " + entreprise.getSiret());
+                data.add(new String[]{entreprise.getNom_entreprise(), "" + entreprise.getSiret()});
             }
+
+            // Définir les en-têtes de colonne
+            String[] columnNames = {"Nom : ", "Siret : "};
+            String[][] dataArray = new String[data.size()][];
+            data.toArray(dataArray);
+            table = new JTable(dataArray, columnNames);
+
+
+            List<Client> clients = utilisateurDao.searchClient();
+            System.out.println("Informations des clients :");
+            for (Client client : clients) {
+                System.out.println("Nom : " + client.getNom_client());
+                System.out.println("Prénom : " + client.getPrenom_client());
+                System.out.println("Statut : " + client.getStatut());
+                data2.add(new String[]{client.getNom_client(), client.getPrenom_client(), "" + client.getStatut()});
+            }
+            String[] columnNames2 = {"Nom : ", "Prénom : ", "Statut : "};
+            String[][] dataArray2 = new String[data2.size()][];
+            data2.toArray(dataArray2);
+            table2 = new JTable(dataArray2, columnNames2);
+
 
         } catch (SQLException er) {
             er.printStackTrace();
         }
-
-
-
-
 
 
         constraintsMain.gridx = 0;
@@ -146,10 +152,6 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
         add(this.mainPanel, BorderLayout.CENTER);
         resetMainContent();
     }
-
-
-
-
 
 
     public void resetMainContent() {
@@ -176,7 +178,7 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
     public void mouseClicked(MouseEvent e) {
         JLabel labelClic = (JLabel) e.getSource();
         String text = labelClic.getText();
-        switch (text){
+        switch (text) {
             case "RETOUR":
                 this.mainJFrame.getEmployeeMainPage().resetMainContent();
                 break;
@@ -195,16 +197,17 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if(e.getSource() instanceof JLabel) {
+        if (e.getSource() instanceof JLabel) {
             JLabel label = (JLabel) e.getSource();
             Font font = label.getFont();
             label.setForeground(Color.RED);
             label.setFont(font.deriveFont(16f));
-        }    }
+        }
+    }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if(e.getSource() instanceof JLabel) {
+        if (e.getSource() instanceof JLabel) {
             JLabel label = (JLabel) e.getSource();
             label.setForeground(UIManager.getColor("Label.foreground"));
             Font font = label.getFont();

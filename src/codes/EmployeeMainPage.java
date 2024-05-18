@@ -15,6 +15,7 @@ public class EmployeeMainPage extends JPanel implements ActionListener, MouseLis
     private final GridBagConstraints constraintsTop = new GridBagConstraints();
     private final GridBagConstraints constraintsMain = new GridBagConstraints();
     private final GridBagConstraints constraints10 = new GridBagConstraints();
+    private final GridBagConstraints constraintsBot = new GridBagConstraints();
 
 
 
@@ -32,7 +33,10 @@ public class EmployeeMainPage extends JPanel implements ActionListener, MouseLis
     private Font fontTop = new Font("Arial", Font.PLAIN, fontSizeLM);
 
 
-    private JButton disconnectButton = new JButton("Disconnect");
+    private JButton disconnectButton = new JButton("Se déconnecter");
+    private JButton toClientInfoPage = new JButton("Voir les informations des clients et des entreprises");
+    private JButton toModifyModelPage = new JButton("Voir les informations des véhicules");
+    private JButton toPopularityPage = new JButton("Voir les côtes de popularité des véhicules");
 
 
     /////////////////////////// LE SHOP ///////////////////////////////
@@ -87,7 +91,24 @@ public class EmployeeMainPage extends JPanel implements ActionListener, MouseLis
 
 
 
+        constraintsBot.gridx = 0;
+        constraintsBot.gridy = 0;
+        toPopularityPage.setActionCommand("TO POPULARITY");
+        toPopularityPage.addActionListener(this);
+        this.botPanel.add(toPopularityPage, constraintsBot);
 
+        constraintsBot.gridx = 1;
+        toModifyModelPage.setActionCommand("TO MODIFY MODEL");
+        toModifyModelPage.addActionListener(this);
+        this.botPanel.add(toModifyModelPage, constraintsBot);
+
+
+        constraintsBot.gridx = 0;
+        constraintsBot.gridy = 1;
+        constraintsBot.gridwidth = 2;
+        toClientInfoPage.setActionCommand("TO CLIENT INFOS");
+        toClientInfoPage.addActionListener(this);
+        this.botPanel.add(toClientInfoPage, constraintsBot);
 
 
 
@@ -120,7 +141,19 @@ public class EmployeeMainPage extends JPanel implements ActionListener, MouseLis
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        switch (command) {
+            case "TO CLIENT INFOS":
+                this.mainJFrame.getClientInfosPage().resetMainContent();
+                break;
+            case "TO MODIFY MODEL":
+                this.mainJFrame.getModifyModelPage().resetMainContent();
+                break;
 
+            case "TO POPULARITY":
+                this.mainJFrame.getPopularityPage().resetMainContent();
+                break;
+        }
     }
 
     @Override
