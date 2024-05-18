@@ -1,11 +1,19 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.UtilisateurDaoImpl;
+import codes.model.Client;
+import codes.dao.UtilisateurDao;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 public class ClientInfosPage extends JPanel implements ActionListener, MouseListener {
     private MainJFrame mainJFrame;
@@ -40,8 +48,9 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
     private JPanel botPanel = new JPanel();
 
 
+    private Connection connection;
 
-    public ClientInfosPage(MainJFrame mainJFrame) {
+    public ClientInfosPage(MainJFrame mainJFrame) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
 
@@ -50,6 +59,7 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
         this.botPanel.setLayout(gridBagLayout);
 
 
+        this.connection = Mysql.openConnection();
 
         ///////////////////////////// LE TOP :
         this.legendaryMotorsportLabel.setOpaque(true);
@@ -90,7 +100,22 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
 
 
 
+        try{
 
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+            List<Client> clients = utilisateurDao.searchClient();
+            System.out.println("Informations des clients :");
+            for (Client client : clients) {
+                System.out.println("Nom : " + client.getNom_client());
+                System.out.println("Prénom : " + client.getPrenom_client());
+                System.out.println("Statut : " + client.getStatut());
+                // Ajoutez d'autres informations si nécessaire
+            }
+
+        } catch (SQLException er) {
+            er.printStackTrace();
+        }
 
 
 
