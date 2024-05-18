@@ -35,12 +35,14 @@ public class DisplayCars {
             JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1 FROM modele")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3 FROM modele")) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 boolean found = false;
                 while (resultSet.next()) {
                     int carId = resultSet.getInt("id");
                     byte[] imageData = resultSet.getBytes("image1");
+                    byte[] imageData2 = resultSet.getBytes("image2");
+                    byte[] imageData3 = resultSet.getBytes("image3");
 
 
 
@@ -51,6 +53,10 @@ public class DisplayCars {
                         id.add(carId);
                         images1.add(toImageIcon(obtenirImage(imageData)));
                         Image image = obtenirImage(imageData);
+                        images2.add(toImageIcon(obtenirImage(imageData2)));
+                        Image image2 = obtenirImage(imageData2);
+                        images3.add(toImageIcon(obtenirImage(imageData3)));
+                        Image image3 = obtenirImage(imageData3);
                         found = true;
                     }
                 }

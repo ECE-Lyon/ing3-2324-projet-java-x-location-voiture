@@ -1,5 +1,8 @@
 package codes;
 
+import com.mysql.cj.util.StringUtils;
+import com.toedter.calendar.JCalendar;
+
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
@@ -14,7 +17,7 @@ public class PaymentPage {
         JFrame frame = new JFrame("Paiement");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setLayout(new GridLayout(7, 1));
+        frame.setLayout(new GridLayout(3, 1));
 
         // Titre
         JLabel titleLabel = new JLabel("Paiement", SwingConstants.CENTER);
@@ -22,7 +25,7 @@ public class PaymentPage {
         frame.add(titleLabel);
 
         // Options de paiement
-        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JRadioButton cardPaymentButton = new JRadioButton("Carte bancaire");
         JRadioButton googlePayButton = new JRadioButton("Google Pay");
         JRadioButton payPalButton = new JRadioButton("PayPal");
@@ -41,13 +44,14 @@ public class PaymentPage {
         // Carte bancaire
         JPanel cardPanel = new JPanel(new GridLayout(5, 2, 10, 2));
         cardPanel.setBorder(BorderFactory.createTitledBorder("Détails de la carte"));
-
-        JTextField cardNumberField = new JTextField();
+        boolean hint = true;
+        JTextField cardNumberField = createHintTextField("1234 5678 9012 3456");
         JTextField expirationDateField = createHintTextField("MM/AA");
         JTextField securityCodeField = createHintTextField("123");
         JTextField cardHolderNameField = createHintTextField("J. Smith");
 
-        addDocumentFilter(cardNumberField, 16, true, false, null);
+        addDocumentFilter(cardNumberField, 16, true, false, "#### ##### #### ####");
+        addDocumentFilter(expirationDateField, 5, true, false, "##/##");
         addDocumentFilter(securityCodeField, 3, true, false, null);
         addDocumentFilter(cardHolderNameField, 26, false, true, null);
 
@@ -82,7 +86,7 @@ public class PaymentPage {
 
             StringBuilder errorMessage = new StringBuilder("Veuillez corriger les erreurs suivantes:\n");
 
-            if (!validateCardNumber(cardNumber)) {
+            if (!validateCardNumber(cardNumber) || hint) {
                 setErrorBorder(cardNumberField, "Numéro de carte invalide");
                 errorMessage.append("- Numéro de carte invalide\n");
                 isValid = false;

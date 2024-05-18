@@ -109,7 +109,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
         // Configurer la date minimum autorisée
         Calendar minDate = Calendar.getInstance();
-        minDate.add(Calendar.DAY_OF_MONTH, -1);
+        minDate.add(Calendar.DAY_OF_MONTH, 0);
         calendar.setMinSelectableDate(minDate.getTime());
 
         calendarPanel.add(calendar, BorderLayout.CENTER);
@@ -244,7 +244,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     // Mettre à jour le JTextArea avec les dates de début et de fin sélectionnées
     private void updateSelectedDates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
         String startDateString = selectedStartDate != null ? dateFormat.format(selectedStartDate) : "Non sélectionnée";
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
