@@ -416,66 +416,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                     updateDisplay();
                 }
                 break;
-            case "APPLY FILTER SEARCH MODELE":
-
-                try {
-
-                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
-                    String marque = "bmw";
-                    List<Type_voiture> modeles = modeleDao.searchModele(marque);
-                    if (!modeles.isEmpty()) {
-                        System.out.println("Modèles trouvés :");
-                        for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
-                        }
-                    } else {
-                        System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
-                    }
-
-                } catch (SQLException er) {
-                    er.printStackTrace();
-                }
-
-                break;
-
-            case "APPLY FILTER SEARCH TYPE":
-
-                try {
-
-                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-                    System.out.println("Types de voiture disponibles : BREAK, BERLINE, SUV, SPORT, LIMOUSINE, PICK_UP");
-                    String typeVoiture = "SUV";
-                    List<Type_voiture> modeles = modeleDao.searchType(typeVoiture);
-                    if (!modeles.isEmpty()) {
-                        System.out.println("Modèles trouvés :");
-                        for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
-                        }
-                    } else {
-                        System.out.println("Aucun modèle trouvé pour le type de voiture spécifié.");
-                    }
-
-                } catch (SQLException er) {
-                    er.printStackTrace();
-                }
-
-                break;
-
             case "FILTER":
                 childComboBox.setVisible(false);
                 dialogFilters.setSize(300, 100);
