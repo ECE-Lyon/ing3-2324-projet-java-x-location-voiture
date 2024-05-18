@@ -1,12 +1,22 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.Type_voitureDao;
+import codes.dao.Type_voitureDaoImpl;
+import codes.model.Type_voiture;
+import codes.model.Voiture;
+import com.mysql.cj.conf.ConnectionUrlParser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModifyModelPage extends JPanel implements ActionListener, MouseListener {
     private MainJFrame mainJFrame;
@@ -44,14 +54,18 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     private int nbrOfLine = 3;
     private JTable table;
 
+    private Connection connection;
 
-    public ModifyModelPage(MainJFrame mainJFrame) {
+
+    public ModifyModelPage(MainJFrame mainJFrame) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
 
         this.mainPanel.setLayout(gridBagLayout);
         this.topPanel.setLayout(gridBagLayout);
         this.botPanel.setLayout(gridBagLayout);
+
+        this.connection = Mysql.openConnection();
 
 
 
@@ -107,6 +121,38 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         }
 
 
+
+        try {
+
+            Type_voitureDao modeleDao =new Type_voitureDaoImpl(connection);
+
+            List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = modeleDao.searchAllModele();
+
+            if (!modeleVoiturePairs.isEmpty()) {
+                for (ConnectionUrlParser.Pair<Type_voiture, Voiture> modeleVoiturePair : modeleVoiturePairs) {
+                    Type_voiture typeVoiture = modeleVoiturePair.left;
+                    Voiture voiture = modeleVoiturePair.right;
+
+                    System.out.println("ID: " + typeVoiture.getId_type_voiture());
+                    System.out.println("Nom: " + typeVoiture.getNom_type_voiture());
+                    System.out.println("Marque: " + typeVoiture.getMarque_voiture());
+                    System.out.println("Type: " + typeVoiture.getType());
+                    System.out.println("Description: " + typeVoiture.getDescription());
+
+                    if (voiture != null) {
+                        System.out.println("Prix par jour: " + voiture.getPrix_par_jour() + " Euros");
+                    } else {
+                        System.out.println("Prix par jour: N/A");
+                    }
+                    System.out.println("------------------------------");
+                }
+            } else {
+                System.out.println("Aucun modèle trouvé.");
+            }
+
+        } catch (SQLException er) {
+            er.printStackTrace();
+        }
 
         // Définir les en-têtes de colonne
         String[] columnNames = {"ID", "Nom", "Sujet"};
