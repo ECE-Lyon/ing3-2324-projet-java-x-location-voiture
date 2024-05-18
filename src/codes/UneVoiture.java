@@ -15,6 +15,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import codes.dao.*;
+import codes.model.Voiture;
 
 import codes.model.Reservation;
 import codes.model.Voiture;
@@ -38,6 +40,8 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
 
+    private Connection connection;
+
 
     private MainJFrame mainJFrame;
 
@@ -55,6 +59,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private JLabel areUSureLabel = new JLabel("Vous devez être connecté po");
     public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
         this.mainJFrame = mainJFrame;
+        this.connection = connection;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
         this.images.add(image[1]);
@@ -323,8 +328,8 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     try {
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
                     }
                 } else {
                     GridBagConstraints constraints9 = new GridBagConstraints();
@@ -373,15 +378,16 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
         // Récupérer l'ID de la voiture
-        Voi
-        int idVoiture = getIdVoiture(voiture);
+        VoitureDao voitureDao = new VoitureDaoImpl(this.connection);
+        ReservationDao reservationDao = new ReservationDaoImpl(this.connection);
+        int idVoiture = voitureDao.getIdVoiture(voiture);
 
         // Modifier le statut de la voiture
         voiture.setId_voiture(idVoiture);
-        modifVoiture(voiture);
+        voitureDao.modifVoiture(voiture);
 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
-        addReservation(reservation);
+        reservationDao.addReservation(reservation);
     }
 }
