@@ -79,15 +79,6 @@ public class DisplayCars {
                 try {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
-
 
                     String marque = "bmw";
                     List<Type_voiture> modeles = modeleDao.searchModele(marque);
