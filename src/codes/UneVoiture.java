@@ -324,7 +324,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     reservation.setDate_fin(selectedEndDate);
                     reservation.setRemise(0.1f);
                     reservation.setIdUser(123); // Exemple d'ID utilisateur
-
                     try {
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
