@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import codes.dao.*;
+import codes.model.Utilisateur;
 import codes.model.Voiture;
 
 import codes.model.Reservation;
@@ -40,8 +41,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
 
-    private Connection connection;
-
 
     private MainJFrame mainJFrame;
 
@@ -54,12 +53,12 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
 
 
+    private Connection connection;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
     private JLabel areUSureLabel = new JLabel("Vous devez être connecté po");
-    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
         this.mainJFrame = mainJFrame;
-        this.connection = connection;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
         this.images.add(image[1]);
@@ -67,6 +66,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.id = id;
         this.description = desc;
         this.prix = prix;
+        this.connection = Mysql.openConnection();
 
 
         // Panneau pour le carrousel d'images
@@ -312,24 +312,25 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "acheter":
+            case "RESERVEZ!":
                 if(this.mainJFrame.isConnected()) {
                     this.mainJFrame.addToIdVoitureAchetees(id);
-                    this.mainJFrame.getShopPage().resetMainContent();
-                    Voiture voiture = new Voiture();
-                    voiture.setId_modele(5); // Exemple d'ID de modèle
 
+                    Voiture voiture = new Voiture();
+                    voiture.setId_modele(4); // Exemple d'ID de modèle
                     Reservation reservation = new Reservation();
                     reservation.setDate_debut(selectedStartDate);
                     reservation.setDate_fin(selectedEndDate);
                     reservation.setRemise(0.1f);
-                    reservation.setIdUser(123); // Exemple d'ID utilisateur
+                    reservation.setIdUser(1); // Exemple d'ID utilisateur
+
                     try {
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
+                    } catch (SQLException er) {
+                        er.printStackTrace();
                     }
+                    this.mainJFrame.getShopPage().resetMainContent();
                 } else {
                     GridBagConstraints constraints9 = new GridBagConstraints();
                     dialog.setSize(300, 100);
@@ -377,8 +378,8 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
         // Récupérer l'ID de la voiture
-        VoitureDao voitureDao = new VoitureDaoImpl(this.connection);
-        ReservationDao reservationDao = new ReservationDaoImpl(this.connection);
+        VoitureDao voitureDao = new VoitureDaoImpl(connection);
+        ReservationDao reservationDao = new ReservationDaoImpl(connection);
         int idVoiture = voitureDao.getIdVoiture(voiture);
 
         // Modifier le statut de la voiture
