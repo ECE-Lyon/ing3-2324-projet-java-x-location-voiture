@@ -303,7 +303,8 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 JButton buttonToMAJIMAGE = new JButton("Ajouter des images");
                 buttonToMAJIMAGE.setActionCommand("ADD IMAGES");
                 buttonToMAJIMAGE.addActionListener(this);
-                this.add(buttonToMAJIMAGE);
+                dialog3.add(buttonToMAJIMAGE, constraints3);
+                constraints3.gridy = 5;
                 dialog3.add(this.validateButton3, constraints3);
                 dialog3.setVisible(true);
                 break;
