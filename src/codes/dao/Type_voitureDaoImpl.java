@@ -1,6 +1,8 @@
 package codes.dao;
 
 import codes.model.Type_voiture;
+import codes.model.Voiture;
+import com.mysql.cj.conf.ConnectionUrlParser;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -104,34 +106,47 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
 
     // PERMET DE RECHERCHER TOUS LES MODELES DANS LA BDD
     @Override
-    public List<Type_voiture> searchAllModele() throws SQLException {
-
-        List<Type_voiture> typeVoitures = new ArrayList<>();
-        String query = "SELECT * FROM modele";
-        PreparedStatement statement;
+    public List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModele() throws SQLException {
+        List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = new ArrayList<>();
+        String queryTypeVoiture = "SELECT * FROM modele";
+        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? ORDER BY id ASC LIMIT 1";
+        PreparedStatement statement1;
+        PreparedStatement statement2;
 
         try {
-            statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
+            statement1 = connection.prepareStatement(queryTypeVoiture);
+            ResultSet resultSet1 = statement1.executeQuery();
 
-            while (resultSet.next()) {
-
-                Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet.getString("type"));
+            while (resultSet1.next()) {
+                Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
 
                 Type_voiture type_voiture = new Type_voiture(
-                        resultSet.getInt("id"),
-                        resultSet.getString("nom"),
-                        resultSet.getString("marque"),
+                        resultSet1.getInt("id"),
+                        resultSet1.getString("nom"),
+                        resultSet1.getString("marque"),
                         type,
-                        resultSet.getString("description")
+                        resultSet1.getString("description")
                 );
-                typeVoitures.add(type_voiture);
-            }
 
+                statement2 = connection.prepareStatement(queryVoiture);
+                statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
+                ResultSet resultSet2 = statement2.executeQuery();
+
+                Voiture voiture = null;
+                if (resultSet2.next()) {
+                    voiture = new Voiture(
+                            resultSet2.getInt("id"),
+                            resultSet2.getFloat("prixParJour"),
+                            resultSet2.getInt("id_modele")
+                    );
+                }
+
+                modeleVoiturePairs.add(new ConnectionUrlParser.Pair<>(type_voiture, voiture));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return typeVoitures;
+        return modeleVoiturePairs;
     }
 
     // PERMET DE SUPPRIMER UN MODELE GRACE A UN ID

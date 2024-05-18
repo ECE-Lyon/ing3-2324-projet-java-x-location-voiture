@@ -1,6 +1,8 @@
 package codes.dao;
 
 import codes.model.Type_voiture;
+import codes.model.Voiture;
+import com.mysql.cj.conf.ConnectionUrlParser;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,6 +18,6 @@ public interface Type_voitureDao {
 
     Set<String> searchAllMarques() throws SQLException;
 
-    List<Type_voiture> searchAllModele() throws SQLException;
+    List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModele() throws SQLException;
 
 }

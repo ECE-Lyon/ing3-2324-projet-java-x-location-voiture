@@ -8,6 +8,12 @@ public class Voiture {
 
     public Voiture(){}
 
+    public Voiture(int id_voiture, float prix_par_jour, int id_modele){
+        this.id_voiture = id_voiture;
+        this.prix_par_jour = prix_par_jour;
+        this.id_modele = id_modele;
+    }
+
     public int getId_voiture() {
         return id_voiture;
     }
