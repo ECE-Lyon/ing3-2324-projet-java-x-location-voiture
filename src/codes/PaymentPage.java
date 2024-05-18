@@ -11,10 +11,18 @@ public class PaymentPage extends JPanel {
 
     MainJFrame mainJFrame;
     private JPanel mainPanel;
+    private int nbJour = 10;
+    String typeVehicule = "sfdfqsddqs";
+    double prixParJour = 36;
+    double prix = 360;
 
-    public void createPaymentPage(MainJFrame mainJFrame, int nbJour, String typeVehicule, double prixParJour, double prix) {
-        // Créer le frame principal
+    public PaymentPage (MainJFrame mainJFrame){
         this.mainJFrame = mainJFrame;
+        this.createPaymentPage();
+    }
+
+    public void createPaymentPage() {
+        // Créer le frame principal
         this.setLayout(new BorderLayout());
 
 
@@ -285,5 +293,15 @@ public class PaymentPage extends JPanel {
 
     private static boolean validateSecurityCode(String securityCode) {
         return securityCode.matches("\\d{3}");
+    }
+
+    public void resetMainContent() {
+        mainJFrame.getFrame().getContentPane().removeAll();
+
+        // Réinitialisez le contenu principal ici :
+        mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
+
+        mainJFrame.getFrame().revalidate();
+        mainJFrame.getFrame().repaint();
     }
 }

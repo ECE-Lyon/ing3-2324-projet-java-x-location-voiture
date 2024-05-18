@@ -181,7 +181,7 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
                 break;
             case "ACCESS TO PAYMENT":
                 // il faut acceder a la page de payement mtn
-                //this.mainJFrame.get
+                this.mainJFrame.getPaymentPage().resetMainContent();
                 break;
             case "SUPPRIMER UN ARTICLE":
                 dialog.setLayout(gridBagLayout);

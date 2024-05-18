@@ -38,6 +38,16 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     private UneVoiture uneVoiture;
 
+    public PaymentPage getPaymentPage() {
+        return paymentPage;
+    }
+
+    public void setPaymentPage(PaymentPage paymentPage) {
+        this.paymentPage = paymentPage;
+    }
+
+    private PaymentPage paymentPage;
+
 
 
 
@@ -115,6 +125,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.employeeMainPage = new EmployeeMainPage(this);
         this.popularityPage = new PopularityPage(this);
         this.clientInfosPage = new ClientInfosPage(this);
+        this.paymentPage = new PaymentPage(this);
         this.shopPage.resetMainContent();
 
 
