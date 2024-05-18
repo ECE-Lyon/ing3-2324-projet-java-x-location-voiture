@@ -29,6 +29,10 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images2 = new ArrayList<>();
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
+    private ArrayList<String> description = new ArrayList<>();
+
+
+
     private MainJFrame mainJFrame;
 
     public DisplayCars(MainJFrame mainJFrame) throws SQLException {
@@ -48,7 +52,6 @@ public class DisplayCars {
                 }
                 try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3 FROM modele")) {
                     try (ResultSet resultSet = statement.executeQuery()) {
-                        boolean found = false;
                         while (resultSet.next()) {
                             int carId = resultSet.getInt("id");
                             byte[] imageData = resultSet.getBytes("image1");
@@ -62,16 +65,9 @@ public class DisplayCars {
                                 //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
                                 id.add(carId);
                                 images1.add(toImageIcon(obtenirImage(imageData)));
-                                Image image = obtenirImage(imageData);
                                 images2.add(toImageIcon(obtenirImage(imageData2)));
-                                Image image2 = obtenirImage(imageData2);
                                 images3.add(toImageIcon(obtenirImage(imageData3)));
-                                Image image3 = obtenirImage(imageData3);
-                                found = true;
                             }
-                        }
-                        if (!found) {
-                            JOptionPane.showMessageDialog(null, "Aucune image trouvée pour les voitures dans la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
                     }
                 } catch (SQLException | IOException e) {
@@ -93,15 +89,21 @@ public class DisplayCars {
                         System.out.println("- " + marque);
                     }
 
+
+
                     String marque = "bmw";
                     List<Type_voiture> modeles = modeleDao.searchModele(marque);
+
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                         }
                     } else {
                         System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
@@ -109,6 +111,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;

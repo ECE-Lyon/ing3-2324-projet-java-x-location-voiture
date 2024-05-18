@@ -33,7 +33,6 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
 
     private JPanel mainPanel = new JPanel();
     private JPanel topPanel = new JPanel();
-    private JPanel topButtons = new JPanel();
     private JPanel botPanel = new JPanel();
     private JPanel topAndBotPanel = new JPanel();
 
@@ -57,6 +56,8 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
     private Connection connection;
 
     private JButton accessToPaymentPage = new JButton("Accéder à la page de payement");
+    private JButton supprAReservation = new JButton("Supprimer un élément du panier ");
+    private JDialog dialog = new JDialog();
 
 
     public BasketPage (MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
@@ -142,6 +143,13 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
         }
 
 
+        constraintsBot.gridy++;
+        supprAReservation.setActionCommand("SUPPRIMER UN ARTICLE");
+        supprAReservation.addActionListener(this);
+        this.botPanel.add(supprAReservation, constraintsBot);
+
+
+
 
 
         constraintsMainPanel.anchor = GridBagConstraints.CENTER;
@@ -174,6 +182,11 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
             case "ACCESS TO PAYMENT":
                 // il faut acceder a la page de payement mtn
                 //this.mainJFrame.get
+                break;
+            case "SUPPRIMER UN ARTICLE":
+                dialog.setLayout(gridBagLayout);
+                GridBagConstraints cstr = new GridBagConstraints();
+                JButton finish;
                 break;
         }
     }

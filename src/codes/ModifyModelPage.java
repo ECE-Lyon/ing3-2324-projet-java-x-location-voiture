@@ -309,6 +309,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog3.setVisible(true);
                 break;
             case "ADD IMAGES":
+                dialog3.dispose();
                 new MAJImage();
                 break;
             case "SUPP VEHICLE":

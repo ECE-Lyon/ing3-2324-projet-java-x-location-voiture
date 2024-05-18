@@ -458,6 +458,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
                 panel.add(parentComboBox);
                 panel.add(childComboBox);
+                panel.add(childComboBox2);
 
                 dialogFilters.add(panel);
 
