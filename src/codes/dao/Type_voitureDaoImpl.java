@@ -31,10 +31,15 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             statement.setString(1, type_voiture);
             try (ResultSet resultSet = statement.executeQuery()){
                 while(resultSet.next()){
-                    Type_voiture modele = new Type_voiture(-1, null, null, null, null);
+                    Type_voiture modele = new Type_voiture(-1, null, null, null, null, null, null, null);
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
+                    modele.setType(Type_voiture.Type.valueOf(resultSet.getString("type")));
+                    modele.setDescription(resultSet.getString("description"));
+                    modele.setImage1(resultSet.getBytes("image1"));
+                    modele.setImage2(resultSet.getBytes("image2"));
+                    modele.setImage3(resultSet.getBytes("image3"));
 
                     results.add(modele);
                 }
@@ -93,10 +98,15 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             statement.setString(1, marque);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Type_voiture modele = new Type_voiture(-1, null, null, null, null);
+                    Type_voiture modele = new Type_voiture(-1, null, null, null, null, null, null, null);
                     modele.setId_type_voiture(resultSet.getInt("id"));
                     modele.setNom_type_voiture(resultSet.getString("nom"));
                     modele.setMarque_voiture(resultSet.getString("marque"));
+                    modele.setType(Type_voiture.Type.valueOf(resultSet.getString("type")));
+                    modele.setDescription(resultSet.getString("description"));
+                    modele.setImage1(resultSet.getBytes("image1"));
+                    modele.setImage2(resultSet.getBytes("image2"));
+                    modele.setImage3(resultSet.getBytes("image3"));
                     modeles.add(modele);
                 }
             }
@@ -118,15 +128,17 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             ResultSet resultSet1 = statement1.executeQuery();
 
             while (resultSet1.next()) {
+
+                int id = resultSet1.getInt("id");
+                String nom = resultSet1.getString("nom");
+                String marque = resultSet1.getString("marque");
+                byte[] image1 = resultSet1.getBytes("image1");
+                byte[] image2 = resultSet1.getBytes("image2");
+                byte[] image3 = resultSet1.getBytes("image3");
+                String description = resultSet1.getString("description");
                 Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
 
-                Type_voiture type_voiture = new Type_voiture(
-                        resultSet1.getInt("id"),
-                        resultSet1.getString("nom"),
-                        resultSet1.getString("marque"),
-                        type,
-                        resultSet1.getString("description")
-                );
+                Type_voiture type_voiture = new Type_voiture(id, nom, marque, type, description, image1, image2, image3);
 
                 statement2 = connection.prepareStatement(queryVoiture);
                 statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
@@ -218,7 +230,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     public List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleASCPrice() throws SQLException {
         List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = new ArrayList<>();
         String queryTypeVoiture = "SELECT * FROM modele";
-        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? ORDER BY prixParJour ASC LIMIT 1";
+        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? LIMIT 1";
         PreparedStatement statement1;
         PreparedStatement statement2;
 
@@ -227,18 +239,19 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             ResultSet resultSet1 = statement1.executeQuery();
 
             while (resultSet1.next()) {
+                int id = resultSet1.getInt("id");
+                String nom = resultSet1.getString("nom");
+                String marque = resultSet1.getString("marque");
+                byte[] image1 = resultSet1.getBytes("image1");
+                byte[] image2 = resultSet1.getBytes("image2");
+                byte[] image3 = resultSet1.getBytes("image3");
+                String description = resultSet1.getString("description");
                 Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
 
-                Type_voiture type_voiture = new Type_voiture(
-                        resultSet1.getInt("id"),
-                        resultSet1.getString("nom"),
-                        resultSet1.getString("marque"),
-                        type,
-                        resultSet1.getString("description")
-                );
+                Type_voiture type_voiture = new Type_voiture(id, nom, marque, type, description, image1, image2, image3);
 
                 statement2 = connection.prepareStatement(queryVoiture);
-                statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
+                statement2.setInt(1, id); // Set id_modele parameter
                 ResultSet resultSet2 = statement2.executeQuery();
 
                 Voiture voiture = null;
@@ -253,7 +266,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
                 modeleVoiturePairs.add(new ConnectionUrlParser.Pair<>(type_voiture, voiture));
             }
 
-            // Trier la liste basée sur le prix des voitures
+            // Trier la liste basée sur le prix des voitures de manière croissante
             Collections.sort(modeleVoiturePairs, new Comparator<ConnectionUrlParser.Pair<Type_voiture, Voiture>>() {
                 @Override
                 public int compare(ConnectionUrlParser.Pair<Type_voiture, Voiture> o1, ConnectionUrlParser.Pair<Type_voiture, Voiture> o2) {
@@ -278,7 +291,7 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
     public List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> searchAllModeleDESCPrice() throws SQLException {
         List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = new ArrayList<>();
         String queryTypeVoiture = "SELECT * FROM modele";
-        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? ORDER BY prixParJour DESC LIMIT 1";
+        String queryVoiture = "SELECT * FROM voiture WHERE id_modele = ? LIMIT 1";
         PreparedStatement statement1;
         PreparedStatement statement2;
 
@@ -287,18 +300,19 @@ public class Type_voitureDaoImpl implements Type_voitureDao {
             ResultSet resultSet1 = statement1.executeQuery();
 
             while (resultSet1.next()) {
+                int id = resultSet1.getInt("id");
+                String nom = resultSet1.getString("nom");
+                String marque = resultSet1.getString("marque");
+                byte[] image1 = resultSet1.getBytes("image1");
+                byte[] image2 = resultSet1.getBytes("image2");
+                byte[] image3 = resultSet1.getBytes("image3");
+                String description = resultSet1.getString("description");
                 Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet1.getString("type"));
 
-                Type_voiture type_voiture = new Type_voiture(
-                        resultSet1.getInt("id"),
-                        resultSet1.getString("nom"),
-                        resultSet1.getString("marque"),
-                        type,
-                        resultSet1.getString("description")
-                );
+                Type_voiture type_voiture = new Type_voiture(id, nom, marque, type, description, image1, image2, image3);
 
                 statement2 = connection.prepareStatement(queryVoiture);
-                statement2.setInt(1, resultSet1.getInt("id")); // Set id_modele parameter
+                statement2.setInt(1, id); // Set id_modele parameter
                 ResultSet resultSet2 = statement2.executeQuery();
 
                 Voiture voiture = null;

@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
@@ -32,24 +33,16 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private final GridBagConstraints constraints11 = new GridBagConstraints();
 
 
-
-
-
     private JLabel legendaryMotorsportLabel4 = new JLabel("LEGENDARY MOTORSPORT");
 
     private JPanel legendaryMotorsportPanel4 = new JPanel();
 
     private int windowSizeWidth = GlobalVariable.getScreenWidth();
     private int windowSizeHeight = GlobalVariable.getScreenHeight();
-    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
+    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth / 3, windowSizeHeight / 10);
 
     private int fontSizeLM = 36;
     private Font font1 = new Font("Arial", Font.PLAIN, fontSizeLM);
-
-
-
-
-
 
 
     /////////////////////////// LE SHOP ///////////////////////////////
@@ -67,7 +60,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JButton mySpaceButtonShop = new JButton("Mon espace personnel");
     private JButton disconnectButton = new JButton("Se déconnecter");
     private JButton myBasketButton = new JButton("Voir mon panier");
-
 
 
     private JDialog dialog = new JDialog(mainJFrame);
@@ -88,6 +80,10 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JDialog dialogFilters = new JDialog(mainJFrame);
     private JButton validateFilterButton = new JButton("Filtrer");
 
+    private JComboBox<String> parentComboBox;
+    private JComboBox<String> childComboBox;
+    private JComboBox<String> childComboBox2;
+
 
     private Connection connection;
 
@@ -99,50 +95,23 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
         this.connection = connection;
 
+        parentComboBox = new JComboBox<>();
+        childComboBox = new JComboBox<>();
+        childComboBox2 = new JComboBox<>();
+
+        setupUI();
+
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
-        int w1, h1, w2, h2, w3, h3;
-        double wh1, wh2, wh3;
 
 
-
-
-
-
-
-
-
-
-
-
-        this.mainJFrame.getDisplayCars().updateImages();
+        updateDisplay();
+        /*this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
-        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
+        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());*/
 
-
-
-
-        for(int i = 0; i < numberOfRentableCars; i++) {
-            rentableCarsPanelShop[i] = new JPanel();
-            w1 = this.imagesArrayList1.get(i).getIconWidth();
-            w2 = this.imagesArrayList2.get(i).getIconWidth();
-            w3 = this.imagesArrayList3.get(i).getIconWidth();
-            h1 = this.imagesArrayList1.get(i).getIconHeight();
-            h2 = this.imagesArrayList2.get(i).getIconHeight();
-            h3 = this.imagesArrayList3.get(i).getIconHeight();
-            wh1 = (double) w1/h1;
-            wh2 = (double) w2/h2;
-            wh3 = (double) w3/h3;
-            this.imagesArrayList1.set(i, new ImageIcon(this.imagesArrayList1.get(i).getImage().getScaledInstance(300, (int)(300/wh1), Image.SCALE_SMOOTH)));
-            this.imagesArrayList2.set(i, new ImageIcon(this.imagesArrayList2.get(i).getImage().getScaledInstance(300, (int)(300/wh2), Image.SCALE_SMOOTH)));
-            this.imagesArrayList3.set(i, new ImageIcon(this.imagesArrayList3.get(i).getImage().getScaledInstance(300, (int)(300/wh3), Image.SCALE_SMOOTH)));
-            imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
-            imagesCarsLabelShop[i].addMouseListener(this);
-            imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
-            descriptionShop[i] = new JLabel("Description");
-        }
 
 
 
@@ -155,7 +124,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.topAndBotPanelShop.setBackground(Color.white);
 
 
-        for (int i = 0; i < numberOfRentableCars; i++){
+        for (int i = 0; i < numberOfRentableCars; i++) {
             this.rentableCarsPanelShop[i].setLayout(gridBagLayout);
         }
 
@@ -173,7 +142,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.constraintsTop.anchor = GridBagConstraints.NORTHWEST;
 
 
-
         updateButtonState();
 
         this.constraintsTop.gridx = 1;
@@ -184,11 +152,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.topPanelShop.add(legendaryMotorsportPanel4, constraintsTop);
 
 
-
-
         /////////////////////////////////       BAS DE LA PAGE      ///////////////////////////////////////
         //// Faut ajouter une description a chaque truc
-        int k = 0;
+        /*int k = 0;
         this.constraints7.gridy = 0;
         constraints7.anchor = GridBagConstraints.CENTER;
         constraints7.fill = GridBagConstraints.BOTH;
@@ -196,7 +162,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         constraints9.gridy = 0;
         constraints9.anchor = GridBagConstraints.CENTER;
         constraints9.fill = GridBagConstraints.BOTH;
-        for(int i = 0; i < (numberOfRentableCars + 3-numberOfRentableCars%3)/3; i++) {
+        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
             this.constraints7.gridy = i;
             constraints9.gridy = i;
             for (int j = 0; j < 3; j++) {
@@ -215,8 +181,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             }
 
         }
-        k=0;
-        for (int i = 0; i < (numberOfRentableCars + 3-numberOfRentableCars%3)/3; i++) {
+        k = 0;
+        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
             this.constraints7.gridy = i;
             this.constraints7.ipadx = 150;
             this.constraints7.ipady = 10;
@@ -228,9 +194,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 botPanelShop.add(rentableCarsPanelShop[k], constraints7);
                 k++;
             }
-        }
+        }*/
 
-
+        updateImages();
 
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
@@ -248,7 +214,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.constraints6.gridy = 2;
         topAndBotPanelShop.setMaximumSize(new Dimension(1000, 800));
         this.topAndBotPanelShop.add(this.botPanelShop, this.constraints6);
-
 
 
         this.constraints8.gridx = 0;
@@ -272,8 +237,67 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         resetMainContent();
     }
 
+    public void updateDisplay(){
 
-    public void updateButtonState(){
+        updateImages();
+
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void updateImages(){
+        this.mainJFrame.getDisplayCars().updateImages();
+        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
+        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
+        this.imagesArrayList1.clear();
+        this.imagesArrayList2.clear();
+        this.imagesArrayList3.clear();
+        this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
+        this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
+        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
+        int w1, h1, w2, h2, w3, h3;
+        double wh1, wh2, wh3;
+        botPanelShop.removeAll();
+        for (int i = 0; i < numberOfRentableCars; i++) {
+            rentableCarsPanelShop[i] = new JPanel();
+            rentableCarsPanelShop[i].setLayout(gridBagLayout); // Assurez-vous que le layout est défini
+
+            w1 = this.imagesArrayList1.get(i).getIconWidth();
+            w2 = this.imagesArrayList2.get(i).getIconWidth();
+            w3 = this.imagesArrayList3.get(i).getIconWidth();
+            h1 = this.imagesArrayList1.get(i).getIconHeight();
+            h2 = this.imagesArrayList2.get(i).getIconHeight();
+            h3 = this.imagesArrayList3.get(i).getIconHeight();
+            wh1 = (double) w1 / h1;
+            wh2 = (double) w2 / h2;
+            wh3 = (double) w3 / h3;
+
+            this.imagesArrayList1.set(i, new ImageIcon(this.imagesArrayList1.get(i).getImage().getScaledInstance(300, (int) (300 / wh1), Image.SCALE_SMOOTH)));
+            this.imagesArrayList2.set(i, new ImageIcon(this.imagesArrayList2.get(i).getImage().getScaledInstance(300, (int) (300 / wh2), Image.SCALE_SMOOTH)));
+            this.imagesArrayList3.set(i, new ImageIcon(this.imagesArrayList3.get(i).getImage().getScaledInstance(300, (int) (300 / wh3), Image.SCALE_SMOOTH)));
+
+            imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
+            imagesCarsLabelShop[i].addMouseListener(this);
+            imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
+            descriptionShop[i] = new JLabel("Description");
+
+            constraints9.gridx = 0;
+            constraints9.gridy = 0;
+            rentableCarsPanelShop[i].add(imagesCarsLabelShop[i], constraints9);
+            constraints9.gridy = 1;
+            rentableCarsPanelShop[i].add(descriptionShop[i], constraints9);
+
+            // Ajouter chaque panneau de voiture à botPanelShop
+            this.constraints7.gridx = i % 3;
+            this.constraints7.gridy = i / 3;
+            botPanelShop.add(rentableCarsPanelShop[i], constraints7);
+        }
+        botPanelShop.revalidate(); // Indique à Swing de recalculez la disposition des composants
+        botPanelShop.repaint();
+    }
+
+
+    public void updateButtonState() {
         constraints10.gridx = 0;
         if (!this.mainJFrame.isConnected()) {
             topButtons.removeAll();
@@ -314,20 +338,60 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         mainJFrame.getFrame().repaint();
     }
 
+    private void setupUI() {
+        // Configurez les JComboBox et autres composants ici
+        DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
+        parentComboBox.setModel(parentComboBoxModel);
+        parentComboBoxModel.addElement("Prix croissant");
+        parentComboBoxModel.addElement("Prix décroissant");
+        parentComboBoxModel.addElement("Trier par type de véhicule");
+        parentComboBoxModel.addElement("Trier par marques");
+        parentComboBoxModel.addElement("Supprimer les filtres");
+
+        childComboBox.addItem("Break");
+        childComboBox.addItem("Berline");
+        childComboBox.addItem("SUV");
+        childComboBox.addItem("Sport");
+        childComboBox.addItem("Limousine");
+        childComboBox.addItem("Pick-up");
+
+        childComboBox2.addItem("AUDI");
+        childComboBox2.addItem("BMW");
+
+
+        childComboBox.setVisible(false);
+        childComboBox2.setVisible(false);
+
+        parentComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (parentComboBox.getSelectedIndex() == 2) {
+                    childComboBox.setVisible(true);
+                } else if (parentComboBox.getSelectedIndex() == 3){
+                    childComboBox2.setVisible(true);
+                } else {
+                    childComboBox.setVisible(false);
+                    childComboBox2.setVisible(false);
+                }
+            }
+        });
+
+        // Ajoutez les JComboBox au panel ou aux dialogs appropriés
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "CONNECTION/INSCRIPTION" :
+            case "CONNECTION/INSCRIPTION":
                 this.mainJFrame.getInscrConnecPage().resetMainContent();
                 break;
-            case "MON ESPACE PERSONNEL" :
+            case "MON ESPACE PERSONNEL":
                 mainJFrame.getPrivateSpacePage().resetMainContent();
                 break;
-            case "MY BASKET" :
+            case "MY BASKET":
                 mainJFrame.getBasketPage().resetMainContent();
                 break;
-            case "DISCONNECT" :
+            case "DISCONNECT":
                 dialog.setSize(300, 100);
                 dialog.setLayout(gridBagLayout);
                 constraints9.gridx = 0;
@@ -341,90 +405,48 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 dialog.add(this.validateButton, constraints9);
                 dialog.setVisible(true);
                 break;
-            case "EXIT DIALOG" :
+            case "EXIT DIALOG":
                 if (dialog.isActive()) {
                     dialog.dispose();
                     this.mainJFrame.setConnected(false);
                     updateButtonState();
-                } else if(dialogFilters.isActive()){
+                } else if (dialogFilters.isActive()) {
+                    String selectedParent = (String) parentComboBox.getSelectedItem();
+                    String selectedChild = (String) childComboBox.getSelectedItem();
+                    if (Objects.equals(selectedParent, "Prix croissant")) {
+                        this.mainJFrame.setFilter("Prix croissant");
+                    } else if (Objects.equals(selectedParent, "Prix décroissant")) {
+                        this.mainJFrame.setFilter("Prix décroissant");
+                    } else if (Objects.equals(selectedParent, "Trier par type de véhicule")) {
+                        if (Objects.equals(selectedChild, "Break")) {
+                            this.mainJFrame.setFilter("Break");
+                        } else if (Objects.equals(selectedChild, "Berline")) {
+                            this.mainJFrame.setFilter("Berline");
+                        } else if (Objects.equals(selectedChild, "SUV")) {
+                            this.mainJFrame.setFilter("SUV");
+                        } else if (Objects.equals(selectedChild, "Sport")) {
+                            this.mainJFrame.setFilter("Sport");
+                        } else if (Objects.equals(selectedChild, "Limousine")) {
+                            this.mainJFrame.setFilter("Limousine");
+                        } else if (Objects.equals(selectedChild, "Pick-up")) {
+                            this.mainJFrame.setFilter("Pick-up");
+                        }
+                    }
+                    else if (Objects.equals(selectedParent, "Trier par marques")) {
+                        if (Objects.equals(selectedChild, "BMW")) {
+                            this.mainJFrame.setFilter("BMW");
+                        } else if (Objects.equals(selectedChild, "AUDI")) {
+                            this.mainJFrame.setFilter("AUDI");
+                        }
+                    } else if (Objects.equals(selectedParent, "Supprimer les filtres")){
+                        this.mainJFrame.setFilter("No filter");
+                    }
                     dialogFilters.dispose();
+                    updateDisplay();
                 }
                 break;
-            case "CLICK ON CAR":
-                System.out.println(e.getActionCommand());
-                /*if (e.getSource() == ) {
-                    JOptionPane.showMessageDialog(this, "Label 1 clicked");
-                } else if (e.getSource() == label2) {
-                    JOptionPane.showMessageDialog(this, "Label 2 clicked");
-                } else if (e.getSource() == label3) {
-                    JOptionPane.showMessageDialog(this, "Label 3 clicked");
-                }*/
-
-                //Ensuite on va sur la page de PAULOOOOOOOO
-                //this.mainJFrame.get
-                break;
-
-            case "APPLY FILTER SEARCH MODELE" :
-
-                try {
-
-                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
-                    String marque = "bmw";
-                    List<Type_voiture> modeles = modeleDao.searchModele(marque);
-                    if (!modeles.isEmpty()) {
-                        System.out.println("Modèles trouvés :");
-                        for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
-                        }
-                    } else {
-                        System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
-                    }
-
-                } catch (SQLException er) {
-                    er.printStackTrace();
-                }
-
-                break;
-
-            case "APPLY FILTER SEARCH TYPE" :
-
-                try {
-
-                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-                    System.out.println("Types de voiture disponibles : BREAK, BERLINE, SUV, SPORT, LIMOUSINE, PICK_UP");
-                    String typeVoiture = "SUV";
-                    List<Type_voiture> modeles = modeleDao.searchType(typeVoiture);
-                    if (!modeles.isEmpty()) {
-                        System.out.println("Modèles trouvés :");
-                        for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
-                        }
-                    } else {
-                        System.out.println("Aucun modèle trouvé pour le type de voiture spécifié.");
-                    }
-
-                } catch (SQLException er) {
-                    er.printStackTrace();
-                }
-
-                break;
-
             case "FILTER":
+                childComboBox.setVisible(false);
                 dialogFilters.setSize(300, 100);
                 dialogFilters.setLayout(gridBagLayout);
                 constraints11.gridx = 0;
@@ -433,36 +455,13 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 dialogFilters.setLocationRelativeTo(this.mainJFrame.getFrame());
 
                 JPanel panel = new JPanel();
+
+                panel.add(parentComboBox);
+                panel.add(childComboBox);
+                panel.add(childComboBox2);
+
                 dialogFilters.add(panel);
 
-                DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
-                JComboBox<String> parentComboBox = new JComboBox<>(parentComboBoxModel);
-                panel.add(parentComboBox);
-
-                JComboBox<String> childComboBox = new JComboBox<>();
-
-                parentComboBoxModel.addElement("Prix croissant");
-                parentComboBoxModel.addElement("Prix décroissant");
-                parentComboBoxModel.addElement("Trier par type de véhicule");
-                childComboBox.addItem("Break");
-                childComboBox.addItem("Berline");
-                childComboBox.addItem("SUV");
-                childComboBox.addItem("Sport");
-                childComboBox.addItem("Limousine");
-                childComboBox.addItem("Pick-up");
-                panel.add(childComboBox);
-
-                childComboBox.setVisible(false);
-
-                parentComboBox.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (parentComboBox.getSelectedIndex() == 2) {
-                            childComboBox.setVisible(true);
-                        } else {
-                            childComboBox.setVisible(false);
-                        }
-                    }
-                });
                 constraints11.gridy = 1;
                 validateFilterButton.setActionCommand("EXIT DIALOG");
                 validateFilterButton.addActionListener(this);
@@ -485,7 +484,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         img[1] = imagesArrayList2.get(carId-1);
         img[2] = imagesArrayList3.get(carId-1);
         if(this.mainJFrame.getUneVoiture() == null){
-            this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId-1), img, description, prix));
+            try {
+                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId-1), img, description, prix));
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         } else {
             this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
         }

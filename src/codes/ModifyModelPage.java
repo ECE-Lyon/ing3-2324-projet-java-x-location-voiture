@@ -89,8 +89,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     private JButton validateButton3 = new JButton("Valider");
 
 
-    private JComboBox<String> parentComboBox;
-    private JComboBox<String> childComboBox;
+    private JComboBox<String> comboBox;
 
 
     public ModifyModelPage(MainJFrame mainJFrame) throws SQLException {
@@ -103,8 +102,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
         this.connection = Mysql.openConnection();
 
-        parentComboBox = new JComboBox<>();
-        childComboBox = new JComboBox<>();
+        comboBox = new JComboBox<>();
 
         setupUI();
 
@@ -236,33 +234,14 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     }
 
     private void setupUI() {
-        // Configurez les JComboBox et autres composants ici
         DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
-        parentComboBox.setModel(parentComboBoxModel);
-        parentComboBoxModel.addElement("Prix croissant");
-        parentComboBoxModel.addElement("Prix décroissant");
-        parentComboBoxModel.addElement("Trier par type de véhicule");
-
-        childComboBox.addItem("Break");
-        childComboBox.addItem("Berline");
-        childComboBox.addItem("SUV");
-        childComboBox.addItem("Sport");
-        childComboBox.addItem("Limousine");
-        childComboBox.addItem("Pick-up");
-
-        childComboBox.setVisible(false);
-
-        parentComboBox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (parentComboBox.getSelectedIndex() == 2) {
-                    childComboBox.setVisible(true);
-                } else {
-                    childComboBox.setVisible(false);
-                }
-            }
-        });
-
-        // Ajoutez les JComboBox au panel ou aux dialogs appropriés
+        comboBox.setModel(parentComboBoxModel);
+        parentComboBoxModel.addElement("Break");
+        parentComboBoxModel.addElement("Berline");
+        parentComboBoxModel.addElement("SUV");
+        parentComboBoxModel.addElement("Sport");
+        parentComboBoxModel.addElement("Limousine");
+        parentComboBoxModel.addElement("Pick-up");
     }
 
 
@@ -289,7 +268,6 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 //inscrPage.resetMainContent();
                 break;
             case "ADD MODEL":
-                childComboBox.setVisible(false);
                 dialog3.setSize(800, 300);
                 this.nameTf.setColumns(20);
                 this.marqueTf.setColumns(20);
@@ -315,15 +293,24 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 constraints3.gridwidth=2;
 
 
-                panel.add(parentComboBox);
-                panel.add(childComboBox);
+                panel.add(comboBox);
                 constraints3.gridy = 3;
 
-                dialog3.add(panel);
+                dialog3.add(panel, constraints3);
+                constraints3.gridy = 4;
                 validateButton3.setActionCommand("CREATE A MODEL");
                 validateButton3.addActionListener(this);
+                JButton buttonToMAJIMAGE = new JButton("Ajouter des images");
+                buttonToMAJIMAGE.setActionCommand("ADD IMAGES");
+                buttonToMAJIMAGE.addActionListener(this);
+                dialog3.add(buttonToMAJIMAGE, constraints3);
+                constraints3.gridy = 5;
                 dialog3.add(this.validateButton3, constraints3);
                 dialog3.setVisible(true);
+                break;
+            case "ADD IMAGES":
+                dialog3.dispose();
+                new MAJImage();
                 break;
             case "SUPP VEHICLE":
                 dialog2.setSize(800, 300);
@@ -394,10 +381,10 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog1.dispose();
                 break;
             case "CREATE A MODEL":
-                nameTf.getText();
-                marqueTf.getText();
-                String selectedParent = (String) parentComboBox.getSelectedItem();
-                String selectedChild = (String) childComboBox.getSelectedItem();
+                String name = nameTf.getText();
+                String marque = marqueTf.getText();
+                String selectedParent = (String) comboBox.getSelectedItem();
+
                 dialog3.dispose();
                 break;
         }

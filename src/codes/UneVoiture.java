@@ -6,10 +6,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+
+import codes.dao.*;
+import codes.model.Utilisateur;
+import codes.model.Voiture;
+
+import codes.model.Reservation;
+import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
@@ -42,10 +53,11 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
 
 
+    private Connection connection;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
-    private JLabel areUSureLabel = new JLabel("Vous devez être connecté po");
-    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) {
+    private JLabel areUSureLabel = new JLabel("Vous devez être connecté pour continuer.");
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
@@ -54,6 +66,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.id = id;
         this.description = desc;
         this.prix = prix;
+        this.connection = Mysql.openConnection();
 
 
         // Panneau pour le carrousel d'images
@@ -125,7 +138,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         dayChooser.addPropertyChangeListener("day", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                Date selectedDate = calendar.getDate();
+                Date selectedDate = new Date(calendar.getDate().getTime());
 
                 // Vérifier si la date sélectionnée est dans le passé
                 if (selectedDate.before(minDate.getTime())) {
@@ -239,7 +252,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     // Mettre à jour le JTextArea avec les dates de début et de fin sélectionnées
     private void updateSelectedDates() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         String startDateString = selectedStartDate != null ? dateFormat.format(selectedStartDate) : "Non sélectionnée";
         String endDateString = selectedEndDate != null ? dateFormat.format(selectedEndDate) : "Non sélectionnée";
@@ -299,9 +312,24 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "acheter":
+            case "RESERVEZ!":
                 if(this.mainJFrame.isConnected()) {
                     this.mainJFrame.addToIdVoitureAchetees(id);
+
+                    Voiture voiture = new Voiture();
+                    voiture.setId_modele(id);
+                    Reservation reservation = new Reservation();
+                    reservation.setDate_debut(selectedStartDate);
+                    reservation.setDate_fin(selectedEndDate);
+                    reservation.setRemise(0.1f);
+                    reservation.setIdUser(this.mainJFrame.getIdUtilisateur());
+
+                    try {
+                        processReservation(voiture, reservation);
+                        System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
+                    } catch (SQLException er) {
+                        er.printStackTrace();
+                    }
                     this.mainJFrame.getShopPage().resetMainContent();
                 } else {
                     GridBagConstraints constraints9 = new GridBagConstraints();
@@ -320,6 +348,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                 }
                 break;
             case "EXIT DIALOG":
+                this.mainJFrame.getInscrConnecPage().resetMainContent();
                 dialog.dispose();
                 break;
         }
@@ -346,5 +375,20 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
         mainJFrame.getFrame().revalidate();
         mainJFrame.getFrame().repaint();
+    }
+
+    public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
+        // Récupérer l'ID de la voiture
+        VoitureDao voitureDao = new VoitureDaoImpl(connection);
+        ReservationDao reservationDao = new ReservationDaoImpl(connection);
+        int idVoiture = voitureDao.getIdVoiture(voiture);
+
+        // Modifier le statut de la voiture
+        voiture.setId_voiture(idVoiture);
+        voitureDao.modifVoiture(voiture);
+
+        // Créer la réservation
+        reservation.setIdVoiture(idVoiture);
+        reservationDao.addReservation(reservation);
     }
 }

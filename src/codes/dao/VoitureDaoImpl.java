@@ -64,7 +64,6 @@ public class VoitureDaoImpl implements VoitureDao {
 
         int idVoiture = -1;
         PreparedStatement preparedStatement;
-
         try {
 
             String query = "SELECT id FROM voiture WHERE statut = 0 AND id_modele = ? ORDER BY id LIMIT 1";
@@ -74,7 +73,9 @@ public class VoitureDaoImpl implements VoitureDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+
                     idVoiture = resultSet.getInt("id");
+
                 } else {
                     throw new SQLException("No car found with statut = 0 and id_modele = " + voiture.getId_modele());
                 }
@@ -178,7 +179,7 @@ public class VoitureDaoImpl implements VoitureDao {
                     int id = resultSet.getInt("id");
                     String nom = resultSet.getString("nom");
                     String marque = resultSet.getString("marque");
-                    modele = new Type_voiture(id, nom, marque, null, null);
+                    modele = new Type_voiture(id, nom, marque, null, null, null, null, null);
                 }
             }
         } catch (SQLException e) {
