@@ -1,5 +1,6 @@
 package codes.dao;
 
+import codes.model.Type_voiture;
 import codes.model.Voiture;
 
 import java.sql.Connection;
@@ -121,6 +122,69 @@ public class VoitureDaoImpl implements VoitureDao {
             e.printStackTrace();
         }
 
+    }
+
+    public int popularityModele(int idModele) throws SQLException {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM voiture WHERE id_modele = ? AND statut = 1";
+        PreparedStatement statement;
+
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, idModele);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    count = resultSet.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public int bestModele() throws SQLException {
+        int meilleurModele = -1;
+        int meilleurePopularite = -1;
+        String query = "SELECT DISTINCT id_modele FROM voiture";
+        PreparedStatement statement;
+
+        try {
+            statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int idModele = resultSet.getInt("id_modele");
+                int popularite = popularityModele(idModele);
+                if (popularite > meilleurePopularite) {
+                    meilleurePopularite = popularite;
+                    meilleurModele = idModele;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return meilleurModele;
+    }
+
+    public Type_voiture getModeleById(int idModele) throws SQLException {
+        Type_voiture modele = null;
+        String query = "SELECT * FROM modele WHERE id = ?";
+        PreparedStatement statement;
+        try {
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, idModele);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String nom = resultSet.getString("nom");
+                    String marque = resultSet.getString("marque");
+                    modele = new Type_voiture(id, nom, marque, null, null);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return modele;
     }
 
 }
