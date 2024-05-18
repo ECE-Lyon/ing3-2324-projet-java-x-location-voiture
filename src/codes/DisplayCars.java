@@ -22,52 +22,73 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images2 = new ArrayList<>();
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
+    private MainJFrame mainJFrame;
 
-    public DisplayCars () throws SQLException {
+    public DisplayCars(MainJFrame mainJFrame) throws SQLException {
         connection = Mysql.openConnection();
+        this.mainJFrame = mainJFrame;
         updateImages();
     }
 
     public void updateImages() {
-        //if(this.mainJF)
-        this.id.clear();
-        this.images1.clear();
-        if (connection == null) {
-            JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3 FROM modele")) {
-            try (ResultSet resultSet = statement.executeQuery()) {
-                boolean found = false;
-                while (resultSet.next()) {
-                    int carId = resultSet.getInt("id");
-                    byte[] imageData = resultSet.getBytes("image1");
-                    byte[] imageData2 = resultSet.getBytes("image2");
-                    byte[] imageData3 = resultSet.getBytes("image3");
+        switch (this.mainJFrame.getFilter()) {
+            case "No filter":
+                this.id.clear();
+                this.images1.clear();
+                if (connection == null) {
+                    JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3 FROM modele")) {
+                    try (ResultSet resultSet = statement.executeQuery()) {
+                        boolean found = false;
+                        while (resultSet.next()) {
+                            int carId = resultSet.getInt("id");
+                            byte[] imageData = resultSet.getBytes("image1");
+                            byte[] imageData2 = resultSet.getBytes("image2");
+                            byte[] imageData3 = resultSet.getBytes("image3");
 
 
+                            if (imageData != null && imageData.length > 0) {
+                                /////////////////////////////////////
 
-                    if (imageData != null && imageData.length > 0) {
-                    /////////////////////////////////////
-
-                        //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
-                        id.add(carId);
-                        images1.add(toImageIcon(obtenirImage(imageData)));
-                        Image image = obtenirImage(imageData);
-                        images2.add(toImageIcon(obtenirImage(imageData2)));
-                        Image image2 = obtenirImage(imageData2);
-                        images3.add(toImageIcon(obtenirImage(imageData3)));
-                        Image image3 = obtenirImage(imageData3);
-                        found = true;
+                                //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
+                                id.add(carId);
+                                images1.add(toImageIcon(obtenirImage(imageData)));
+                                Image image = obtenirImage(imageData);
+                                images2.add(toImageIcon(obtenirImage(imageData2)));
+                                Image image2 = obtenirImage(imageData2);
+                                images3.add(toImageIcon(obtenirImage(imageData3)));
+                                Image image3 = obtenirImage(imageData3);
+                                found = true;
+                            }
+                        }
+                        if (!found) {
+                            JOptionPane.showMessageDialog(null, "Aucune image trouvée pour les voitures dans la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la récupération des images des voitures.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
-                if (!found) {
-                    JOptionPane.showMessageDialog(null, "Aucune image trouvée pour les voitures dans la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la récupération des images des voitures.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                break;
+            case "":
+                break;
+            case "Prix croissant":
+                break;
+            case "Prix décroissant":
+                break;
+            case "Berline":
+                break;
+            case "SUV":
+                break;
+            case "Sport":
+                break;
+            case "Limousine":
+                break;
+            case "Pick-up":
+                break;
+
         }
     }
 
@@ -111,7 +132,7 @@ public class DisplayCars {
         this.id = id;
     }
 
-    public ImageIcon toImageIcon(Image img){
+    public ImageIcon toImageIcon(Image img) {
         ImageIcon imgI = new ImageIcon(img);
         return imgI;
     }

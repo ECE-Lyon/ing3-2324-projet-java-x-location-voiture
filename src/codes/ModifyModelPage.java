@@ -319,7 +319,8 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 panel.add(childComboBox);
                 constraints3.gridy = 3;
 
-                dialog3.add(panel);
+                dialog3.add(panel, constraints3);
+                constraints3.gridy = 4;
                 validateButton3.setActionCommand("CREATE A MODEL");
                 validateButton3.addActionListener(this);
                 dialog3.add(this.validateButton3, constraints3);

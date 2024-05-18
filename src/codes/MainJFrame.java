@@ -80,6 +80,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+
+    private String filter = "No filters";
+
+
+
     private ArrayList<Integer> idVoitureAchetees = new ArrayList<>();
 
 
@@ -96,7 +101,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
         System.out.println("Updating images");
 
-        this.displayCars = new DisplayCars();
+        this.displayCars = new DisplayCars(this);
         this.shopPage = new ShopPage(this);
         this.inscrConnecPage = new InscrConnecPage(this, this.shopPage);
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
@@ -390,8 +395,8 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         return idVoitureAchetees;
     }
 
-    public void setIdVoitureAchetees(ArrayList<Integer> idVoitureAchetées) {
-        this.idVoitureAchetees = idVoitureAchetées;
+    public void setIdVoitureAchetees(ArrayList<Integer> idVoitureAchetees) {
+        this.idVoitureAchetees = idVoitureAchetees;
     }
 
     public void addToIdVoitureAchetees(int i){
@@ -404,5 +409,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void setShopPage(ShopPage shopPage) {
         this.shopPage = shopPage;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }
