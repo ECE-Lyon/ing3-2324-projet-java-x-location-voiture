@@ -71,7 +71,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     private final JButton validateButton = new JButton("Valider");
 
-    private ArrayList<ImageIcon> imagesArrayList = new ArrayList<>();
+    private ArrayList<ImageIcon> imagesArrayList1 = new ArrayList<>();
+    private ArrayList<ImageIcon> imagesArrayList2 = new ArrayList<>();
+    private ArrayList<ImageIcon> imagesArrayList3 = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
     private String description;
     private int prix;
@@ -89,8 +91,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.setLayout(new BorderLayout());
 
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
-        int w, h;
-        double wh;
+        int w1, h1, w2, h2, w3, h3;
+        double wh1, wh2, wh3;
 
 
 
@@ -106,18 +108,28 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
-        this.imagesArrayList.addAll(this.mainJFrame.getDisplayCars().getImages1());
+        this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
+        this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
+        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
 
 
 
 
         for(int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
-            w = this.imagesArrayList.get(i).getIconWidth();
-            h = this.imagesArrayList.get(i).getIconHeight();
-            wh = (double) w/h;
-            this.imagesArrayList.set(i, new ImageIcon(this.imagesArrayList.get(i).getImage().getScaledInstance(300, (int)(300/wh), Image.SCALE_SMOOTH)));
-            imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList.get(i));
+            w1 = this.imagesArrayList1.get(i).getIconWidth();
+            w2 = this.imagesArrayList2.get(i).getIconWidth();
+            w3 = this.imagesArrayList3.get(i).getIconWidth();
+            h1 = this.imagesArrayList1.get(i).getIconHeight();
+            h2 = this.imagesArrayList2.get(i).getIconHeight();
+            h3 = this.imagesArrayList3.get(i).getIconHeight();
+            wh1 = (double) w1/h1;
+            wh2 = (double) w2/h2;
+            wh3 = (double) w3/h3;
+            this.imagesArrayList1.set(i, new ImageIcon(this.imagesArrayList1.get(i).getImage().getScaledInstance(300, (int)(300/wh1), Image.SCALE_SMOOTH)));
+            this.imagesArrayList2.set(i, new ImageIcon(this.imagesArrayList2.get(i).getImage().getScaledInstance(300, (int)(300/wh2), Image.SCALE_SMOOTH)));
+            this.imagesArrayList3.set(i, new ImageIcon(this.imagesArrayList3.get(i).getImage().getScaledInstance(300, (int)(300/wh3), Image.SCALE_SMOOTH)));
+            imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
             imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
             descriptionShop[i] = new JLabel("Description");
@@ -249,13 +261,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         add(mainPanelShop, BorderLayout.CENTER);
 
         resetMainContent();
-
-
-
-
-
-
-
     }
 
 
@@ -405,9 +410,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         Integer carId = (Integer) sourceLabel.getClientProperty("carId");
         System.out.println("Car ID: " + carId);
 
-        ImageIcon[] img = new ImageIcon[imagesArrayList.size()];
+        ImageIcon[] img = new ImageIcon[imagesArrayList1.size()];
         for (int i = 0; i < 3; i++){
-            img[i] = imagesArrayList.get(i);
+            img[i] = imagesArrayList1.get(i);
         }
         if(this.mainJFrame.getUneVoiture() == null){
             this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(1), img, description, prix));
