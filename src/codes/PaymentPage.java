@@ -1,56 +1,48 @@
 package codes;
 
-import com.mysql.cj.util.StringUtils;
-import com.toedter.calendar.JCalendar;
-
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.ParseException;
 import java.time.YearMonth;
 
 public class PaymentPage {
 
     public static void main(String[] args) {
+        int X = 5; // Exemple de nombre de jours de location
+        String Y = "SUV"; // Exemple de type de voiture
+        double Z = 200.50; // Exemple de montant total
+
+        createPaymentPage(X, Y, Z);
+    }
+
+    public static void createPaymentPage(int X, String Y, double Z) {
         // Créer le frame principal
         JFrame frame = new JFrame("Paiement");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setLayout(new GridLayout(3, 1));
+        frame.setLayout(new GridLayout(4, 1));
 
         // Titre
         JLabel titleLabel = new JLabel("Paiement", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
         frame.add(titleLabel);
 
-        // Options de paiement
-        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JRadioButton cardPaymentButton = new JRadioButton("Carte bancaire");
-        JRadioButton googlePayButton = new JRadioButton("Google Pay");
-        JRadioButton payPalButton = new JRadioButton("PayPal");
-
-        paymentOptionsPanel.add(cardPaymentButton);
-        paymentOptionsPanel.add(googlePayButton);
-        paymentOptionsPanel.add(payPalButton);
-
-        ButtonGroup paymentGroup = new ButtonGroup();
-        paymentGroup.add(cardPaymentButton);
-        paymentGroup.add(googlePayButton);
-        paymentGroup.add(payPalButton);
-
-        frame.add(paymentOptionsPanel);
+        // Montant à régler
+        JLabel amountLabel = new JLabel("Le montant à régler pour " + X + " jours de location d'une voiture de type " + Y + " est de " + Z + " €", SwingConstants.CENTER);
+        amountLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        frame.add(amountLabel);
 
         // Carte bancaire
         JPanel cardPanel = new JPanel(new GridLayout(5, 2, 10, 2));
         cardPanel.setBorder(BorderFactory.createTitledBorder("Détails de la carte"));
-        boolean hint = true;
+
         JTextField cardNumberField = createHintTextField("1234 5678 9012 3456");
         JTextField expirationDateField = createHintTextField("MM/AA");
         JTextField securityCodeField = createHintTextField("123");
         JTextField cardHolderNameField = createHintTextField("J. Smith");
 
-        addDocumentFilter(cardNumberField, 16, true, false, "#### ##### #### ####");
+        addDocumentFilter(cardNumberField, 16, true, false, "#### #### #### ####");
         addDocumentFilter(expirationDateField, 5, true, false, "##/##");
         addDocumentFilter(securityCodeField, 3, true, false, null);
         addDocumentFilter(cardHolderNameField, 26, false, true, null);
@@ -69,6 +61,23 @@ public class PaymentPage {
 
         frame.add(cardPanel);
 
+        // Options de paiement
+        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JRadioButton cardPaymentButton = new JRadioButton("Carte bancaire");
+        JRadioButton googlePayButton = new JRadioButton("Google Pay");
+        JRadioButton payPalButton = new JRadioButton("PayPal");
+
+        paymentOptionsPanel.add(cardPaymentButton);
+        paymentOptionsPanel.add(googlePayButton);
+        paymentOptionsPanel.add(payPalButton);
+
+        ButtonGroup paymentGroup = new ButtonGroup();
+        paymentGroup.add(cardPaymentButton);
+        paymentGroup.add(googlePayButton);
+        paymentGroup.add(payPalButton);
+
+        frame.add(paymentOptionsPanel);
+
         // Bouton de paiement
         JButton payButton = new JButton("Payer");
         frame.add(payButton);
@@ -83,10 +92,9 @@ public class PaymentPage {
             String expirationDate = expirationDateField.getText().trim();
             String securityCode = securityCodeField.getText().trim();
             String cardHolderName = cardHolderNameField.getText().trim();
-
             StringBuilder errorMessage = new StringBuilder("Veuillez corriger les erreurs suivantes:\n");
 
-            if (!validateCardNumber(cardNumber) || hint) {
+            if (!validateCardNumber(cardNumber)) {
                 setErrorBorder(cardNumberField, "Numéro de carte invalide");
                 errorMessage.append("- Numéro de carte invalide\n");
                 isValid = false;
@@ -102,7 +110,7 @@ public class PaymentPage {
                 resetErrorBorder(expirationDateField);
             }
 
-            if (!validateSecurityCode(securityCode)) {
+            if (securityCode.equals("123") || securityCode.isEmpty()) {
                 setErrorBorder(securityCodeField, "Code de sécurité invalide");
                 errorMessage.append("- Code de sécurité invalide\n");
                 isValid = false;
@@ -110,7 +118,7 @@ public class PaymentPage {
                 resetErrorBorder(securityCodeField);
             }
 
-            if (cardHolderName.isEmpty()) {
+            if (cardHolderName.equals("J. Smith") || cardHolderName.isEmpty()) {
                 setErrorBorder(cardHolderNameField, "Le nom sur la carte est requis");
                 errorMessage.append("- Le nom sur la carte est requis\n");
                 isValid = false;
@@ -131,7 +139,7 @@ public class PaymentPage {
         });
 
         // Afficher la fenêtre
-        frame.setVisible(true);
+        SwingUtilities.invokeLater(() -> frame.setVisible(true));
     }
 
     private static JTextField createHintTextField(String hint) {
@@ -179,7 +187,7 @@ public class PaymentPage {
 
             private boolean isValidString(String string) {
                 if (digitsOnly) {
-                    return string.matches("\\d*");
+                    return string.matches("[\\d/]*");
                 }
                 if (lettersOnly) {
                     return string.matches("[a-zA-Z\\-\\.\\s]*");
