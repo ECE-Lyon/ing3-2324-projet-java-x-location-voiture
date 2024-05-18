@@ -4,6 +4,7 @@ import codes.dao.Mysql;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.dao.UtilisateurDao;
+import codes.model.Entreprise;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,13 +105,27 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
 
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
-            List<Client> clients = utilisateurDao.searchClient();
-            System.out.println("Informations des clients :");
-            for (Client client : clients) {
-                System.out.println("Nom : " + client.getNom_client());
-                System.out.println("Prénom : " + client.getPrenom_client());
-                System.out.println("Statut : " + client.getStatut());
-                // Ajoutez d'autres informations si nécessaire
+            if (this.mainJFrame.getPrivateSpacePage().isCompany()){
+
+                List<Entreprise> entreprises = utilisateurDao.searchEntreprise();
+                System.out.println("Informations des entreprises :");
+                for (Entreprise entreprise : entreprises) {
+                    System.out.println("Nom : " + entreprise.getNom_entreprise());
+                    System.out.println("Siret : " + entreprise.getSiret());
+                    // Ajoutez d'autres informations si nécessaire
+                }
+
+            } else {
+
+                List<Client> clients = utilisateurDao.searchClient();
+                System.out.println("Informations des clients :");
+                for (Client client : clients) {
+                    System.out.println("Nom : " + client.getNom_client());
+                    System.out.println("Prénom : " + client.getPrenom_client());
+                    System.out.println("Statut : " + client.getStatut());
+                    // Ajoutez d'autres informations si nécessaire
+                }
+
             }
 
         } catch (SQLException er) {

@@ -1,6 +1,8 @@
 package codes;
 
 import codes.UneVoiture.UneVoiture;
+import codes.dao.Type_voitureDaoImpl;
+import codes.model.Type_voiture;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
@@ -83,12 +89,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JButton validateFilterButton = new JButton("Filtrer");
 
 
+    private Connection connection;
 
     public ShopPage(MainJFrame mainFrame) {
 
 
         this.mainJFrame = mainFrame;
         this.setLayout(new BorderLayout());
+
+        this.connection = connection;
 
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
         int w1, h1, w2, h2, w3, h3;
@@ -354,6 +363,67 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 //Ensuite on va sur la page de PAULOOOOOOOO
                 //this.mainJFrame.get
                 break;
+
+            case "APPLY FILTER SEARCH MODELE" :
+
+                try {
+
+                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
+
+                    Set<String> marques = modeleDao.searchAllMarques();
+
+                    // Afficher les marques disponibles
+                    System.out.println("Marques de voiture disponibles :");
+                    for (String marque : marques) {
+                        System.out.println("- " + marque);
+                    }
+
+                    String marque = "bmw";
+                    List<Type_voiture> modeles = modeleDao.searchModele(marque);
+                    if (!modeles.isEmpty()) {
+                        System.out.println("Modèles trouvés :");
+                        for (Type_voiture modele : modeles) {
+                            System.out.println("ID : " + modele.getId_type_voiture());
+                            System.out.println("Nom : " + modele.getNom_type_voiture());
+                            System.out.println("Marque : " + modele.getMarque_voiture());
+                            // Ajoutez d'autres informations si nécessaire
+                        }
+                    } else {
+                        System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
+                    }
+
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                }
+
+                break;
+
+            case "APPLY FILTER SEARCH TYPE" :
+
+                try {
+
+                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
+                    System.out.println("Types de voiture disponibles : BREAK, BERLINE, SUV, SPORT, LIMOUSINE, PICK_UP");
+                    String typeVoiture = "SUV";
+                    List<Type_voiture> modeles = modeleDao.searchType(typeVoiture);
+                    if (!modeles.isEmpty()) {
+                        System.out.println("Modèles trouvés :");
+                        for (Type_voiture modele : modeles) {
+                            System.out.println("ID : " + modele.getId_type_voiture());
+                            System.out.println("Nom : " + modele.getNom_type_voiture());
+                            System.out.println("Marque : " + modele.getMarque_voiture());
+                            // Ajoutez d'autres informations si nécessaire
+                        }
+                    } else {
+                        System.out.println("Aucun modèle trouvé pour le type de voiture spécifié.");
+                    }
+
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                }
+
+                break;
+
             case "FILTER":
                 dialogFilters.setSize(300, 100);
                 dialogFilters.setLayout(gridBagLayout);
