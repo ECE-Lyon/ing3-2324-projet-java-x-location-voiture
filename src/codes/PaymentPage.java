@@ -9,19 +9,20 @@ import java.time.YearMonth;
 public class PaymentPage {
 
     public static void main(String[] args) {
-        int X = 5; // Exemple de nombre de jours de location
-        String Y = "SUV"; // Exemple de type de voiture
-        double Z = 200.50; // Exemple de montant total
+        int nbJour = 5; // Exemple de nombre de jours de location
+        String typeVehicule = "SUV"; // Exemple de type de voiture
+        float prixParJour = 100;
+        double prix = nbJour * prixParJour; // Exemple de montant total
 
-        createPaymentPage(X, Y, Z);
+        createPaymentPage(nbJour, typeVehicule, prixParJour, prix);
     }
 
-    public static void createPaymentPage(int X, String Y, double Z) {
+    public static void createPaymentPage(int nbJour, String typeVehicule, double prixParJour, double prix) {
         // Créer le frame principal
         JFrame frame = new JFrame("Paiement");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setLayout(new GridLayout(4, 1));
+        frame.setLayout(new GridLayout(6, 1));
 
         // Titre
         JLabel titleLabel = new JLabel("Paiement", SwingConstants.CENTER);
@@ -29,12 +30,29 @@ public class PaymentPage {
         frame.add(titleLabel);
 
         // Montant à régler
-        JLabel amountLabel = new JLabel("Le montant à régler pour " + X + " jours de location d'une voiture de type " + Y + " est de " + Z + " €", SwingConstants.CENTER);
+        JLabel amountLabel = new JLabel("Le montant à régler pour " + nbJour + " jours de location d'une voiture de type " + typeVehicule + " est de " + prix + " €", SwingConstants.CENTER);
         amountLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         frame.add(amountLabel);
 
+        // Options de paiement
+        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JRadioButton cardPaymentButton = new JRadioButton("Carte bancaire");
+        JRadioButton googlePayButton = new JRadioButton("Google Pay");
+        JRadioButton payPalButton = new JRadioButton("PayPal");
+
+        paymentOptionsPanel.add(cardPaymentButton);
+        paymentOptionsPanel.add(googlePayButton);
+        paymentOptionsPanel.add(payPalButton);
+
+        ButtonGroup paymentGroup = new ButtonGroup();
+        paymentGroup.add(cardPaymentButton);
+        paymentGroup.add(googlePayButton);
+        paymentGroup.add(payPalButton);
+
+        frame.add(paymentOptionsPanel);
+
         // Carte bancaire
-        JPanel cardPanel = new JPanel(new GridLayout(5, 2, 10, 2));
+        JPanel cardPanel = new JPanel(new GridLayout(5, 2, 5, 5)); // Ajustement de l'espace entre les lignes
         cardPanel.setBorder(BorderFactory.createTitledBorder("Détails de la carte"));
 
         JTextField cardNumberField = createHintTextField("1234 5678 9012 3456");
@@ -61,26 +79,27 @@ public class PaymentPage {
 
         frame.add(cardPanel);
 
-        // Options de paiement
-        JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JRadioButton cardPaymentButton = new JRadioButton("Carte bancaire");
-        JRadioButton googlePayButton = new JRadioButton("Google Pay");
-        JRadioButton payPalButton = new JRadioButton("PayPal");
-
-        paymentOptionsPanel.add(cardPaymentButton);
-        paymentOptionsPanel.add(googlePayButton);
-        paymentOptionsPanel.add(payPalButton);
-
-        ButtonGroup paymentGroup = new ButtonGroup();
-        paymentGroup.add(cardPaymentButton);
-        paymentGroup.add(googlePayButton);
-        paymentGroup.add(payPalButton);
-
-        frame.add(paymentOptionsPanel);
-
         // Bouton de paiement
-        JButton payButton = new JButton("Payer");
-        frame.add(payButton);
+        JButton payButton = new JButton("Payez !");
+        payButton.setPreferredSize(new Dimension(100, 50)); // Réduire la taille du bouton
+        payButton.setFont(new Font("Arial", Font.BOLD, 16)); // Taille du texte
+        payButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,true));
+
+
+
+        payButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                payButton.setBackground(Color.LIGHT_GRAY); // Couleur de fond sur hover
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                payButton.setBackground(Color.WHITE); // Réinitialiser la couleur de fond
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(payButton);
+        frame.add(buttonPanel);
 
         googlePayButton.addActionListener(e -> openUrl("https://pay.google.com"));
         payPalButton.addActionListener(e -> openUrl("https://www.paypal.com"));
@@ -93,8 +112,7 @@ public class PaymentPage {
             String securityCode = securityCodeField.getText().trim();
             String cardHolderName = cardHolderNameField.getText().trim();
             StringBuilder errorMessage = new StringBuilder("Veuillez corriger les erreurs suivantes:\n");
-
-            if (!validateCardNumber(cardNumber)) {
+            if (!validateCardNumber(cardNumber) || cardNumber.equals("1234 5678 9012 3456") ) {
                 setErrorBorder(cardNumberField, "Numéro de carte invalide");
                 errorMessage.append("- Numéro de carte invalide\n");
                 isValid = false;
@@ -110,7 +128,7 @@ public class PaymentPage {
                 resetErrorBorder(expirationDateField);
             }
 
-            if (securityCode.equals("123") || securityCode.isEmpty()) {
+            if (!validateSecurityCode(securityCode)) {
                 setErrorBorder(securityCodeField, "Code de sécurité invalide");
                 errorMessage.append("- Code de sécurité invalide\n");
                 isValid = false;
@@ -138,8 +156,40 @@ public class PaymentPage {
             }
         });
 
-        // Afficher la fenêtre
-        SwingUtilities.invokeLater(() -> frame.setVisible(true));
+        // Ajouter un KeyListener à chaque champ de texte pour détecter les saisies au clavier
+        cardNumberField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                cardNumberField.setForeground(Color.BLACK);
+            }
+        });
+
+        expirationDateField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                expirationDateField.setForeground(Color.BLACK);
+            }
+        });
+
+        securityCodeField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                securityCodeField.setForeground(Color.BLACK);
+            }
+        });
+
+        cardHolderNameField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                cardHolderNameField.setForeground(Color.BLACK);
+            }
+        });
+
+        // Assurer que le champ "Numéro de carte" n'est pas sélectionné au chargement
+        SwingUtilities.invokeLater(() -> {
+            frame.setVisible(true);
+            frame.getRootPane().requestFocus(); // Assurer que le focus n'est pas sur le champ de numéro de carte
+        });
     }
 
     private static JTextField createHintTextField(String hint) {
@@ -206,7 +256,7 @@ public class PaymentPage {
     }
 
     private static void setErrorBorder(JTextField textField, String message) {
-        textField.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+        textField.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
         textField.setToolTipText(message);
     }
 
