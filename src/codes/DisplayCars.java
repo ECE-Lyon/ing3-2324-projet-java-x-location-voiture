@@ -44,6 +44,9 @@ public class DisplayCars {
     public void updateImages() {
         this.id.clear();
         this.images1.clear();
+        this.images2.clear();
+        this.images3.clear();
+        this.description.clear();
         switch (this.mainJFrame.getFilter()) {
             case "No filter":
                 if (connection == null) {
@@ -60,9 +63,6 @@ public class DisplayCars {
 
 
                             if (imageData != null && imageData.length > 0) {
-                                /////////////////////////////////////
-
-                                //////////////////AJOUTER UNE VAR QUI S'INCREMENTE ET RANGER LES IMAGES DANS UN TABLEAU AU LIEU DE LES AFFCHER
                                 id.add(carId);
                                 images1.add(toImageIcon(obtenirImage(imageData)));
                                 images2.add(toImageIcon(obtenirImage(imageData2)));
@@ -76,11 +76,9 @@ public class DisplayCars {
                 }
                 break;
             case "BMW":
-
                 try {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-
                     Set<String> marques = modeleDao.searchAllMarques();
 
                     // Afficher les marques disponibles
