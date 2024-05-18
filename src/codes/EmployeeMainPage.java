@@ -80,7 +80,7 @@ public class EmployeeMainPage extends JPanel implements ActionListener, MouseLis
         ////////////////////////////////
 
 
-        this.constraintsTop.gridy = 1;
+        this.constraintsTop.gridy = 0;
         this.constraintsTop.anchor = GridBagConstraints.CENTER;
         this.topPanel.add(topButtons, constraintsTop);
         this.constraintsTop.gridy = 1;
