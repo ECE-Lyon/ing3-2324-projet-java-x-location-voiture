@@ -411,11 +411,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         System.out.println("Car ID: " + carId);
 
         ImageIcon[] img = new ImageIcon[imagesArrayList1.size()];
-        for (int i = 0; i < 3; i++){
-            img[i] = imagesArrayList1.get(i);
-        }
+        img[0] = imagesArrayList1.get(carId);
+        img[1] = imagesArrayList2.get(carId);
+        img[2] = imagesArrayList3.get(carId);
         if(this.mainJFrame.getUneVoiture() == null){
-            this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(1), img, description, prix));
+            this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description, prix));
         } else {
             this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
         }
