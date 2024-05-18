@@ -22,6 +22,7 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images2 = new ArrayList<>();
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
+    private MainJFrame mainJFrame = new MainJFrame();
 
     public DisplayCars () throws SQLException {
         connection = Mysql.openConnection();
@@ -29,6 +30,7 @@ public class DisplayCars {
     }
 
     public void updateImages() {
+        //if(this.mainJF)
         this.id.clear();
         this.images1.clear();
         if (connection == null) {

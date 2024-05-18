@@ -289,7 +289,10 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 //inscrPage.resetMainContent();
                 break;
             case "ADD MODEL":
-                dialog3.setSize(300, 100);
+                childComboBox.setVisible(false);
+                dialog3.setSize(800, 300);
+                this.nameTf.setColumns(20);
+                this.marqueTf.setColumns(20);
                 dialog3.setLayout(gridBagLayout);
                 constraints3.gridx = 0;
                 constraints3.gridy = 0;
@@ -317,7 +320,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 constraints3.gridy = 3;
 
                 dialog3.add(panel);
-                validateButton3.setActionCommand("EXIT DIALOG");
+                validateButton3.setActionCommand("CREATE A MODEL");
                 validateButton3.addActionListener(this);
                 dialog3.add(this.validateButton3, constraints3);
                 dialog3.setVisible(true);
@@ -386,7 +389,16 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog2.dispose();
                 break;
             case "LETS CREATE IT" :
+                tfId2.getText();
+                tfPrixParJour2.getText();
                 dialog1.dispose();
+                break;
+            case "CREATE A MODEL":
+                nameTf.getText();
+                marqueTf.getText();
+                String selectedParent = (String) parentComboBox.getSelectedItem();
+                String selectedChild = (String) childComboBox.getSelectedItem();
+                dialog3.dispose();
                 break;
         }
     }
