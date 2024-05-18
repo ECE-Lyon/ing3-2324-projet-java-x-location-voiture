@@ -254,10 +254,13 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     }
 
     public void updateImages(){
+        botPanelShop.removeAll();
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         for (int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
+            rentableCarsPanelShop[i].setLayout(gridBagLayout); // Assurez-vous que le layout est défini
+
             w1 = this.imagesArrayList1.get(i).getIconWidth();
             w2 = this.imagesArrayList2.get(i).getIconWidth();
             w3 = this.imagesArrayList3.get(i).getIconWidth();
@@ -267,14 +270,29 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             wh1 = (double) w1 / h1;
             wh2 = (double) w2 / h2;
             wh3 = (double) w3 / h3;
+
             this.imagesArrayList1.set(i, new ImageIcon(this.imagesArrayList1.get(i).getImage().getScaledInstance(300, (int) (300 / wh1), Image.SCALE_SMOOTH)));
             this.imagesArrayList2.set(i, new ImageIcon(this.imagesArrayList2.get(i).getImage().getScaledInstance(300, (int) (300 / wh2), Image.SCALE_SMOOTH)));
             this.imagesArrayList3.set(i, new ImageIcon(this.imagesArrayList3.get(i).getImage().getScaledInstance(300, (int) (300 / wh3), Image.SCALE_SMOOTH)));
+
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
             imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
             descriptionShop[i] = new JLabel("Description");
+
+            constraints9.gridx = 0;
+            constraints9.gridy = 0;
+            rentableCarsPanelShop[i].add(imagesCarsLabelShop[i], constraints9);
+            constraints9.gridy = 1;
+            rentableCarsPanelShop[i].add(descriptionShop[i], constraints9);
+
+            // Ajouter chaque panneau de voiture à botPanelShop
+            this.constraints7.gridx = i % 3;
+            this.constraints7.gridy = i / 3;
+            botPanelShop.add(rentableCarsPanelShop[i], constraints7);
         }
+        botPanelShop.revalidate(); // Indique à Swing de recalculez la disposition des composants
+        botPanelShop.repaint();
     }
 
 
