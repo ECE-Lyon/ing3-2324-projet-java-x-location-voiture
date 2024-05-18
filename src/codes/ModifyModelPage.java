@@ -132,11 +132,14 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
                     if (voiture != null) {
                         System.out.println("Prix par jour: " + voiture.getPrix_par_jour() + " Euros");
-                    } else {
-                        System.out.println("Prix par jour: N/A");
+
                         data.add(new String[]{"" + typeVoiture.getId_type_voiture(), typeVoiture.getNom_type_voiture(),
                                 typeVoiture.getMarque_voiture(), "" + typeVoiture.getType(), typeVoiture.getDescription(),
                                 "" + voiture.getPrix_par_jour()});
+
+                    } else {
+                        System.out.println("Prix par jour: N/A");
+
                         data.add(new String[]{"" + typeVoiture.getId_type_voiture(), typeVoiture.getNom_type_voiture(),
                                 typeVoiture.getMarque_voiture(), "" + typeVoiture.getType(), typeVoiture.getDescription(),
                                 "0"});
