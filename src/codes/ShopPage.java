@@ -155,7 +155,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
         /////////////////////////////////       BAS DE LA PAGE      ///////////////////////////////////////
         //// Faut ajouter une description a chaque truc
-        int k = 0;
+        /*int k = 0;
         this.constraints7.gridy = 0;
         constraints7.anchor = GridBagConstraints.CENTER;
         constraints7.fill = GridBagConstraints.BOTH;
@@ -195,7 +195,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 botPanelShop.add(rentableCarsPanelShop[k], constraints7);
                 k++;
             }
-        }
+        }*/
 
 
         this.constraints6.gridx = 0;
@@ -254,9 +254,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     }
 
     public void updateImages(){
-        botPanelShop.removeAll();
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
+        botPanelShop.removeAll();
         for (int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
             rentableCarsPanelShop[i].setLayout(gridBagLayout); // Assurez-vous que le layout est défini
