@@ -29,8 +29,6 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
 
 
-
-
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
 
     private JPanel legendaryMotorsportPanel = new JPanel();
@@ -51,10 +49,48 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
     private JPanel botPanel = new JPanel();
 
 
-    private int nbrOfLine = 3;
+    private JButton ajouterVehicule = new JButton("Ajouter un nouveau véhicule");
+    private JButton ajouterModele = new JButton("Ajouter un nouveau modèle de véhicule");
+    private JButton supprimerVehicule = new JButton("Supprimer un véhicule");
+
     private JTable table;
 
     private Connection connection;
+
+
+
+
+    ///////////////////////////////////////CREATION DES JDIALOGS PERMETTANT D'AJOUTER/SUPPRIMER VEHICLE ET MODELS
+    private JDialog dialog1 = new JDialog(mainJFrame);;
+    private GridBagConstraints constraints = new GridBagConstraints();
+    private JLabel idModelLabel = new JLabel("Saisir l'ID du modèle");
+    private JLabel prixParJourLabel = new JLabel("Saisir le prix de location par jour du véhicule");
+    private JTextField tfId = new JTextField();
+    private JTextField tfPrixParJour = new JTextField();
+    private JButton validateButton = new JButton("Valider");
+
+    private JDialog dialog2 = new JDialog(mainJFrame);;
+    private GridBagConstraints constraints2 = new GridBagConstraints();
+    private JLabel idModelLabel2 = new JLabel("Saisir l'ID du modèle");
+    private JLabel prixParJourLabel2 = new JLabel("Saisir le prix de location par jour du véhicule");
+    private JTextField tfId2 = new JTextField();
+    private JTextField tfPrixParJour2 = new JTextField();
+    private JButton validateButton2 = new JButton("Valider");
+
+    private JDialog dialog3 = new JDialog(mainJFrame);;
+    private GridBagConstraints constraints3 = new GridBagConstraints();
+    private JLabel nameLabel = new JLabel("Saisir le name du modèle");
+    private JLabel marqueLabel = new JLabel("Saisir la marque du modèle");
+    private JTextField nameTf = new JTextField();
+    private JTextField marqueTf = new JTextField();
+    private ImageIcon imageIcon1;
+    private ImageIcon imageIcon2;
+    private ImageIcon imageIcon3;
+    private JButton validateButton3 = new JButton("Valider");
+
+
+    private JComboBox<String> parentComboBox;
+    private JComboBox<String> childComboBox;
 
 
     public ModifyModelPage(MainJFrame mainJFrame) throws SQLException {
@@ -66,6 +102,10 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         this.botPanel.setLayout(gridBagLayout);
 
         this.connection = Mysql.openConnection();
+
+        parentComboBox = new JComboBox<>();
+        childComboBox = new JComboBox<>();
+
 
 
 
@@ -161,9 +201,25 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         table = new JTable(dataArray, columnNames);
 
 
-
-
+        constraintsBot.gridwidth = 2;
+        constraintsBot.gridx = 0;
+        constraintsBot.gridy = 0;
         this.botPanel.add(table, constraintsBot);
+        constraintsBot.gridwidth = 1;
+        constraintsBot.gridy = 1;
+        ajouterVehicule.setActionCommand("ADD VEHICLE");
+        ajouterVehicule.addActionListener(this);
+        botPanel.add(ajouterVehicule, constraintsBot);
+        constraintsBot.gridx = 1;
+        supprimerVehicule.setActionCommand("SUPP VEHICLE");
+        supprimerVehicule.addActionListener(this);
+        botPanel.add(supprimerVehicule, constraintsBot);
+        constraintsBot.gridx = 0;
+        constraintsBot.gridy = 2;
+        constraintsBot.gridwidth = 2;
+        ajouterModele.setActionCommand("ADD MODEL");
+        ajouterModele.addActionListener(this);
+        botPanel.add(ajouterModele, constraintsBot);
 
 
 
@@ -210,6 +266,130 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
         switch (text){
             case "RETOUR":
                 this.mainJFrame.getEmployeeMainPage().resetMainContent();
+                break;
+            case "ADD MODEL":
+                dialog3.setSize(300, 100);
+                dialog3.setLayout(gridBagLayout);
+                constraints3.gridx = 0;
+                constraints3.gridy = 0;
+                dialog3.setAlwaysOnTop(true);
+                dialog3.setLocationRelativeTo(this.mainJFrame.getFrame());
+                JPanel panel = new JPanel();
+
+
+
+                dialog2.add(nameLabel, constraints3);
+                constraints3.gridx = 1;
+                dialog2.add(nameTf, constraints3);
+                constraints3.gridx = 0;
+                constraints3.gridy = 1;
+                dialog2.add(marqueLabel, constraints3);
+                constraints3.gridx = 1;
+                dialog2.add(marqueTf, constraints3);
+                constraints3.gridx = 0;
+                constraints3.gridy = 2;
+                constraints3.gridwidth=2;
+
+
+
+                DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
+                panel.add(parentComboBox);
+
+
+                parentComboBoxModel.addElement("Prix croissant");
+                parentComboBoxModel.addElement("Prix décroissant");
+                parentComboBoxModel.addElement("Trier par type de véhicule");
+                childComboBox.addItem("Break");
+                childComboBox.addItem("Berline");
+                childComboBox.addItem("SUV");
+                childComboBox.addItem("Sport");
+                childComboBox.addItem("Limousine");
+                childComboBox.addItem("Pick-up");
+                panel.add(childComboBox);
+
+                childComboBox.setVisible(false);
+
+                parentComboBox.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (parentComboBox.getSelectedIndex() == 2) {
+                            childComboBox.setVisible(true);
+                        } else {
+                            childComboBox.setVisible(false);
+                        }
+                    }
+                });
+                dialog3.add(panel);
+                constraints3.gridy = 3;
+                validateButton3.setActionCommand("EXIT DIALOG");
+                validateButton3.addActionListener(this);
+                dialog3.add(this.validateButton3, constraints3);
+                dialog3.setVisible(true);
+                break;
+            case "SUPP VEHICLE":
+                dialog2.setSize(300, 100);
+
+                this.tfId2.setColumns(20);
+                this.tfPrixParJour2.setColumns(20);
+
+                dialog2.setLayout(gridBagLayout);
+                constraints2.gridx = 0;
+                constraints2.gridy = 0;
+                dialog2.setAlwaysOnTop(true);
+                dialog2.setLocationRelativeTo(this.mainJFrame.getFrame());
+
+                dialog2.add(idModelLabel2, constraints2);
+                constraints2.gridx = 1;
+                dialog2.add(prixParJourLabel2, constraints2);
+                constraints2.gridx = 0;
+                constraints2.gridy = 1;
+                dialog2.add(tfId2, constraints2);
+                constraints2.gridx = 1;
+                dialog2.add(tfPrixParJour2, constraints2);
+                constraints2.gridx = 0;
+                constraints2.gridwidth=2;
+
+                constraints2.gridy = 2;
+                validateButton2.setActionCommand("GO DESTROY IT");
+                validateButton2.addActionListener(this);
+                dialog2.add(this.validateButton2, constraints2);
+                dialog2.setVisible(true);
+                break;
+            case "ADD VEHICLE":
+                dialog1.setSize(300, 100);
+
+                this.tfId.setColumns(20);
+                this.tfPrixParJour.setColumns(20);
+
+                dialog1.setLayout(gridBagLayout);
+                constraints.gridx = 0;
+                constraints.gridy = 0;
+                dialog1.setAlwaysOnTop(true);
+                dialog1.setLocationRelativeTo(this.mainJFrame.getFrame());
+
+                dialog1.add(idModelLabel, constraints);
+                constraints.gridx = 1;
+                dialog1.add(prixParJourLabel, constraints);
+                constraints.gridx = 0;
+                constraints.gridy = 1;
+                dialog1.add(tfId, constraints);
+                constraints.gridx = 1;
+                dialog1.add(tfPrixParJour, constraints);
+                constraints.gridx = 0;
+                constraints.gridwidth=2;
+
+                constraints.gridy = 2;
+                validateButton.setActionCommand("LETS CREATE IT");
+                validateButton.addActionListener(this);
+                dialog1.add(this.validateButton, constraints);
+                dialog1.setVisible(true);
+                break;
+            case  "GO DESTROY IT":
+                tfId.getText();
+                tfPrixParJour.getText();
+                dialog2.dispose();
+                break;
+            case "LETS CREATE IT" :
+                dialog1.dispose();
                 break;
         }
     }
