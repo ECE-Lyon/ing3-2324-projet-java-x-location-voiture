@@ -56,7 +56,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private Connection connection;
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
-    private JLabel areUSureLabel = new JLabel("Vous devez être connecté po");
+    private JLabel areUSureLabel = new JLabel("Vous devez être connecté pour continuer.");
     public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
@@ -317,12 +317,12 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     this.mainJFrame.addToIdVoitureAchetees(id);
 
                     Voiture voiture = new Voiture();
-                    voiture.setId_modele(4); // Exemple d'ID de modèle
+                    voiture.setId_modele(id);
                     Reservation reservation = new Reservation();
                     reservation.setDate_debut(selectedStartDate);
                     reservation.setDate_fin(selectedEndDate);
                     reservation.setRemise(0.1f);
-                    reservation.setIdUser(1); // Exemple d'ID utilisateur
+                    reservation.setIdUser(this.mainJFrame.getIdUtilisateur());
 
                     try {
                         processReservation(voiture, reservation);
@@ -348,6 +348,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                 }
                 break;
             case "EXIT DIALOG":
+                this.mainJFrame.getInscrConnecPage().resetMainContent();
                 dialog.dispose();
                 break;
         }

@@ -38,10 +38,10 @@ public class DisplayCars {
     }
 
     public void updateImages() {
+        this.id.clear();
+        this.images1.clear();
         switch (this.mainJFrame.getFilter()) {
             case "No filter":
-                this.id.clear();
-                this.images1.clear();
                 if (connection == null) {
                     JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
                     return;

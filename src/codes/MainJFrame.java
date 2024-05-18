@@ -79,6 +79,9 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private String companyName;
 
 
+    private int idUtilisateur = 0;
+
+
 
 
     private String filter = "No filters";
@@ -418,4 +421,13 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     public void setFilter(String filter) {
         this.filter = filter;
     }
+
+    public int getIdUtilisateur() {
+        return idUtilisateur;
+    }
+
+    public void setIdUtilisateur(int idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
+    }
+
 }

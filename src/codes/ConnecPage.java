@@ -34,6 +34,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
 
 
+
     private JPanel connecMainPanel = new JPanel();
 
 
@@ -251,7 +252,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 this.mainJFrame.setPassword(password);
                                 this.mainJFrame.setName(this.mainJFrame.getClient().getNom_client());
                                 this.mainJFrame.setFirstName(this.mainJFrame.getClient().getPrenom_client());
-
+                                this.mainJFrame.setIdUtilisateur(this.mainJFrame.getClient().getId_utilisateur());
                                 this.mainJFrame.setConnected(true);
 
                                 this.mainJFrame.getPrivateSpacePage().setCompany(false);
@@ -264,6 +265,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 System.out.println("Nom : " + employe.getNom_employe());
                                 System.out.println("Prénom : " + employe.getPrenom_employe());
                                 System.out.println("Poste : " + employe.getPoste());
+                                System.out.println("Id : " + employe.getId_utilisateur());
                                 this.mainJFrame.setConnected(true);
                                 this.mainJFrame.getPrivateSpacePage().setCompany(false);
                                 this.mainJFrame.getModifyModelPage().resetMainContent();
@@ -274,6 +276,7 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 System.out.println("Nom : " + entreprise.getNom_entreprise());
                                 System.out.println("Siret : " + entreprise.getSiret());
                                 this.mainJFrame.setConnected(true);
+                                this.mainJFrame.setIdUtilisateur(this.mainJFrame.getEntreprise().getId_utilisateur());
                                 this.mainJFrame.getPrivateSpacePage().setCompany(true);
                                 this.shop.resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire

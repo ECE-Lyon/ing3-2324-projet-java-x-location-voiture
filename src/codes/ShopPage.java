@@ -115,7 +115,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
 
-        updateImages();
 
 
         this.mainPanelShop.setLayout(new BorderLayout());
@@ -197,6 +196,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             }
         }*/
 
+        updateImages();
 
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
@@ -238,6 +238,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     }
 
     public void updateDisplay(){
+
+        updateImages();
+
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void updateImages(){
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
@@ -247,13 +255,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
-        updateImages();
-
-        this.revalidate();
-        this.repaint();
-    }
-
-    public void updateImages(){
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         botPanelShop.removeAll();

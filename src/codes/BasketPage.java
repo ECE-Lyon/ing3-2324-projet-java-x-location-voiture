@@ -1,11 +1,20 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.UtilisateurDaoImpl;
+import codes.model.Client;
+import codes.model.Entreprise;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasketPage extends JPanel implements ActionListener, MouseListener {
     MainJFrame mainJFrame;
@@ -18,8 +27,8 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
 
 
     private final GridBagLayout gridBagLayout = new GridBagLayout();
-    private final GridBagConstraints constraints = new GridBagConstraints();
     private final GridBagConstraints constraintsTop = new GridBagConstraints();
+    private final GridBagConstraints constraintsBot = new GridBagConstraints();
     private final GridBagConstraints constraintsMainPanel = new GridBagConstraints();
 
     private JPanel mainPanel = new JPanel();
@@ -43,15 +52,22 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
     private final JButton backButton = new JButton("Retour");
 
 
+    private JTable table;
+
+    private Connection connection;
+
+    private JButton accessToPaymentPage = new JButton("Accéder à la page de payement");
 
 
-    public BasketPage (MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage){
+    public BasketPage (MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.connecPage = connecPage;
         this.inscrPage = inscrPage;
         this.inscrConnecPage = inscrConnecPage;
         this.shopPage = shopPage;
         this.privateSpacePage = privateSpacePage;
+
+        this.connection = Mysql.openConnection();
 
 
 
@@ -74,17 +90,56 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
         this.legendaryMotorsportPanel.setPreferredSize(dimensionLegendaryMotorsportPanel);
 
 
-        this.constraints.gridy = 0;
+        this.constraintsTop.gridy = 0;
 
 
         //this.constraints.gridx = 1;
-        this.constraints.anchor = GridBagConstraints.EAST;
+        this.constraintsTop.anchor = GridBagConstraints.EAST;
         backButton.setActionCommand("BACK TO SHOP");
         backButton.addActionListener(this);
-        this.topPanel.add(backButton, constraints);
-        this.constraints.anchor = GridBagConstraints.CENTER;
-        this.constraints.gridy = 1;
-        this.topPanel.add(legendaryMotorsportPanel, constraints);
+        this.topPanel.add(backButton, constraintsTop);
+        this.constraintsTop.anchor = GridBagConstraints.CENTER;
+        this.constraintsTop.gridy = 1;
+        this.topPanel.add(legendaryMotorsportPanel, constraintsTop);
+
+
+
+
+        ArrayList<String[]> data = new ArrayList<>();
+
+        try {
+
+            UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
+
+
+            java.util.List<Entreprise> entreprises = utilisateurDao.searchEntreprise();
+            System.out.println("Informations des entreprises :");
+            for (Entreprise entreprise : entreprises) {
+                System.out.println("Nom : " + entreprise.getNom_entreprise());
+                System.out.println("Siret : " + entreprise.getSiret());
+                data.add(new String[]{entreprise.getNom_entreprise(), "" + entreprise.getSiret()});
+            }
+
+            // Définir les en-têtes de colonne
+            String[] columnNames = {"Nom : ", "Siret : "};
+            String[][] dataArray = new String[data.size()][];
+            data.toArray(dataArray);
+            table = new JTable(dataArray, columnNames);
+
+
+            List<Client> clients = utilisateurDao.searchClient();
+            System.out.println("Informations des clients :");
+
+            this.botPanel.add(table, constraintsBot);
+            constraintsBot.gridy++;
+            accessToPaymentPage.setActionCommand("ACCESS TO PAYMENT");
+            accessToPaymentPage.addActionListener(this);
+            this.botPanel.add(accessToPaymentPage, constraintsBot);
+
+
+        } catch (SQLException er) {
+            er.printStackTrace();
+        }
 
 
 
@@ -115,6 +170,10 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
         switch (command) {
             case "BACK TO SHOP":
                 this.shopPage.resetMainContent();
+                break;
+            case "ACCESS TO PAYMENT":
+                // il faut acceder a la page de payement mtn
+                //this.mainJFrame.get
                 break;
         }
     }
