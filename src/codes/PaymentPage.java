@@ -118,6 +118,7 @@ public class PaymentPage extends JPanel {
             String securityCode = securityCodeField.getText().trim();
             String cardHolderName = cardHolderNameField.getText().trim();
             StringBuilder errorMessage = new StringBuilder("Veuillez corriger les erreurs suivantes:\n");
+
             if (!validateCardNumber(cardNumber) || cardNumber.equals("1234 5678 9012 3456") ) {
                 setErrorBorder(cardNumberField, "Numéro de carte invalide");
                 errorMessage.append("- Numéro de carte invalide\n");
@@ -161,6 +162,7 @@ public class PaymentPage extends JPanel {
                 JOptionPane.showMessageDialog(this.mainJFrame, errorMessage.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
         // Ajouter un KeyListener à chaque champ de texte pour détecter les saisies au clavier
         cardNumberField.addKeyListener(new KeyAdapter() {
