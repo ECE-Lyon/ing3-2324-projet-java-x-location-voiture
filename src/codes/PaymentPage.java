@@ -6,33 +6,29 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.YearMonth;
 
-public class PaymentPage {
+public class PaymentPage extends JPanel {
 
-    public static void main(String[] args) {
-        int nbJour = 5; // Exemple de nombre de jours de location
-        String typeVehicule = "SUV"; // Exemple de type de voiture
-        float prixParJour = 100;
-        double prix = nbJour * prixParJour; // Exemple de montant total
 
-        createPaymentPage(nbJour, typeVehicule, prixParJour, prix);
-    }
+    MainJFrame mainJFrame;
+    private JPanel mainPanel;
 
-    public static void createPaymentPage(int nbJour, String typeVehicule, double prixParJour, double prix) {
+    public void createPaymentPage(MainJFrame mainJFrame, int nbJour, String typeVehicule, double prixParJour, double prix) {
         // Créer le frame principal
-        JFrame frame = new JFrame("Paiement");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setLayout(new GridLayout(6, 1));
+        this.mainJFrame = mainJFrame;
+        this.setLayout(new BorderLayout());
+
+
+
 
         // Titre
         JLabel titleLabel = new JLabel("Paiement", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        frame.add(titleLabel);
+
 
         // Montant à régler
         JLabel amountLabel = new JLabel("Le montant à régler pour " + nbJour + " jours de location d'une voiture de type " + typeVehicule + " est de " + prix + " €", SwingConstants.CENTER);
         amountLabel.setFont(new Font("Arial", Font.PLAIN, 18));
-        frame.add(amountLabel);
+        this.mainPanel.add(amountLabel);
 
         // Options de paiement
         JPanel paymentOptionsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -49,7 +45,7 @@ public class PaymentPage {
         paymentGroup.add(googlePayButton);
         paymentGroup.add(payPalButton);
 
-        frame.add(paymentOptionsPanel);
+        mainPanel.add(paymentOptionsPanel);
 
         // Carte bancaire
         JPanel cardPanel = new JPanel(new GridLayout(5, 2, 5, 5)); // Ajustement de l'espace entre les lignes
@@ -77,7 +73,7 @@ public class PaymentPage {
         cardPanel.add(new JLabel("Nom sur la carte:"));
         cardPanel.add(cardHolderNameField);
 
-        frame.add(cardPanel);
+        mainPanel.add(cardPanel);
 
         // Bouton de paiement
         JButton payButton = new JButton("Payez !");
@@ -97,9 +93,10 @@ public class PaymentPage {
             }
         });
 
+        this.add(mainPanel, BorderLayout.CENTER);
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(payButton);
-        frame.add(buttonPanel);
+        mainPanel.add(buttonPanel);
 
         googlePayButton.addActionListener(e -> openUrl("https://pay.google.com"));
         payPalButton.addActionListener(e -> openUrl("https://www.paypal.com"));
@@ -145,14 +142,14 @@ public class PaymentPage {
             }
 
             if (!cardPaymentButton.isSelected() && !googlePayButton.isSelected() && !payPalButton.isSelected()) {
-                JOptionPane.showMessageDialog(frame, "Veuillez sélectionner un mode de paiement");
+                JOptionPane.showMessageDialog(this.mainJFrame, "Veuillez sélectionner un mode de paiement");
                 isValid = false;
             }
 
             if (isValid) {
-                JOptionPane.showMessageDialog(frame, "Paiement effectué!");
+                JOptionPane.showMessageDialog(this.mainJFrame, "Paiement effectué!");
             } else {
-                JOptionPane.showMessageDialog(frame, errorMessage.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this.mainJFrame, errorMessage.toString(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -187,8 +184,8 @@ public class PaymentPage {
 
         // Assurer que le champ "Numéro de carte" n'est pas sélectionné au chargement
         SwingUtilities.invokeLater(() -> {
-            frame.setVisible(true);
-            frame.getRootPane().requestFocus(); // Assurer que le focus n'est pas sur le champ de numéro de carte
+            this.setVisible(true);
+            this.getRootPane().requestFocus(); // Assurer que le focus n'est pas sur le champ de numéro de carte
         });
     }
 
