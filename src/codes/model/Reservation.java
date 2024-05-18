@@ -12,6 +12,15 @@ public class Reservation {
 
     public Reservation(){}
 
+    public Reservation(int id_reservation, java.sql.Date date_debut, java.sql.Date date_fin, float remise, int idUser, int idVoiture) {
+        this.id_reservation = id_reservation;
+        this.date_debut = date_debut;
+        this.date_fin = date_fin;
+        this.remise = remise;
+        this.idUser = idUser;
+        this.idVoiture = idVoiture;
+    }
+
     public int getId_reservation() {
         return id_reservation;
     }

@@ -10,7 +10,7 @@ public class PaymentPage extends JPanel {
 
 
     MainJFrame mainJFrame;
-    private JPanel mainPanel;
+    private JPanel mainPanel = new JPanel();
     private int nbJour = 10;
     String typeVehicule = "sfdfqsddqs";
     double prixParJour = 36;

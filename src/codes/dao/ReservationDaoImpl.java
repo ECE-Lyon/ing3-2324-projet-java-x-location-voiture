@@ -67,4 +67,29 @@ public class ReservationDaoImpl implements ReservationDao{
         }
         return reservation;
     }
+
+    @Override
+    public List<Reservation> searchReservationForOneUser(int userId) throws SQLException {
+        List<Reservation> reservations = new ArrayList<>();
+        String query = "SELECT * FROM reservation WHERE idUser = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Reservation reservation = new Reservation(
+                            resultSet.getInt("id"),
+                            resultSet.getDate("dateDebut"),
+                            resultSet.getDate("dateFin"),
+                            resultSet.getFloat("remise"),
+                            resultSet.getInt("idUser"),
+                            resultSet.getInt("idVoiture")
+                    );
+                    reservations.add(reservation);
+                }
+            }
+        }
+
+        return reservations;
+    }
 }
