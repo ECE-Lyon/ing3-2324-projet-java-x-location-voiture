@@ -92,8 +92,6 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
-                                System.out.println(modele.getId_type_voiture());
-                                System.out.println(modele.getDescription());
                             }
                         }
                     } else {
@@ -113,23 +111,18 @@ public class DisplayCars {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
                     String marque = "audi";
                     List<Type_voiture> modeles = modeleDao.searchModele(marque);
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                         }
                     } else {
                         System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
@@ -137,13 +130,14 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
             case "Prix croissant":
 
                 try {
-
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
                     List<ConnectionUrlParser.Pair<Type_voiture, Voiture>> modeleVoiturePairs = modeleDao.searchAllModeleASCPrice();
@@ -153,11 +147,13 @@ public class DisplayCars {
                             Type_voiture typeVoiture = modeleVoiturePair.left;
                             Voiture voiture = modeleVoiturePair.right;
 
-                            System.out.println("ID: " + typeVoiture.getId_type_voiture());
-                            System.out.println("Nom: " + typeVoiture.getNom_type_voiture());
-                            System.out.println("Marque: " + typeVoiture.getMarque_voiture());
-                            System.out.println("Type: " + typeVoiture.getType());
-                            System.out.println("Description: " + typeVoiture.getDescription());
+                            if (typeVoiture.getImage1() != null && typeVoiture.getImage1().length > 0) {
+                                id.add(typeVoiture.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(typeVoiture.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(typeVoiture.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(typeVoiture.getImage3())));
+                                description.add(typeVoiture.getDescription());
+                            }
 
                             if (voiture != null) {
                                 System.out.println("Prix par jour: " + voiture.getPrix_par_jour() + " Euros");
@@ -173,6 +169,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -189,11 +187,13 @@ public class DisplayCars {
                             Type_voiture typeVoiture = modeleVoiturePair.left;
                             Voiture voiture = modeleVoiturePair.right;
 
-                            System.out.println("ID: " + typeVoiture.getId_type_voiture());
-                            System.out.println("Nom: " + typeVoiture.getNom_type_voiture());
-                            System.out.println("Marque: " + typeVoiture.getMarque_voiture());
-                            System.out.println("Type: " + typeVoiture.getType());
-                            System.out.println("Description: " + typeVoiture.getDescription());
+                            if (typeVoiture.getImage1() != null && typeVoiture.getImage1().length > 0) {
+                                id.add(typeVoiture.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(typeVoiture.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(typeVoiture.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(typeVoiture.getImage3())));
+                                description.add(typeVoiture.getDescription());
+                            }
 
                             if (voiture != null) {
                                 System.out.println("Prix par jour: " + voiture.getPrix_par_jour() + " Euros");
@@ -209,6 +209,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -218,23 +220,18 @@ public class DisplayCars {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
                     String type = String.valueOf(Type_voiture.Type.BERLINE);
                     List<Type_voiture> modeles = modeleDao.searchType(type);
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                         }
                     } else {
                         System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
@@ -242,6 +239,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -264,10 +263,13 @@ public class DisplayCars {
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
-                            // Ajoutez d'autres informations si nécessaire
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                         }
                     } else {
                         System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
@@ -275,6 +277,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -297,9 +301,13 @@ public class DisplayCars {
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                             // Ajoutez d'autres informations si nécessaire
                         }
                     } else {
@@ -308,6 +316,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -330,9 +340,13 @@ public class DisplayCars {
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                             // Ajoutez d'autres informations si nécessaire
                         }
                     } else {
@@ -341,6 +355,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
@@ -363,9 +379,13 @@ public class DisplayCars {
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");
                         for (Type_voiture modele : modeles) {
-                            System.out.println("ID : " + modele.getId_type_voiture());
-                            System.out.println("Nom : " + modele.getNom_type_voiture());
-                            System.out.println("Marque : " + modele.getMarque_voiture());
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
+                            }
                             // Ajoutez d'autres informations si nécessaire
                         }
                     } else {
@@ -374,6 +394,8 @@ public class DisplayCars {
 
                 } catch (SQLException er) {
                     er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
 
                 break;
