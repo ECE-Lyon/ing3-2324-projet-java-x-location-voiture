@@ -24,7 +24,7 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
     private final GridBagLayout gridBagLayout = new GridBagLayout();
     private final GridBagConstraints constraintsTop = new GridBagConstraints();
     private final GridBagConstraints constraintsMain = new GridBagConstraints();
-    private final GridBagConstraints constraints10 = new GridBagConstraints();
+    private final GridBagConstraints constraintsBot = new GridBagConstraints();
 
 
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
@@ -136,6 +136,9 @@ public class ClientInfosPage extends JPanel implements ActionListener, MouseList
             String[][] dataArray2 = new String[data2.size()][];
             data2.toArray(dataArray2);
             table2 = new JTable(dataArray2, columnNames2);
+            this.botPanel.add(table, constraintsBot);
+            constraintsBot.gridy = 1;
+            this.botPanel.add(table2, constraintsBot);
 
 
         } catch (SQLException er) {
