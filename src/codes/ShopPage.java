@@ -82,6 +82,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
     private JComboBox<String> parentComboBox;
     private JComboBox<String> childComboBox;
+    private JComboBox<String> childComboBox2;
 
 
     private Connection connection;
@@ -96,6 +97,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
         parentComboBox = new JComboBox<>();
         childComboBox = new JComboBox<>();
+        childComboBox2 = new JComboBox<>();
 
         setupUI();
 
@@ -103,7 +105,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
 
-
+        updateDisplay();
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
@@ -252,6 +254,19 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         resetMainContent();
     }
 
+    public void updateDisplay(){
+        this.mainJFrame.getDisplayCars().updateImages();
+        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
+        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
+        this.imagesArrayList1.clear();
+        this.imagesArrayList2.clear();
+        this.imagesArrayList3.clear();
+        this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
+        this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
+        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
+
+    }
+
 
     public void updateButtonState() {
         constraints10.gridx = 0;
@@ -301,6 +316,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         parentComboBoxModel.addElement("Prix croissant");
         parentComboBoxModel.addElement("Prix décroissant");
         parentComboBoxModel.addElement("Trier par type de véhicule");
+        parentComboBoxModel.addElement("Trier par marques");
         parentComboBoxModel.addElement("Supprimer les filtres");
 
         childComboBox.addItem("Break");
@@ -310,14 +326,22 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         childComboBox.addItem("Limousine");
         childComboBox.addItem("Pick-up");
 
+        childComboBox2.addItem("AUDI");
+        childComboBox2.addItem("BMW");
+
+
         childComboBox.setVisible(false);
+        childComboBox2.setVisible(false);
 
         parentComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (parentComboBox.getSelectedIndex() == 2) {
                     childComboBox.setVisible(true);
+                } else if (parentComboBox.getSelectedIndex() == 3){
+                    childComboBox2.setVisible(true);
                 } else {
                     childComboBox.setVisible(false);
+                    childComboBox2.setVisible(false);
                 }
             }
         });
@@ -361,44 +385,37 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                     String selectedParent = (String) parentComboBox.getSelectedItem();
                     String selectedChild = (String) childComboBox.getSelectedItem();
                     if (Objects.equals(selectedParent, "Prix croissant")) {
-
+                        this.mainJFrame.setFilter("Prix croissant");
                     } else if (Objects.equals(selectedParent, "Prix décroissant")) {
-
+                        this.mainJFrame.setFilter("Prix décroissant");
                     } else if (Objects.equals(selectedParent, "Trier par type de véhicule")) {
                         if (Objects.equals(selectedChild, "Break")) {
-                            ///On appel la fonction qui affiche que les break
-
+                            this.mainJFrame.setFilter("Break");
                         } else if (Objects.equals(selectedChild, "Berline")) {
-
+                            this.mainJFrame.setFilter("Berline");
                         } else if (Objects.equals(selectedChild, "SUV")) {
-
+                            this.mainJFrame.setFilter("SUV");
                         } else if (Objects.equals(selectedChild, "Sport")) {
-
+                            this.mainJFrame.setFilter("Sport");
                         } else if (Objects.equals(selectedChild, "Limousine")) {
-
+                            this.mainJFrame.setFilter("Limousine");
                         } else if (Objects.equals(selectedChild, "Pick-up")) {
-
+                            this.mainJFrame.setFilter("Pick-up");
+                        }
+                    }
+                    else if (Objects.equals(selectedParent, "Trier par marques")) {
+                        if (Objects.equals(selectedChild, "BMW")) {
+                            this.mainJFrame.setFilter("BMW");
+                        } else if (Objects.equals(selectedChild, "AUDI")) {
+                            this.mainJFrame.setFilter("AUDI");
                         }
                     } else if (Objects.equals(selectedParent, "Supprimer les filtres")){
-
+                        this.mainJFrame.setFilter("No filter");
                     }
                     dialogFilters.dispose();
+                    updateDisplay();
                 }
                 break;
-            case "CLICK ON CAR":
-                System.out.println(e.getActionCommand());
-                /*if (e.getSource() == ) {
-                    JOptionPane.showMessageDialog(this, "Label 1 clicked");
-                } else if (e.getSource() == label2) {
-                    JOptionPane.showMessageDialog(this, "Label 2 clicked");
-                } else if (e.getSource() == label3) {
-                    JOptionPane.showMessageDialog(this, "Label 3 clicked");
-                }*/
-
-                //Ensuite on va sur la page de PAULOOOOOOOO
-                //this.mainJFrame.get
-                break;
-
             case "APPLY FILTER SEARCH MODELE":
 
                 try {
