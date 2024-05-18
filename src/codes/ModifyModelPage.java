@@ -109,17 +109,7 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
 
 
         ArrayList<String[]> data = new ArrayList<>();
-        String text1 ="1";
-        String text2 ="Alice";
-        String text3 ="Mathélmatiques";
-
-        for (int i = 0; i < nbrOfLine; i++){
-            data.add(new String[]{text1, text2, text3});
-            text1 = "dsfsfd";
-            text2 = "dsfsfd";
-            text3 = "dsfsfd";
-        }
-
+        data.add(new String[]{"ID : ", "Nom : ", "Marque : ", "Type : ", "Description : "});
 
 
         try {
@@ -133,11 +123,15 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                     Type_voiture typeVoiture = modeleVoiturePair.left;
                     Voiture voiture = modeleVoiturePair.right;
 
-                    System.out.println("ID: " + typeVoiture.getId_type_voiture());
+                    /*System.out.println("ID: " + typeVoiture.getId_type_voiture());
                     System.out.println("Nom: " + typeVoiture.getNom_type_voiture());
                     System.out.println("Marque: " + typeVoiture.getMarque_voiture());
                     System.out.println("Type: " + typeVoiture.getType());
-                    System.out.println("Description: " + typeVoiture.getDescription());
+                    System.out.println("Description: " + typeVoiture.getDescription());*/
+
+                    data.add(new String[]{"" + typeVoiture.getId_type_voiture(), typeVoiture.getNom_type_voiture(),
+                            typeVoiture.getMarque_voiture(), "" + typeVoiture.getType(), typeVoiture.getDescription()});
+
 
                     if (voiture != null) {
                         System.out.println("Prix par jour: " + voiture.getPrix_par_jour() + " Euros");

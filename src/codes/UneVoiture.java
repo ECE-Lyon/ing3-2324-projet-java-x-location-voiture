@@ -1,4 +1,4 @@
-package codes.UneVoiture;
+package codes;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,16 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import codes.MainJFrame;
-import codes.dao.VoitureDao;
-import codes.dao.VoitureDaoImpl;
-import codes.model.Reservation;
-import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
 import java.beans.PropertyChangeEvent;
@@ -302,7 +296,29 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        String command = e.getActionCommand();
+        switch (command) {
+            case "acheter":
+                if(this.mainJFrame.isConnected()) {
+                    this.mainJFrame.getInscrConnecPage().resetMainContent();
+                } else {
+                    JDialog dialog = new JDialog();
+                    GridBagConstraints constraints9 = new GridBagConstraints();
+                    dialog.setSize(300, 100);
+                    dialog.setLayout(gridBagLayout);
+                    constraints9.gridx = 0;
+                    constraints9.gridy = 0;
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setLocationRelativeTo(this.mainJFrame.getFrame());
+                    dialog.add(areUSureLabel, constraints9);
+                    constraints9.gridy = 1;
+                    validateButton.setActionCommand("EXIT DIALOG");
+                    validateButton.addActionListener(this);
+                    dialog.add(this.validateButton, constraints9);
+                    dialog.setVisible(true);
+                }
+                break;
+        }
     }
 
     public void updateContent(){

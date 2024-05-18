@@ -1,6 +1,5 @@
 package codes;
 
-import codes.UneVoiture.UneVoiture;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.model.Employe;

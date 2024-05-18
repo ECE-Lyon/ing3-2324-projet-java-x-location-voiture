@@ -1,6 +1,6 @@
 package codes;
 
-import codes.UneVoiture.UneVoiture;
+import codes.UneVoiture;
 import codes.dao.Type_voitureDaoImpl;
 import codes.model.Type_voiture;
 
@@ -489,7 +489,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         } else {
             this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
         }
-
     }
 
     @Override
