@@ -240,7 +240,7 @@ public class PaymentPage {
                     return string.matches("[\\d/]*");
                 }
                 if (lettersOnly) {
-                    return string.matches("[a-zA-Z\\-\\.\\s]*");
+                    return string.matches("[\\p{L}\\-\\.\\s]*");
                 }
                 return true;
             }
