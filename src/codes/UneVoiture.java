@@ -51,6 +51,16 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     private Type_voiture.Type type;
 
+    public int getIdDeLaReservation() {
+        return idDeLaReservation;
+    }
+
+    public void setIdDeLaReservation(int idDeLaReservation) {
+        this.idDeLaReservation = idDeLaReservation;
+    }
+
+    private int idDeLaReservation;
+
 
     private MainJFrame mainJFrame;
 
@@ -343,6 +353,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     reservation.setDate_fin(selectedEndDate);
                     reservation.setRemise(0.1f);
                     reservation.setIdUser(this.mainJFrame.getIdUtilisateur());
+                    idDeLaReservation = reservation.getId_reservation();
 
                     try {
                         processReservation(voiture, reservation);

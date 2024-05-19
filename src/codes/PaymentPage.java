@@ -45,8 +45,8 @@ public class PaymentPage extends JPanel implements ActionListener {
             VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
             ServicePaiementReservation serviceReservation = new ServicePaiementReservation(connection);
 
-            Reservation reservation = reservationDao.getReservation(5);
-            Voiture voiture = voitureDao.getVoiture(2);
+            Reservation reservation = reservationDao.getReservation(this.mainJFrame.getUneVoiture().getIdDeLaReservation());
+            Voiture voiture = voitureDao.getVoiture(this.mainJFrame.getIdVoitureAchetees());
 
             serviceReservation.effectuerPaiement(reservation, voiture);
 
@@ -350,6 +350,7 @@ public class PaymentPage extends JPanel implements ActionListener {
         this.prixParJour = this.mainJFrame.getShopPage().getPrix();
         prix = 360;
         prixParJour = prix * nbJour;
+        updatelabel();
 
 
         mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
