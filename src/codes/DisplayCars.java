@@ -423,12 +423,6 @@ public class DisplayCars {
                 break;
 
         }
-
-        System.out.println(types.getFirst());
-        System.out.println(types.getFirst());
-        System.out.println(types.getFirst());
-        System.out.println(types.getFirst());
-        System.out.println(types.getFirst());
     }
 
     public Image obtenirImage(byte[] imageData) throws IOException {
