@@ -395,9 +395,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
         reservationDao.addReservation(reservation);
-        LocalDate date1 = selectedStartDate.toLocalDate();
-        LocalDate date2 = selectedEndDate.toLocalDate();
-        this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
-        this.mainJFrame.getPaymentPage().resetMainContent(this.daysBetween, this.typeVehicle, this.prix);
+        //LocalDate date1 = selectedStartDate.toLocalDate();
+        //LocalDate date2 = selectedEndDate.toLocalDate();
+        //this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
+        this.mainJFrame.getPaymentPage().resetMainContent(5, this.typeVehicle, this.prix);
     }
 }
