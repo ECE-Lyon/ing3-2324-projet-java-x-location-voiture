@@ -10,5 +10,7 @@ public interface ReservationDao {
 
     Reservation getReservation(int id) throws SQLException;
 
+    int getLastReservationId() throws SQLException;
+
     List<Reservation> searchReservationForOneUser(int userId) throws SQLException;
 }

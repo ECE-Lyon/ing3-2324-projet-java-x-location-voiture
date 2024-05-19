@@ -29,9 +29,9 @@ public class ReservationDaoImpl implements ReservationDao{
             preparedStatement.setDate(1, reservation.getDate_debut());
             preparedStatement.setDate(2, reservation.getDate_fin());
             preparedStatement.setFloat(3, reservation.getRemise());
-            preparedStatement.setInt(4, reservation.getIdUser());
+            preparedStatement.setInt(4, reservation.getIdUser()+1);
             preparedStatement.setInt(5, reservation.getIdVoiture());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -67,6 +67,30 @@ public class ReservationDaoImpl implements ReservationDao{
         }
         return reservation;
     }
+
+    @Override
+    public int getLastReservationId() throws SQLException {
+        int lastReservationId = -1;
+        PreparedStatement preparedStatement;
+        try {
+            String query = "SELECT id FROM reservation ORDER BY id DESC LIMIT 1";
+            preparedStatement = connection.prepareStatement(query);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    lastReservationId = resultSet.getInt("id");
+                } else {
+                    throw new SQLException("No reservations found in the database.");
+                }
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return lastReservationId;
+    }
+
+
 
     @Override
     public List<Reservation> searchReservationForOneUser(int userId) throws SQLException {

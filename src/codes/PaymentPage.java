@@ -46,7 +46,9 @@ public class PaymentPage extends JPanel implements ActionListener {
             ServicePaiementReservation serviceReservation = new ServicePaiementReservation(connection);
 
             Reservation reservation = reservationDao.getReservation(this.mainJFrame.getUneVoiture().getIdDeLaReservation());
+            System.out.println("id reservation paiement" +this.mainJFrame.getUneVoiture().getIdDeLaReservation());
             Voiture voiture = voitureDao.getVoiture(this.mainJFrame.getIdVoitureAchetees());
+            System.out.println("id voiture réservé :" +this.mainJFrame.getIdVoitureAchetees());
 
             serviceReservation.effectuerPaiement(reservation, voiture);
 

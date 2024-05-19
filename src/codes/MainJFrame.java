@@ -34,7 +34,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private ClientInfosPage clientInfosPage;
 
 
-
     private UneVoiture uneVoiture;
 
     public PaymentPage getPaymentPage() {
@@ -47,23 +46,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     private PaymentPage paymentPage;
 
-
-
-
-
-
-
     Client client;
     UtilisateurDaoImpl utilisateurDao;
     Entreprise entreprise;
     Employe employe;
     Utilisateur utilisateur;
-
-
-
-
-
-
 
     private JPanel inscrConnecMainPanel = new JPanel();
 
@@ -121,7 +108,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
-        this.mesReservations = new MesReservations(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
+        this.mesReservations= new MesReservations(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
         this.modifyModelPage = new ModifyModelPage(this);
         this.employeeMainPage = new EmployeeMainPage(this);
         this.popularityPage = new PopularityPage(this);
