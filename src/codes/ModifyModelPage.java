@@ -371,62 +371,57 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog1.add(this.validateButton, constraints);
                 dialog1.setVisible(true);
                 break;
-            case  "GO DESTROY IT":
-                //tfId.getText();
-                //tfPrixParJour.getText();
+            case "GO DESTROY IT":
 
                 try {
-
                     VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
-                    voitureDao.deleteVoiture(Integer.parseInt(tfId.getText()));
-
+                    voitureDao.deleteVoiture(Integer.parseInt(tfId2.getText()));
                 } catch (SQLException er) {
                     er.printStackTrace();
                 }
 
-                /////// RECHERCHER LA VOITURE AVEC L ID INTEL ET LE PRIX INTEL (PAS SUR QUE LE PRIX SOIT NECESSAIRE)
                 dialog2.dispose();
                 break;
-            case "LETS CREATE IT" :
-                //tfId2.getText();
-                //tfPrixParJour2.getText();
+
+            case "LETS CREATE IT":
 
                 try {
-
                     VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
                     Voiture nouvelleVoiture = new Voiture();
-                    nouvelleVoiture.setPrix_par_jour(Float.parseFloat(tfPrixParJour2.getText()));
-                    nouvelleVoiture.setId_modele(Integer.parseInt(tfId2.getText()));
+                    nouvelleVoiture.setPrix_par_jour(Float.parseFloat(tfPrixParJour.getText()));
+                    nouvelleVoiture.setId_modele(Integer.parseInt(tfId.getText()));
                     voitureDao.addVoiture(nouvelleVoiture);
-
                 } catch (SQLException er) {
                     er.printStackTrace();
                 }
 
-                ///////////////////ICI ON RECUPERE IDmodel ET PRIX PAR JOUR ET ENSUITE IL FAUT AJOUTER A LA BDD UNE
-                // NOUVELLE VOITURE.
                 dialog1.dispose();
                 break;
             case "CREATE A MODEL":
                 String name = nameTf.getText();
                 String marque = marqueTf.getText();
-                //String selectedParent = (String) comboBox.getSelectedItem();
-                Type_voiture.Type selectedParent = Type_voiture.Type.valueOf((String) comboBox.getSelectedItem());
+                String selectedParentString = (String) comboBox.getSelectedItem();
+                Type_voiture.Type selectedParent;
 
                 try {
+                    selectedParent = Type_voiture.Type.valueOf(selectedParentString.toUpperCase());
+                } catch (IllegalArgumentException err) {
+                    // Affichez un message d'erreur ou gérez le cas
+                    JOptionPane.showMessageDialog(null, "Type de voiture invalide: " + selectedParentString);
+                    break;
+                }
 
+                try {
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
                     Type_voiture modele = new Type_voiture(-1, name, marque, selectedParent, null, null, null, null);
                     modeleDao.addModele(modele);
-
                 } catch (SQLException er) {
                     er.printStackTrace();
                 }
 
-                ///ON CREE LE NOUVEAU MODELE (sans les images)
-
                 dialog3.dispose();
                 break;
+
         }
     }
 

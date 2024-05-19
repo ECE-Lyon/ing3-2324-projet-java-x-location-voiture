@@ -57,8 +57,8 @@ public class DisplayCars {
                             byte[] imageData = resultSet.getBytes("image1");
                             byte[] imageData2 = resultSet.getBytes("image2");
                             byte[] imageData3 = resultSet.getBytes("image3");
-                            //Type_voiture.Type type = resultSet.getInt("type");
-                            //String description = resultSet.getInt("description");
+                            Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet.getString("type"));
+                            String description = resultSet.getString("description");
 
 
                             if (imageData != null && imageData.length > 0) {
@@ -66,7 +66,7 @@ public class DisplayCars {
                                 images1.add(toImageIcon(obtenirImage(imageData)));
                                 images2.add(toImageIcon(obtenirImage(imageData2)));
                                 images3.add(toImageIcon(obtenirImage(imageData3)));
-                                //types.add(type);
+                                types.add(type);
                             }
                         }
                     }
@@ -252,14 +252,6 @@ public class DisplayCars {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
                     String type = String.valueOf(Type_voiture.Type.SUV);
                     List<Type_voiture> modeles = modeleDao.searchType(type);
                     if (!modeles.isEmpty()) {
@@ -289,14 +281,6 @@ public class DisplayCars {
                 try {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
-
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
 
                     String type = String.valueOf(Type_voiture.Type.SPORT);
                     List<Type_voiture> modeles = modeleDao.searchType(type);
@@ -329,14 +313,6 @@ public class DisplayCars {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
-                    Set<String> marques = modeleDao.searchAllMarques();
-
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
-                    }
-
                     String type = String.valueOf(Type_voiture.Type.LIMOUSINE);
                     List<Type_voiture> modeles = modeleDao.searchType(type);
                     if (!modeles.isEmpty()) {
@@ -368,15 +344,39 @@ public class DisplayCars {
 
                     Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
 
-                    Set<String> marques = modeleDao.searchAllMarques();
+                    String type = String.valueOf(Type_voiture.Type.PICK_UP);
+                    List<Type_voiture> modeles = modeleDao.searchType(type);
+                    if (!modeles.isEmpty()) {
+                        System.out.println("Modèles trouvés :");
+                        for (Type_voiture modele : modeles) {
+                            if (modele.getImage1() != null && modele.getImage1().length > 0) {
+                                id.add(modele.getId_type_voiture());
+                                images1.add(toImageIcon(obtenirImage(modele.getImage1())));
+                                images2.add(toImageIcon(obtenirImage(modele.getImage2())));
+                                images3.add(toImageIcon(obtenirImage(modele.getImage3())));
+                                description.add(modele.getDescription());
 
-                    // Afficher les marques disponibles
-                    System.out.println("Marques de voiture disponibles :");
-                    for (String marque : marques) {
-                        System.out.println("- " + marque);
+                            }
+                            // Ajoutez d'autres informations si nécessaire
+                        }
+                    } else {
+                        System.out.println("Aucun modèle trouvé pour la marque spécifiée.");
                     }
 
-                    String type = String.valueOf(Type_voiture.Type.PICK_UP);
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                break;
+            case "Break":
+
+                try {
+
+                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
+
+                    String type = String.valueOf(Type_voiture.Type.BREAK);
                     List<Type_voiture> modeles = modeleDao.searchType(type);
                     if (!modeles.isEmpty()) {
                         System.out.println("Modèles trouvés :");

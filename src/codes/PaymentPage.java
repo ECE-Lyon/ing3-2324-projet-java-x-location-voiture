@@ -2,8 +2,11 @@ package codes;
 
 import codes.dao.Mysql;
 import codes.dao.ReservationDaoImpl;
+import codes.dao.UtilisateurDaoImpl;
 import codes.dao.VoitureDaoImpl;
+import codes.model.Client;
 import codes.model.Reservation;
+import codes.model.Utilisateur;
 import codes.model.Voiture;
 import codes.services.ServicePaiementReservation;
 
@@ -35,6 +38,7 @@ public class PaymentPage extends JPanel implements ActionListener {
     public void payer (){
         try {
 
+            UtilisateurDaoImpl dao = new UtilisateurDaoImpl(connection);
             ReservationDaoImpl reservationDao = new ReservationDaoImpl(connection);
             VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
             ServicePaiementReservation serviceReservation = new ServicePaiementReservation(connection);
@@ -43,6 +47,9 @@ public class PaymentPage extends JPanel implements ActionListener {
             Voiture voiture = voitureDao.getVoiture(2);
 
             serviceReservation.effectuerPaiement(reservation, voiture);
+
+            codes.model.Client client = (Client) this.mainJFrame.getUtilisateur();
+            dao.updateStatutClient(client);
 
             System.out.println("Paiement effectué avec succès !");
 

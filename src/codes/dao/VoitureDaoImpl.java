@@ -38,7 +38,7 @@ public class VoitureDaoImpl implements VoitureDao {
         PreparedStatement preparedStatement = null;
 
         try {
-            String query = "DELETE FROM voiture WHERE id_voiture = ?";
+            String query = "DELETE FROM voiture WHERE id = ?";
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, idVoiture);
             preparedStatement.executeUpdate();
