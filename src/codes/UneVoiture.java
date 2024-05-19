@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 //import java.util.Date;
 
@@ -37,6 +39,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private Date selectedEndDate;
     private boolean selectingStartDate = false;
     private boolean selectingEndDate = false;
+    private int daysBetween;
     private JComboBox<String> startTimeComboBox;
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
@@ -50,6 +53,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private int id;
     private JDialog dialog = new JDialog();
     private JDialog dialog1 = new JDialog();
+    private String typeVehicle = new String();
 
 
 
@@ -57,7 +61,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
     private JLabel areUSureLabel = new JLabel("Vous devez être connecté pour continuer.");
-    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix, String typeVehicle) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
@@ -66,6 +70,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.id = id;
         this.description = desc;
         this.prix = prix;
+        this.typeVehicle = typeVehicle;
         this.connection = Mysql.openConnection();
 
 
@@ -358,13 +363,14 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     }
 
-    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix) {
+    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix, String typeVehicle) {
         mainJFrame.getFrame().getContentPane().removeAll();
         this.images.clear();
         this.images.add(image[0]);
         this.images.add(image[1]);
         this.images.add(image[2]);
 
+        this.typeVehicle = typeVehicle;
         this.id = id;
         this.description = desc;
         this.prix = prix;
@@ -390,5 +396,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
         reservationDao.addReservation(reservation);
+        LocalDate date1 = selectedStartDate.toLocalDate();
+        LocalDate date2 = selectedEndDate.toLocalDate();
+        this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
+        this.mainJFrame.getPaymentPage().resetMainContent(this.daysBetween, this.typeVehicle, this.prix);
     }
 }

@@ -486,12 +486,12 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         img[2] = imagesArrayList3.get(carId-1);
         if(this.mainJFrame.getUneVoiture() == null){
             try {
-                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId-1), img, description, prix));
+                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId-1), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId-1))));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else {
-            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(1), img, description, prix);
+            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId-1), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId-1)));
         }
     }
 

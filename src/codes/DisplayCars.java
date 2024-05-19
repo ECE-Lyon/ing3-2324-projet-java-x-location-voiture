@@ -74,11 +74,6 @@ public class DisplayCars {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la récupération des images des voitures.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
-
-
-
-
-
                 break;
             case "BMW":
                 try {
@@ -454,5 +449,13 @@ public class DisplayCars {
     public ImageIcon toImageIcon(Image img) {
         ImageIcon imgI = new ImageIcon(img);
         return imgI;
+    }
+
+    public ArrayList<Type_voiture.Type> getTypes() {
+        return types;
+    }
+
+    public void setTypes(ArrayList<Type_voiture.Type> types) {
+        this.types = types;
     }
 }

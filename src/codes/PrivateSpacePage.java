@@ -71,7 +71,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private final JLabel newFirstNameLabel = new JLabel("Saisir le nouveau prénom : ");
     private final JLabel newEmailLabel = new JLabel("Saisir le nouvel email : ");
     private final JLabel newPasswordLabel = new JLabel("Saisir le nouveau mot de passe : ");
-    private final JLabel newSiretLabel = new JLabel("Saisir le nouveau mot de passe : ");
+    private final JLabel newSiretLabel = new JLabel("Saisir le nouveau siret : ");
     private final JTextField newNameTF = new JTextField();
     private final JTextField newFirstNameTF = new JTextField();
     private final JTextField newEmailTF = new JTextField();
