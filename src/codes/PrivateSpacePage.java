@@ -52,15 +52,10 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
     private int windowSizeWidth = GlobalVariable.getScreenWidth();
     private int windowSizeHeight = GlobalVariable.getScreenHeight();
-    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
+    private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth / 3, windowSizeHeight / 10);
 
     private int fontSizeLM = 36;
     private Font font1 = new Font("Arial", Font.PLAIN, fontSizeLM);
-
-
-
-
-
 
 
     /////////////////////////// LE SHOP ///////////////////////////////
@@ -105,7 +100,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
         this.connection = Mysql.openConnection();
 
-        if(this.isCompany){
+        if (this.isCompany) {
             localNameEntreprise = this.mainJFrame.getCompanyName();
             localSiret = this.mainJFrame.getSiret();
             name = new JLabel(localNameEntreprise);
@@ -129,7 +124,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
         this.mainPanel.setLayout(gridBagLayout);
         this.topPanel.setLayout(gridBagLayout);
         this.botPanel.setLayout(gridBagLayout);
@@ -150,7 +144,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.constraints2.anchor = GridBagConstraints.NORTHEAST;
 
 
-
         backButton.setActionCommand("BACK TO SHOP");
         backButton.addActionListener(this);
         this.topPanel.add(backButton, constraints2);
@@ -158,7 +151,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.constraints1.gridy = 1;
         this.constraints1.anchor = GridBagConstraints.CENTER;
         this.topPanel.add(legendaryMotorsportPanel, constraints1);
-
 
 
         this.constraints3.gridx = 0;
@@ -204,9 +196,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.infoPanel.add(modify4, constraints3);
 
 
-
-
-
         this.constraints4.gridx = 0;
         this.constraints4.gridy = 0;
         this.constraints4.anchor = GridBagConstraints.CENTER;
@@ -222,7 +211,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.mainPanel.add(this.topPanel, constraints5);
         this.constraints5.gridy = 1;
         this.mainPanel.add(this.botPanel, constraints5);
-
 
 
         this.add(mainPanel, BorderLayout.CENTER);
@@ -242,8 +230,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         mainJFrame.getFrame().repaint();
     }
 
-    public void updateLocal(){
-        if(this.isCompany){
+    public void updateLocal() {
+        if (this.isCompany) {
             localNameEntreprise = this.mainJFrame.getCompanyName();
             localSiret = this.mainJFrame.getSiret();
         } else {
@@ -255,8 +243,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         updateInfo();
     }
 
-    public void updateInfo(){
-        if(this.isCompany){
+    public void updateInfo() {
+        if (this.isCompany) {
             name.setText(this.localNameEntreprise);
             firstNameOrSiret.setText(String.valueOf(localSiret));
         } else {
@@ -267,8 +255,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         password.setText(this.localPassword);
     }
 
-    public void differentIfIsCompany (){
-        if (!this.isCompany){
+    public void differentIfIsCompany() {
+        if (!this.isCompany) {
             newNameLabel.setText("Saisir le nouveau nom de l'entreprise : ");
             newFirstNameLabel.setText("Saisir le nouveau SIRET : ");
         } else {
@@ -281,11 +269,11 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "BACK TO SHOP" :
+            case "BACK TO SHOP":
                 updateLocal();
                 this.shopPage.resetMainContent();
                 break;
-            case "NAME" :
+            case "NAME":
                 dialog1.setSize(300, 200);
                 this.newNameTF.setColumns(20);
                 dialog1.setLayout(gridBagLayout);
@@ -301,7 +289,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 dialog1.add(this.validateButton1, constraints6);
                 dialog1.setVisible(true);
                 break;
-            case "FIRSTNAME" :
+            case "FIRSTNAME":
                 dialog2.setSize(300, 200);
                 this.newFirstNameTF.setColumns(20);
                 dialog2.setLayout(gridBagLayout);
@@ -317,7 +305,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 dialog2.add(this.validateButton2, constraints7);
                 dialog2.setVisible(true);
                 break;
-            case "EMAIL" :
+            case "EMAIL":
                 dialog3.setSize(300, 200);
                 this.newEmailTF.setColumns(20);
                 dialog3.setLayout(gridBagLayout);
@@ -333,7 +321,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 dialog3.add(this.validateButton3, constraints8);
                 dialog3.setVisible(true);
                 break;
-            case "PASSWORD" :
+            case "PASSWORD":
                 dialog4.setSize(300, 200);
                 this.newPasswordTF.setColumns(20);
                 dialog4.setLayout(gridBagLayout);
@@ -349,23 +337,31 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 dialog4.add(this.validateButton4, constraints9);
                 dialog4.setVisible(true);
                 break;
-            case "EXIT DIALOG" :
-                if(dialog1.isActive()){
-                    this.localName = newNameTF.getText();
+            case "EXIT DIALOG":
+                if (dialog1.isActive()) {
+                    if (this.isCompany) {
+                        this.localNameEntreprise = newNameTF.getText();
+                    } else {
+                        this.localName = newNameTF.getText();
+                    }
                     dialog1.dispose();
-                } else if(dialog2.isActive()){
-                    this.localFirstName = newFirstNameTF.getText();
+                } else if (dialog2.isActive()) {
+                    if (this.isCompany) {
+                        this.localSiret = Long.parseLong(newFirstNameTF.getText());
+                    } else {
+                        this.localFirstName = newFirstNameTF.getText();
+                    }
                     dialog2.dispose();
-                } else if(dialog3.isActive()){
+                } else if (dialog3.isActive()) {
                     this.localEmail = newEmailTF.getText();
                     dialog3.dispose();
-                }else if(dialog4.isActive()){
+                } else if (dialog4.isActive()) {
                     this.localPassword = newPasswordTF.getText();
                     dialog4.dispose();
                 }
                 updateInfo();
                 break;
-            case "APPLY" :
+            case "APPLY":
                 if (!this.isCompany) {
                     try {
 
