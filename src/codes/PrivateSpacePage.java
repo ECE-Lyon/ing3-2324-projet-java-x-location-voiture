@@ -369,13 +369,22 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                         String newFirstNameClient = localFirstName;
                         String newEmailClient = localEmail;
                         String newPasswordClient = localPassword;
+                        long newSiret = localSiret;
+                        String newNomEntrepriseClient = localNameEntreprise;
 
                         updateInfo();
-
-                        if (mainJFrame.getClient() == null) {
-                            mainJFrame.initializeClient(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                        if (this.isCompany) {
+                            if (mainJFrame.getClient() == null) {
+                                mainJFrame.initializeEntreprise(newNomEntrepriseClient, newSiret, newEmailClient, newPasswordClient);
+                            } else {
+                                mainJFrame.updateEntrepriseInformation(newNomEntrepriseClient, newSiret, newEmailClient, newPasswordClient);
+                            }
                         } else {
-                            mainJFrame.updateClientInformation(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                            if (mainJFrame.getClient() == null) {
+                                mainJFrame.initializeClient(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                            } else {
+                                mainJFrame.updateClientInformation(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                            }
                         }
 
                         mainJFrame.getUtilisateurDao().updateClient(mainJFrame.getClient(), mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
@@ -384,6 +393,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                         mainJFrame.setFirstName(newFirstNameClient);
                         mainJFrame.setEmail(newEmailClient);
                         mainJFrame.setPassword(newPasswordClient);
+                        mainJFrame.setSiret(newSiret);
+                        mainJFrame.setCompanyName(newNomEntrepriseClient);
 
                         shopPage.resetMainContent();
 
