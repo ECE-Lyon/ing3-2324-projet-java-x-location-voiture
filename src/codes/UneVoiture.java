@@ -377,9 +377,9 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.images.add(image[1]);
         this.images.add(image[2]);
 
-        this.typeVehicle = typeVehicle;
+        //this.typeVehicle = typeVehicle;
         this.id = id;
-        this.description = desc;
+        //this.description = desc;
         this.prix = prix;
 
 
@@ -393,16 +393,22 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
         // Récupérer l'ID de la voiture
         VoitureDao voitureDao = new VoitureDaoImpl(connection);
-        System.out.println("7777777");
+        System.out.println("1");
         ReservationDao reservationDao = new ReservationDaoImpl(connection);
+        System.out.println("2");
         int idVoiture = voitureDao.getIdVoiture(voiture);
+        System.out.println("3");
 
         // Modifier le statut de la voiture
+        System.out.println("4");
         voiture.setId_voiture(idVoiture);
+        System.out.println("5");
         voitureDao.modifVoiture(voiture);
+        System.out.println("6");
 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
+        System.out.println("7");
         reservationDao.addReservation(reservation);
         //LocalDate date1 = selectedStartDate.toLocalDate();
         //LocalDate date2 = selectedEndDate.toLocalDate();
