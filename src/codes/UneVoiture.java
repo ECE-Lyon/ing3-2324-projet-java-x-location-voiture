@@ -422,17 +422,13 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         ReservationDao reservationDao = new ReservationDaoImpl(connection);
         int idVoiture = voitureDao.getIdVoiture(voiture);
 
-        int idReservation = reservationDao.getLastReservationId();
-
         // Modifier le statut de la voiture
         voiture.setId_voiture(idVoiture);
         voitureDao.modifVoiture(voiture);
 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
-        reservation.setId_reservation(idReservation);
         reservationDao.addReservation(reservation);
-        reservation.setId_reservation(idResa);
 
         LocalDate date1 = selectedStartDate.toLocalDate();
         LocalDate date2 = selectedEndDate.toLocalDate();
