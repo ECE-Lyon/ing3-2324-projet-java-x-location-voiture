@@ -63,7 +63,7 @@ public class DisplayCars {
         this.types.clear();
         switch (this.mainJFrame.getFilter()) {
             case "No filter":
-                try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3, type, description FROM modele")) {
+                try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3, type FROM modele")) {
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
                             int carId = resultSet.getInt("id");
@@ -71,7 +71,6 @@ public class DisplayCars {
                             byte[] imageData2 = resultSet.getBytes("image2");
                             byte[] imageData3 = resultSet.getBytes("image3");
                             Type_voiture.Type type = Type_voiture.Type.valueOf(resultSet.getString("type"));
-                            String description = resultSet.getString("description");
 
 
                             if (imageData != null && imageData.length > 0) {
