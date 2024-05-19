@@ -1,8 +1,6 @@
 package codes;
 
 import codes.dao.Mysql;
-import codes.dao.UtilisateurDaoImpl;
-import codes.model.Client;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +26,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private final JButton modify4 = new JButton("Modifier");
     private final JButton validate = new JButton("Valider");
     private JLabel name;
-    private JLabel firstName;
+    private JLabel firstNameOrSiret;
     private JLabel email;
     private JLabel password;
 
@@ -107,16 +105,23 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
         this.connection = Mysql.openConnection();
 
-        localName = this.mainJFrame.getName();
-        localFirstName = this.mainJFrame.getFirstName();
+        if(this.isCompany){
+            localNameEntreprise = this.mainJFrame.getCompanyName();
+            localSiret = this.mainJFrame.getSiret();
+            name = new JLabel(localNameEntreprise);
+            firstNameOrSiret = new JLabel((String.valueOf(localSiret)));
+        } else {
+            localName = this.mainJFrame.getName();
+            localFirstName = this.mainJFrame.getFirstName();
+            name = new JLabel(localName);
+            firstNameOrSiret = new JLabel(localFirstName);
+        }
         localEmail = this.mainJFrame.getEmail();
         localPassword = this.mainJFrame.getPassword();
 
-
         this.setLayout(new BorderLayout());
 
-        name = new JLabel(localName);
-        firstName = new JLabel(localFirstName);
+
         email = new JLabel(localEmail);
         password = new JLabel(localPassword);
 
@@ -162,7 +167,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
         this.infoPanel.add(name, constraints3);
         this.constraints3.gridy = 1;
-        this.infoPanel.add(firstName, constraints3);
+        this.infoPanel.add(firstNameOrSiret, constraints3);
         this.constraints3.gridy = 2;
         this.infoPanel.add(email, constraints3);
         this.constraints3.gridy = 3;
@@ -173,7 +178,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         this.constraints3.gridy = 0;
         this.infoPanel.add(name, constraints3);
         this.constraints3.gridy = 1;
-        this.infoPanel.add(firstName, constraints3);
+        this.infoPanel.add(firstNameOrSiret, constraints3);
         this.constraints3.gridy = 2;
         this.infoPanel.add(email, constraints3);
         this.constraints3.gridy = 3;
@@ -228,7 +233,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
         updateLocal();
-        differentIfIsCompany();
 
 
         // Réinitialisez le contenu principal ici :
@@ -239,22 +243,28 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     }
 
     public void updateLocal(){
-        this.localName = this.mainJFrame.getName();
-        this.localFirstName = this.mainJFrame.getFirstName();
-        this.localEmail = this.mainJFrame.getEmail();
-        this.localPassword = this.mainJFrame.getPassword();
+        if(this.isCompany){
+            localNameEntreprise = this.mainJFrame.getCompanyName();
+            localSiret = this.mainJFrame.getSiret();
+        } else {
+            localName = this.mainJFrame.getName();
+            localFirstName = this.mainJFrame.getFirstName();
+        }
+        localEmail = this.mainJFrame.getEmail();
+        localPassword = this.mainJFrame.getPassword();
         updateInfo();
     }
 
     public void updateInfo(){
         if(this.isCompany){
-
+            name.setText(this.localNameEntreprise);
+            firstNameOrSiret.setText(String.valueOf(localSiret));
         } else {
             name.setText(this.localName);
-            firstName.setText(this.localFirstName);
-            email.setText(this.localEmail);
-            password.setText(this.localPassword);
+            firstNameOrSiret.setText(this.localFirstName);
         }
+        email.setText(this.localEmail);
+        password.setText(this.localPassword);
     }
 
     public void differentIfIsCompany (){

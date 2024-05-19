@@ -87,7 +87,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private String firstName;
     private String email;
     private String password;
-    private long Siret;
+    private long siret;
     private String companyName;
 
 
@@ -431,11 +431,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     }
 
     public long getSiret() {
-        return Siret;
+        return siret;
     }
 
     public void setSiret(long siret) {
-        Siret = siret;
+        this.siret = siret;
     }
 
     public void initializeEntreprise(String name, long siret, String email, String password) {

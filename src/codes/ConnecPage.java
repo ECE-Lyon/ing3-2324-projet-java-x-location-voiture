@@ -271,11 +271,12 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                                 this.mainJFrame.getModifyModelPage().resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire
                             } else if (this.mainJFrame.getUtilisateur() instanceof Entreprise) {
-                                System.out.println("Informations de l'entreprise :");
                                 Entreprise entreprise = (Entreprise) this.mainJFrame.getUtilisateur();
                                 this.mainJFrame.setEntreprise(entreprise);
-                                System.out.println("Nom : " + entreprise.getNom_entreprise());
-                                System.out.println("Siret : " + entreprise.getSiret());
+                                this.mainJFrame.setSiret(entreprise.getSiret());
+                                this.mainJFrame.setPassword(entreprise.getMdp());
+                                this.mainJFrame.setCompanyName(entreprise.getNom_entreprise());
+                                this.mainJFrame.setEmail(entreprise.getEmail());
                                 this.mainJFrame.setConnected(true);
                                 this.mainJFrame.setIdUtilisateur(entreprise.getId_utilisateur());
                                 this.mainJFrame.getPrivateSpacePage().setCompany(true);
