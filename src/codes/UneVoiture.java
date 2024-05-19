@@ -37,7 +37,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private Date selectedEndDate;
     private boolean selectingStartDate = false;
     private boolean selectingEndDate = false;
-    private int daysBetween;
     private JComboBox<String> startTimeComboBox;
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
@@ -47,10 +46,10 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     JPanel mainPanel = new JPanel(new BorderLayout());
     private String description;
-    private int prix = 100;
+    private int prix;
     private int id;
     private JDialog dialog = new JDialog();
-    private String typeVehicle;
+    private JDialog dialog1 = new JDialog();
 
 
 
@@ -58,7 +57,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
     private JLabel areUSureLabel = new JLabel("Vous devez être connecté pour continuer.");
-    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix, String typeVehicle) throws SQLException {
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
@@ -67,7 +66,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.id = id;
         this.description = desc;
         this.prix = prix;
-        this.typeVehicle = typeVehicle;
         this.connection = Mysql.openConnection();
 
 
@@ -319,24 +317,14 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     this.mainJFrame.addToIdVoitureAchetees(id);
 
                     Voiture voiture = new Voiture();
-                    System.out.println("1");
-
-
-
-
-
-
                     voiture.setId_modele(id);
                     Reservation reservation = new Reservation();
                     reservation.setDate_debut(selectedStartDate);
                     reservation.setDate_fin(selectedEndDate);
-                    System.out.println("2");
                     reservation.setRemise(0.1f);
                     reservation.setIdUser(this.mainJFrame.getIdUtilisateur());
-                    System.out.println("3");
 
                     try {
-                        System.out.println("77777777");
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
                     } catch (SQLException er) {
@@ -370,16 +358,15 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     }
 
-    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix, String typeVehicle) {
+    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix) {
         mainJFrame.getFrame().getContentPane().removeAll();
         this.images.clear();
         this.images.add(image[0]);
         this.images.add(image[1]);
         this.images.add(image[2]);
 
-        //this.typeVehicle = typeVehicle;
         this.id = id;
-        //this.description = desc;
+        this.description = desc;
         this.prix = prix;
 
 
@@ -393,27 +380,15 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
         // Récupérer l'ID de la voiture
         VoitureDao voitureDao = new VoitureDaoImpl(connection);
-        System.out.println("1");
         ReservationDao reservationDao = new ReservationDaoImpl(connection);
-        System.out.println("2");
         int idVoiture = voitureDao.getIdVoiture(voiture);
-        System.out.println("3");
 
         // Modifier le statut de la voiture
-        System.out.println("4");
         voiture.setId_voiture(idVoiture);
-        System.out.println("5");
         voitureDao.modifVoiture(voiture);
-        System.out.println("6");
 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
-        System.out.println("7");
         reservationDao.addReservation(reservation);
-        //LocalDate date1 = selectedStartDate.toLocalDate();
-        //LocalDate date2 = selectedEndDate.toLocalDate();
-        //this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
-        System.out.println("777777777");
-        this.mainJFrame.getPaymentPage().resetMainContent(5, "break", this.prix);
     }
 }

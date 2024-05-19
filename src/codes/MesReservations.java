@@ -61,7 +61,7 @@ public class MesReservations extends JPanel implements ActionListener, MouseList
     private JDialog dialog = new JDialog();
 
 
-    public MesReservations(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
+    public MesReservations (MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.connecPage = connecPage;
         this.inscrPage = inscrPage;
