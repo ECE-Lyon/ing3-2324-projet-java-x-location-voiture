@@ -155,6 +155,12 @@ public class MesReservations extends JPanel implements ActionListener, MouseList
             er.printStackTrace();
         }
 
+        constraintsBot.gridy++;
+        this.botPanel.add(table, constraintsBot);
+        constraintsBot.gridy++;
+        accessToPaymentPage.setActionCommand("ACCESS TO PAYMENT");
+        accessToPaymentPage.addActionListener(this);
+        this.botPanel.add(accessToPaymentPage, constraintsBot);
 
         constraintsBot.gridy++;
         supprAReservation.setActionCommand("SUPPRIMER UN ARTICLE");
