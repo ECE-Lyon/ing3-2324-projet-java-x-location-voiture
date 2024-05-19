@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.Serial;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class MainJFrame extends JFrame implements WindowListener, ComponentListener {
 
@@ -27,7 +26,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private ConnecPage connecPage;
     private ShopPage shopPage;
     private PrivateSpacePage privateSpacePage;
-    private BasketPage basketPage;
+    private MesReservations mesReservations;
     private DisplayCars displayCars;
     private ModifyModelPage modifyModelPage;
     private EmployeeMainPage employeeMainPage;
@@ -100,7 +99,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-    private ArrayList<Integer> idVoitureAchetees = new ArrayList<>();
+    private int idVoitureAchetees;
 
 
     private boolean connectedState = false;
@@ -122,7 +121,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.inscrPage = new InscrPage(this, this.shopPage,this.inscrConnecPage);
         this.connecPage = new ConnecPage(this, this.shopPage,this.inscrConnecPage,this.inscrPage);
         this.privateSpacePage = new PrivateSpacePage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage);
-        this.basketPage = new BasketPage(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
+        this.mesReservations = new MesReservations(this, this.connecPage, this.inscrPage, this.inscrConnecPage, this.shopPage, this.privateSpacePage);
         this.modifyModelPage = new ModifyModelPage(this);
         this.employeeMainPage = new EmployeeMainPage(this);
         this.popularityPage = new PopularityPage(this);
@@ -247,12 +246,12 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         connectedState = connected;
     }
 
-    public BasketPage getBasketPage() {
-        return basketPage;
+    public MesReservations getMesReservations() {
+        return mesReservations;
     }
 
-    public void setBasketPage(BasketPage basketPage) {
-        this.basketPage = basketPage;
+    public void setMesReservations(MesReservations mesReservations) {
+        this.mesReservations = mesReservations;
     }
 
     public DisplayCars getDisplayCars() {
@@ -465,16 +464,16 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.uneVoiture = uneVoiture;
     }
 
-    public ArrayList<Integer> getIdVoitureAchetees() {
+    public int getIdVoitureAchetees() {
         return idVoitureAchetees;
     }
 
-    public void setIdVoitureAchetees(ArrayList<Integer> idVoitureAchetees) {
+    public void setIdVoitureAchetees(int idVoitureAchetees) {
         this.idVoitureAchetees = idVoitureAchetees;
     }
 
     public void addToIdVoitureAchetees(int i){
-        this.idVoitureAchetees.add(i);
+        this.idVoitureAchetees = i;
     }
 
 }

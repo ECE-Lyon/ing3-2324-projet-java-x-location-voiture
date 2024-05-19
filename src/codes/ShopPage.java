@@ -1,9 +1,5 @@
 package codes;
 
-import codes.UneVoiture;
-import codes.dao.Type_voitureDaoImpl;
-import codes.model.Type_voiture;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +9,7 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
@@ -58,7 +52,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JButton connexionButtonShop = new JButton("Identifiez-vous !");
     private JButton mySpaceButtonShop = new JButton("Mon espace personnel");
     private JButton disconnectButton = new JButton("Se déconnecter");
-    private JButton myBasketButton = new JButton("Voir mon panier");
+    private JButton myBasketButton = new JButton("Voir mes réservations");
 
 
     private JDialog dialog = new JDialog(mainJFrame);
@@ -144,49 +138,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.topPanelShop.add(legendaryMotorsportPanel4, constraintsTop);
 
 
-        /////////////////////////////////       BAS DE LA PAGE      ///////////////////////////////////////
-        //// Faut ajouter une description a chaque truc
-        /*int k = 0;
-        this.constraints7.gridy = 0;
-        constraints7.anchor = GridBagConstraints.CENTER;
-        constraints7.fill = GridBagConstraints.BOTH;
-        constraints9.gridx = 0;
-        constraints9.gridy = 0;
-        constraints9.anchor = GridBagConstraints.CENTER;
-        constraints9.fill = GridBagConstraints.BOTH;
-        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
-            this.constraints7.gridy = i;
-            constraints9.gridy = i;
-            for (int j = 0; j < 3; j++) {
-                if (k == numberOfRentableCars) {
-                    break;
-                }
-                constraints9.gridx = i;
-                constraints7.gridx = j;
-
-                constraints9.gridy = 0;
-                rentableCarsPanelShop[k].add(imagesCarsLabelShop[k], constraints9);
-                constraints9.gridy = 1;
-                rentableCarsPanelShop[k].add(descriptionShop[k], constraints9);
-                k++;
-
-            }
-
-        }
-        k = 0;
-        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
-            this.constraints7.gridy = i;
-            this.constraints7.ipadx = 150;
-            this.constraints7.ipady = 10;
-            for (int j = 0; j < 3; j++) {
-                if (k == numberOfRentableCars) {
-                    break;
-                }
-                constraints7.gridx = j;
-                botPanelShop.add(rentableCarsPanelShop[k], constraints7);
-                k++;
-            }
-        }*/
 
         updateDisplay();
 
@@ -381,7 +332,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 mainJFrame.getPrivateSpacePage().resetMainContent();
                 break;
             case "MY BASKET":
-                mainJFrame.getBasketPage().resetMainContent();
+                mainJFrame.getMesReservations().resetMainContent();
                 break;
             case "DISCONNECT":
                 dialog.setSize(300, 100);
