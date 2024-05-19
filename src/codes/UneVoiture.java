@@ -81,6 +81,16 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     private long daysBetween;
 
+    public int getIdResa() {
+        return idResa;
+    }
+
+    public void setIdResa(int idResa) {
+        this.idResa = idResa;
+    }
+
+    private int idResa;
+
 
 
     private Connection connection;
@@ -358,6 +368,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     try {
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
+                        idResa = reservation.getId_reservation();
                     } catch (SQLException er) {
                         er.printStackTrace();
                     }
@@ -422,6 +433,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
         reservationDao.addReservation(reservation);
+        reservation.setId_reservation(idResa);
 
         LocalDate date1 = selectedStartDate.toLocalDate();
         LocalDate date2 = selectedEndDate.toLocalDate();

@@ -168,6 +168,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(typeVoiture.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(typeVoiture.getImage3())));
                                 description.add(typeVoiture.getDescription());
+                                types.add(typeVoiture.getType());
                             }
 
                             if (voiture != null) {
@@ -208,6 +209,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(typeVoiture.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(typeVoiture.getImage3())));
                                 description.add(typeVoiture.getDescription());
+                                types.add(typeVoiture.getType());
                             }
 
                             if (voiture != null) {
@@ -422,6 +424,12 @@ public class DisplayCars {
                 break;
 
         }
+
+        System.out.println(types.getFirst());
+        System.out.println(types.getFirst());
+        System.out.println(types.getFirst());
+        System.out.println(types.getFirst());
+        System.out.println(types.getFirst());
     }
 
     public Image obtenirImage(byte[] imageData) throws IOException {
