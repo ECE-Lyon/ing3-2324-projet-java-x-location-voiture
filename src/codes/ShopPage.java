@@ -1,7 +1,4 @@
 package codes;
-
-import codes.model.Type_voiture;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,13 +9,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
-
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
-
-
     private MainJFrame mainJFrame;
     private InscrConnecPage inscrConnecPage;
-
     private final GridBagLayout gridBagLayout = new GridBagLayout();
     private final GridBagConstraints constraintsTop = new GridBagConstraints();
     private final GridBagConstraints constraints6 = new GridBagConstraints();
@@ -27,20 +20,13 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private final GridBagConstraints constraints9 = new GridBagConstraints();
     private final GridBagConstraints constraints10 = new GridBagConstraints();
     private final GridBagConstraints constraints11 = new GridBagConstraints();
-
-
     private JLabel legendaryMotorsportLabel4 = new JLabel("LEGENDARY MOTORSPORT");
-
     private JPanel legendaryMotorsportPanel4 = new JPanel();
-
     private int windowSizeWidth = GlobalVariable.getScreenWidth();
     private int windowSizeHeight = GlobalVariable.getScreenHeight();
     private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth / 3, windowSizeHeight / 10);
-
     private int fontSizeLM = 36;
     private Font font1 = new Font("Arial", Font.PLAIN, fontSizeLM);
-
-
     /////////////////////////// LE SHOP ///////////////////////////////
     private int numberOfRentableCars = 50;
     private JPanel mainPanelShop = new JPanel();
@@ -55,134 +41,84 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JButton mySpaceButtonShop = new JButton("Mon espace personnel");
     private JButton disconnectButton = new JButton("Se déconnecter");
     private JButton myBasketButton = new JButton("Voir mes réservations");
-
-
     private JDialog dialog = new JDialog(mainJFrame);
-
-
     private final JLabel areUSureLabel = new JLabel("Etes vous sur de vouloir vous déconnecter ?");
-
     private final JButton validateButton = new JButton("Valider");
-
     private ArrayList<ImageIcon> imagesArrayList1 = new ArrayList<>();
     private ArrayList<ImageIcon> imagesArrayList2 = new ArrayList<>();
     private ArrayList<ImageIcon> imagesArrayList3 = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
-    private ArrayList<String> description = new ArrayList<>();
-    private ArrayList<Type_voiture.Type> type = new ArrayList<>();
+    private String description;
     private int prix;
-
     private JButton addFilterButton = new JButton("Ajouter un filtre");
     private JDialog dialogFilters = new JDialog(mainJFrame);
     private JButton validateFilterButton = new JButton("Filtrer");
-
     private JComboBox<String> parentComboBox;
     private JComboBox<String> childComboBox;
     private JComboBox<String> childComboBox2;
-
-
     private Connection connection;
-
     public ShopPage(MainJFrame mainFrame) {
-
-
         this.mainJFrame = mainFrame;
         this.setLayout(new BorderLayout());
-
         this.connection = connection;
-
         parentComboBox = new JComboBox<>();
         childComboBox = new JComboBox<>();
         childComboBox2 = new JComboBox<>();
-
         setupUI();
-
         ////////////////////////////////////////// INITIALISATION DES TABLEAUX /////////////////////////////////////////
-
-
         updateDisplay();
-
-
-
-
-
         this.mainPanelShop.setLayout(new BorderLayout());
         this.topPanelShop.setLayout(gridBagLayout);
         this.botPanelShop.setLayout(gridBagLayout);
         this.topAndBotPanelShop.setLayout(gridBagLayout);
         this.topAndBotPanelShop.setBackground(Color.white);
-
-
         for (int i = 0; i < numberOfRentableCars; i++) {
             this.rentableCarsPanelShop[i].setLayout(gridBagLayout);
         }
-
-
         ///////////////////////////// LE TOP :
         this.legendaryMotorsportLabel4.setOpaque(true);
         this.legendaryMotorsportLabel4.setForeground(Color.MAGENTA);
         this.legendaryMotorsportLabel4.setFont(font1);
         this.legendaryMotorsportPanel4.add(this.legendaryMotorsportLabel4);
         this.legendaryMotorsportPanel4.setPreferredSize(dimensionLegendaryMotorsportPanel);
-
-
         this.constraintsTop.gridx = 0;
         this.constraintsTop.gridy = 0;
         this.constraintsTop.anchor = GridBagConstraints.NORTHWEST;
-
-
         updateButtonState();
-
         this.constraintsTop.gridx = 1;
         this.constraintsTop.anchor = GridBagConstraints.CENTER;
         this.topPanelShop.add(topButtons, constraintsTop);
         this.constraintsTop.gridy = 1;
         this.topPanelShop.setMaximumSize(new Dimension(windowSizeWidth / 5, windowSizeHeight / 10));
         this.topPanelShop.add(legendaryMotorsportPanel4, constraintsTop);
-
-
-
         updateDisplay();
-
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
         this.constraints6.anchor = GridBagConstraints.CENTER;
         constraints6.fill = GridBagConstraints.BOTH;
         this.legendaryMotorsportPanel4.setMaximumSize(new Dimension(windowSizeWidth / 5, windowSizeHeight / 10));
-
         this.topAndBotPanelShop.add(this.topPanelShop, this.constraints6);
         this.constraints6.gridy = 1;
-
         addFilterButton.setActionCommand("FILTER");
         addFilterButton.addActionListener(this);
         this.topAndBotPanelShop.add(addFilterButton, constraints6);
-
         this.constraints6.gridy = 2;
         topAndBotPanelShop.setMaximumSize(new Dimension(1000, 800));
         this.topAndBotPanelShop.add(this.botPanelShop, this.constraints6);
-
-
         this.constraints8.gridx = 0;
         this.constraints8.gridy = 0;
         this.constraints8.anchor = GridBagConstraints.CENTER;
         this.constraints8.weightx = 25;
         constraints8.fill = GridBagConstraints.BOTH;
-
         JScrollPane scrollPane = new JScrollPane(topAndBotPanelShop, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-
         //this.constraints8.anchor = GridBagConstraints.EAST;
         this.constraints8.gridx = 1;
         this.constraints8.weightx = 2;
-
         //this.mainPanelShop.add(scrollPane, this.constraints8);
         this.mainPanelShop.add(scrollPane, BorderLayout.CENTER);
-
         add(mainPanelShop, BorderLayout.CENTER);
-
         resetMainContent();
     }
-
     public void updateDisplay(){
         this.mainJFrame.getDisplayCars().updateImages();
         this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getImages1().size();
@@ -192,25 +128,19 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
-        this.idArrayList.clear();
+        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
         this.imagesArrayList1.clear();
         this.imagesArrayList2.clear();
         this.imagesArrayList3.clear();
-        this.description.clear();
-        this.type.clear();
-        this.idArrayList.addAll(this.mainJFrame.getDisplayCars().getId());
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
-        this.type.addAll(this.mainJFrame.getDisplayCars().getTypes());
-        this.description.addAll(this.mainJFrame.getDisplayCars().getDescription());
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         botPanelShop.removeAll();
         for (int i = 0; i < numberOfRentableCars; i++) {
             rentableCarsPanelShop[i] = new JPanel();
             rentableCarsPanelShop[i].setLayout(gridBagLayout); // Assurez-vous que le layout est défini
-
             w1 = this.imagesArrayList1.get(i).getIconWidth();
             w2 = this.imagesArrayList2.get(i).getIconWidth();
             w3 = this.imagesArrayList3.get(i).getIconWidth();
@@ -220,34 +150,27 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             wh1 = (double) w1 / h1;
             wh2 = (double) w2 / h2;
             wh3 = (double) w3 / h3;
-
             this.imagesArrayList1.set(i, new ImageIcon(this.imagesArrayList1.get(i).getImage().getScaledInstance(300, (int) (300 / wh1), Image.SCALE_SMOOTH)));
             this.imagesArrayList2.set(i, new ImageIcon(this.imagesArrayList2.get(i).getImage().getScaledInstance(300, (int) (300 / wh2), Image.SCALE_SMOOTH)));
             this.imagesArrayList3.set(i, new ImageIcon(this.imagesArrayList3.get(i).getImage().getScaledInstance(300, (int) (300 / wh3), Image.SCALE_SMOOTH)));
-
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
             imagesCarsLabelShop[i].putClientProperty("carId", i/*idArrayList.get(i)*/);
-            descriptionShop[i] = new JLabel(this.description.get(i));
-
+            descriptionShop[i] = new JLabel("Description");
             constraints9.gridx = 0;
             constraints9.gridy = 0;
             rentableCarsPanelShop[i].add(imagesCarsLabelShop[i], constraints9);
             constraints9.gridy = 1;
             rentableCarsPanelShop[i].add(descriptionShop[i], constraints9);
-
             this.constraints7.gridx = i % 3;
             this.constraints7.gridy = i / 3;
             botPanelShop.add(rentableCarsPanelShop[i], constraints7);
         }
         botPanelShop.revalidate();
         botPanelShop.repaint();
-
         this.revalidate();
         this.repaint();
     }
-
-
     public void updateButtonState() {
         constraints10.gridx = 0;
         if (!this.mainJFrame.isConnected()) {
@@ -276,19 +199,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.revalidate();
         this.repaint();
     }
-
-
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
         updateButtonState();
-
         // Réinitialisez le contenu principal ici :
         mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
-
         mainJFrame.getFrame().revalidate();
         mainJFrame.getFrame().repaint();
     }
-
     private void setupUI() {
         // Configurez les JComboBox et autres composants ici
         DefaultComboBoxModel<String> parentComboBoxModel = new DefaultComboBoxModel<>();
@@ -298,21 +216,16 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         parentComboBoxModel.addElement("Trier par type de véhicule");
         parentComboBoxModel.addElement("Trier par marques");
         parentComboBoxModel.addElement("Supprimer les filtres");
-
         childComboBox.addItem("Break");
         childComboBox.addItem("Berline");
         childComboBox.addItem("SUV");
         childComboBox.addItem("Sport");
         childComboBox.addItem("Limousine");
         childComboBox.addItem("Pick-up");
-
         childComboBox2.addItem("AUDI");
         childComboBox2.addItem("BMW");
-
-
         childComboBox.setVisible(false);
         childComboBox2.setVisible(false);
-
         parentComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (parentComboBox.getSelectedIndex() == 2) {
@@ -325,10 +238,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 }
             }
         });
-
         // Ajoutez les JComboBox au panel ou aux dialogs appropriés
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
@@ -405,15 +316,11 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 constraints11.gridy = 0;
                 dialogFilters.setAlwaysOnTop(true);
                 dialogFilters.setLocationRelativeTo(this.mainJFrame.getFrame());
-
                 JPanel panel = new JPanel();
-
                 panel.add(parentComboBox);
                 panel.add(childComboBox);
                 panel.add(childComboBox2);
-
                 dialogFilters.add(panel);
-
                 constraints11.gridy = 1;
                 validateFilterButton.setActionCommand("EXIT DIALOG");
                 validateFilterButton.addActionListener(this);
@@ -422,11 +329,9 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 break;
         }
     }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         ////////////////////////////////////FINIR DE FAIRE QUE QUAND ON CLIQUE SUR UNE VOITURE CA FAIT QUELQUE CHOSE
-
         JLabel sourceLabel = (JLabel) e.getSource();
         Integer carId = (Integer) sourceLabel.getClientProperty("carId");
         System.out.println("Car ID: " + carId);
@@ -437,32 +342,27 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         img[2] = imagesArrayList3.get(carId);
         if(this.mainJFrame.getUneVoiture() == null){
             try {
-                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description.get(carId), prix, String.valueOf(this.type.get(carId))));
+                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId))));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else {
-            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description.get(carId), prix, String.valueOf(this.type.get(carId)));
+            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId)));
         }
     }
 
+
+
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
-
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
-
     }
 }

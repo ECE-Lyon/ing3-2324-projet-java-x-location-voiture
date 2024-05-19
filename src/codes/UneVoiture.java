@@ -52,8 +52,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private int prix;
     private int id;
     private JDialog dialog = new JDialog();
-    private JDialog dialog1 = new JDialog();
-    private String typeVehicle = new String();
+    private String typeVehicle;
 
 
 
