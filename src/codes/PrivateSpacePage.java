@@ -68,9 +68,10 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private JDialog dialog3 = new JDialog(mainJFrame);
     private JDialog dialog4 = new JDialog(mainJFrame);
     private JLabel newNameLabel = new JLabel("Saisir le nouveau nom : ");
-    private final JLabel newFirstNameLabel = new JLabel("Saisir le nouveau nom : ");
-    private final JLabel newEmailLabel = new JLabel("Saisir le nouveau nom : ");
-    private final JLabel newPasswordLabel = new JLabel("Saisir le nouveau nom : ");
+    private final JLabel newFirstNameLabel = new JLabel("Saisir le nouveau prénom : ");
+    private final JLabel newEmailLabel = new JLabel("Saisir le nouvel email : ");
+    private final JLabel newPasswordLabel = new JLabel("Saisir le nouveau mot de passe : ");
+    private final JLabel newSiretLabel = new JLabel("Saisir le nouveau mot de passe : ");
     private final JTextField newNameTF = new JTextField();
     private final JTextField newFirstNameTF = new JTextField();
     private final JTextField newEmailTF = new JTextField();
@@ -255,15 +256,7 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
         password.setText(this.localPassword);
     }
 
-    public void differentIfIsCompany() {
-        if (!this.isCompany) {
-            newNameLabel.setText("Saisir le nouveau nom de l'entreprise : ");
-            newFirstNameLabel.setText("Saisir le nouveau SIRET : ");
-        } else {
-            newNameLabel.setText("Saisir le nouveau nom : ");
-            newFirstNameLabel.setText("Saisir le nouveau prénom : ");
-        }
-    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -296,7 +289,11 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 constraints7.gridx = 0;
                 constraints7.gridy = 0;
                 dialog2.setLocationRelativeTo(this.mainJFrame.getFrame());
-                dialog2.add(newFirstNameLabel, constraints7);
+                if (this.isCompany){
+                    dialog2.add(newSiretLabel, constraints7);
+                } else {
+                    dialog2.add(newFirstNameLabel, constraints7);
+                }
                 constraints7.gridy = 1;
                 dialog2.add(this.newFirstNameTF, constraints7);
                 constraints7.gridy = 2;
