@@ -27,6 +27,8 @@ public class PaymentPage extends JPanel implements ActionListener {
     String typeVehicule = "sfdfqsddqs";
     double prixParJour = 36;
     double prix = 360;
+    private JLabel amountLabel = new JLabel("Le montant à régler pour " + nbJour + " jours de location d'une voiture de type " + typeVehicule + " est de " + prix + " €", SwingConstants.CENTER);
+
 
     private Connection connection;
 
@@ -72,7 +74,6 @@ public class PaymentPage extends JPanel implements ActionListener {
 
 
         // Montant à régler
-        JLabel amountLabel = new JLabel("Le montant à régler pour " + nbJour + " jours de location d'une voiture de type " + typeVehicule + " est de " + prix + " €", SwingConstants.CENTER);
         amountLabel.setFont(new Font("Arial", Font.PLAIN, 18));
         this.mainPanel.add(amountLabel);
 
@@ -301,6 +302,10 @@ public class PaymentPage extends JPanel implements ActionListener {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void updatelabel (){
+        amountLabel.setText("Le montant à régler pour " + nbJour + " jours de location d'une voiture de type " + typeVehicule + " est de " + prix + " €");
     }
 
     private static void setErrorBorder(JTextField textField, String message) {
