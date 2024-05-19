@@ -53,7 +53,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JPanel botPanelShop = new JPanel();
     private JPanel topAndBotPanelShop = new JPanel();
     private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
-    //private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
     private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
     private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
     private JButton connexionButtonShop = new JButton("Identifiez-vous !");
@@ -105,13 +104,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
         updateDisplay();
-        /*this.mainJFrame.getDisplayCars().updateImages();
-        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
-        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
-        this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
-        this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
-        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());*/
-
 
 
 
@@ -196,7 +188,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             }
         }*/
 
-        updateImages();
+        updateDisplay();
 
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
@@ -238,16 +230,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     }
 
     public void updateDisplay(){
-
-        updateImages();
-
-        this.revalidate();
-        this.repaint();
-    }
-
-    public void updateImages(){
         this.mainJFrame.getDisplayCars().updateImages();
-        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
+        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getImages1().size();
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
         this.imagesArrayList1.clear();
         this.imagesArrayList2.clear();
@@ -287,13 +277,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             constraints9.gridy = 1;
             rentableCarsPanelShop[i].add(descriptionShop[i], constraints9);
 
-            // Ajouter chaque panneau de voiture à botPanelShop
             this.constraints7.gridx = i % 3;
             this.constraints7.gridy = i / 3;
             botPanelShop.add(rentableCarsPanelShop[i], constraints7);
         }
-        botPanelShop.revalidate(); // Indique à Swing de recalculez la disposition des composants
+        botPanelShop.revalidate();
         botPanelShop.repaint();
+
+        this.revalidate();
+        this.repaint();
     }
 
 
