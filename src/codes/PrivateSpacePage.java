@@ -245,10 +245,14 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     }
 
     public void updateInfo(){
-        name.setText(this.localName);
-        firstName.setText(this.localFirstName);
-        email.setText(this.localEmail);
-        password.setText(this.localPassword);
+        if(this.isCompany){
+
+        } else {
+            name.setText(this.localName);
+            firstName.setText(this.localFirstName);
+            email.setText(this.localEmail);
+            password.setText(this.localPassword);
+        }
     }
 
     public void differentIfIsCompany (){
@@ -350,7 +354,38 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                 updateInfo();
                 break;
             case "APPLY" :
-                try {
+                if (!this.isCompany) {
+                    try {
+
+                        String oldClientEmail = mainJFrame.getEmail();
+                        String oldClientPassword = mainJFrame.getPassword();
+
+                        String newLastNameClient = localName;
+                        String newFirstNameClient = localFirstName;
+                        String newEmailClient = localEmail;
+                        String newPasswordClient = localPassword;
+
+                        updateInfo();
+
+                        if (mainJFrame.getClient() == null) {
+                            mainJFrame.initializeClient(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                        } else {
+                            mainJFrame.updateClientInformation(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                        }
+
+                        mainJFrame.getUtilisateurDao().updateClient(mainJFrame.getClient(), mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
+
+                        mainJFrame.setName(newLastNameClient);
+                        mainJFrame.setFirstName(newFirstNameClient);
+                        mainJFrame.setEmail(newEmailClient);
+                        mainJFrame.setPassword(newPasswordClient);
+
+                        shopPage.resetMainContent();
+
+                    } catch (SQLException er) {
+                        er.printStackTrace();
+                    }
+                } else {
 
                     String oldClientEmail = mainJFrame.getEmail();
                     String oldClientPassword = mainJFrame.getPassword();
@@ -362,13 +397,20 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
 
                     updateInfo();
 
-                    if (mainJFrame.getClient() == null) {
-                        mainJFrame.initializeClient(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                    if (mainJFrame.getEntreprise() == null) {
+                        mainJFrame.initializeEntreprise(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
                     } else {
-                        mainJFrame.updateClientInformation(newLastNameClient, newFirstNameClient, newEmailClient, newPasswordClient);
+                        mainJFrame.getUtilisateurDao().updateClientInformation(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
                     }
 
-                    mainJFrame.getUtilisateurDao().updateClient(mainJFrame.getClient(), mainJFrame.getUtilisateur(), oldClientEmail, oldClientPassword);
+                    mainJFrame.getUtilisateurDao().updateEntreprise(mainJFrame.getEntreprise(), mainJFrame.getUtilisateur(), oldEntrepriseEmail, oldEntreprisePassword);
+
+                    mainJFrame.setName(newNameEntreprise);
+                    mainJFrame.setSiret(newSiretEntreprise);
+                    mainJFrame.setEmail(newEmailEntreprise);
+                    mainJFrame.setPassword(newPasswordEntreprise);
+
+
 
                     mainJFrame.setName(newLastNameClient);
                     mainJFrame.setFirstName(newFirstNameClient);
@@ -376,9 +418,6 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                     mainJFrame.setPassword(newPasswordClient);
 
                     shopPage.resetMainContent();
-
-                } catch (SQLException er){
-                    er.printStackTrace();
                 }
 
                 break;
