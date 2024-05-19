@@ -51,6 +51,7 @@ public class DisplayCars {
         this.images2.clear();
         this.images3.clear();
         this.description.clear();
+        this.types.clear();
         switch (this.mainJFrame.getFilter()) {
             case "No filter":
                 try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3, type, description FROM modele")) {
@@ -236,6 +237,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                         }
                     } else {
@@ -266,6 +268,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                         }
                     } else {
@@ -296,6 +299,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                             // Ajoutez d'autres informations si nécessaire
                         }
@@ -327,6 +331,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                             // Ajoutez d'autres informations si nécessaire
                         }
@@ -358,6 +363,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
 
                             }
                             // Ajoutez d'autres informations si nécessaire
@@ -390,7 +396,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
-
+                                types.add(modele.getType());
                             }
                             // Ajoutez d'autres informations si nécessaire
                         }
