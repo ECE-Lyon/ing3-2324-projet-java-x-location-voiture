@@ -348,8 +348,7 @@ public class PaymentPage extends JPanel implements ActionListener {
         this.nbJour = (int) this.mainJFrame.getUneVoiture().getDaysBetween();
         this.typeVehicule = "" + this.mainJFrame.getUneVoiture().getType();
         this.prixParJour = this.mainJFrame.getShopPage().getPrix();
-        prix = 360;
-        prixParJour = prix * nbJour;
+        prix = prixParJour * nbJour;
         updatelabel();
 
 

@@ -157,7 +157,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
-        getTypess().addAll(this.mainJFrame.getDisplayCars().getTypes());
+        typess.addAll(this.mainJFrame.getDisplayCars().getTypes());
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         botPanelShop.removeAll();
