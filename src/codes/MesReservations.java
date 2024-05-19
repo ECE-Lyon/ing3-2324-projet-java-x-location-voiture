@@ -1,9 +1,11 @@
 package codes;
 
 import codes.dao.Mysql;
+import codes.dao.ReservationDaoImpl;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.model.Entreprise;
+import codes.model.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,35 +112,46 @@ public class MesReservations extends JPanel implements ActionListener, MouseList
 
         try {
 
+            ReservationDaoImpl reservationDao = new ReservationDaoImpl(connection);
+
+            // Appeler la méthode searchReservationForOneUser pour un utilisateur donné (par exemple, l'utilisateur avec id 1)
+            int userId = this.mainJFrame.getIdUtilisateur();
+            List<Reservation> reservations = reservationDao.searchReservationForOneUser(userId);
+
+            // Afficher les réservations obtenues
+            for (Reservation reservation : reservations) {
+                System.out.println("ID de la réservation : " + reservation.getId_reservation());
+                System.out.println("Date de début : " + reservation.getDate_debut());
+                System.out.println("Date de fin : " + reservation.getDate_fin());
+                System.out.println("Remise : " + reservation.getRemise());
+                System.out.println("ID de l'utilisateur : " + reservation.getIdUser());
+                System.out.println("ID de la voiture : " + reservation.getIdVoiture());
+                System.out.println("----------------------------------");
+                data.add(new String[]{"" + reservation.getId_reservation(), "" + reservation.getDate_debut(),
+                        "" + reservation.getDate_fin(), "" + reservation.getRemise(), ""+reservation.getIdUser(),
+                        ""+reservation.getIdVoiture()});
+            }
+
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
 
             java.util.List<Entreprise> entreprises = utilisateurDao.searchEntreprise();
-            System.out.println("Informations des entreprises :");
-            for (Entreprise entreprise : entreprises) {
-                System.out.println("Nom : " + entreprise.getNom_entreprise());
-                System.out.println("Siret : " + entreprise.getSiret());
-                data.add(new String[]{entreprise.getNom_entreprise(), "" + entreprise.getSiret()});
-            }
+
 
             // Définir les en-têtes de colonne
-            String[] columnNames = {"Nom : ", "Siret : "};
+            String[] columnNames = {"ID : ", "Date de début : ", "Date de fin : ", "Remise", "ID de l'utilisateur : ", "ID de la voiture : "};
             String[][] dataArray = new String[data.size()][];
             data.toArray(dataArray);
             table = new JTable(dataArray, columnNames);
 
 
             List<Client> clients = utilisateurDao.searchClient();
-            System.out.println("Informations des clients :");
 
             this.botPanel.add(table, constraintsBot);
-            constraintsBot.gridy++;
-            accessToPaymentPage.setActionCommand("ACCESS TO PAYMENT");
-            accessToPaymentPage.addActionListener(this);
-            this.botPanel.add(accessToPaymentPage, constraintsBot);
 
 
-        } catch (SQLException er) {
+        }
+        catch (SQLException er) {
             er.printStackTrace();
         }
 

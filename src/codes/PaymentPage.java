@@ -340,7 +340,6 @@ public class PaymentPage extends JPanel implements ActionListener {
 
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
-        System.out.println("7777777777");
         /*this.nbJour = nbJour;
         this.typeVehicule = typeVehicule;
         this.prixParJour = prixParJour;*/
