@@ -219,7 +219,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
-            imagesCarsLabelShop[i].putClientProperty("carId", idArrayList.get(i));
+            imagesCarsLabelShop[i].putClientProperty("carId", i/*idArrayList.get(i)*/);
             descriptionShop[i] = new JLabel("Description");
 
             constraints9.gridx = 0;
