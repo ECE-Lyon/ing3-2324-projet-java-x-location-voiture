@@ -18,10 +18,8 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import codes.dao.*;
-import codes.model.Utilisateur;
-import codes.model.Voiture;
+import codes.model.*;
 
-import codes.model.Reservation;
 import codes.model.Voiture;
 import com.toedter.calendar.JCalendar;
 import com.toedter.calendar.JDayChooser;
@@ -42,6 +40,16 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private JComboBox<String> startTimeComboBox;
     private JComboBox<String> endTimeComboBox;
     private com.toedter.calendar.JDayChooser dayChooser;
+
+    public Type_voiture.Type getType() {
+        return type;
+    }
+
+    public void setType(Type_voiture.Type type) {
+        this.type = type;
+    }
+
+    private Type_voiture.Type type;
 
 
     private MainJFrame mainJFrame;
@@ -69,7 +77,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private GridBagLayout gridBagLayout = new GridBagLayout();
     private JButton validateButton = new JButton("Valider");
     private JLabel areUSureLabel = new JLabel("Vous devez être connecté pour continuer.");
-    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix) throws SQLException {
+    public UneVoiture(MainJFrame mainJFrame, int id, ImageIcon[] image, String desc, int prix, Type_voiture.Type type) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.setLayout(new BorderLayout());
         this.images.add(image[0]);
@@ -370,12 +378,13 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     }
 
-    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix) {
+    public void resetMainContent(int id, ImageIcon[] image, String desc, int prix, Type_voiture.Type type) {
         mainJFrame.getFrame().getContentPane().removeAll();
         this.images.clear();
         this.images.add(image[0]);
         this.images.add(image[1]);
         this.images.add(image[2]);
+        this.type = type;
 
         this.id = id;
         this.description = desc;

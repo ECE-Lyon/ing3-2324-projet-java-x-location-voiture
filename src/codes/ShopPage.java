@@ -1,4 +1,6 @@
 package codes;
+import codes.model.Type_voiture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -49,6 +51,16 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private ArrayList<ImageIcon> imagesArrayList3 = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
     private String description;
+
+    public ArrayList<Type_voiture.Type> getTypess() {
+        return typess;
+    }
+
+    public void setTypess(ArrayList<Type_voiture.Type> typess) {
+        this.typess = typess;
+    }
+
+    private ArrayList<Type_voiture.Type> typess = new ArrayList<>();
 
     public int getPrix() {
         return prix;
@@ -138,12 +150,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
+        getTypess().clear();
         this.imagesArrayList1.clear();
         this.imagesArrayList2.clear();
         this.imagesArrayList3.clear();
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
+        getTypess().addAll(this.mainJFrame.getDisplayCars().getTypes());
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         botPanelShop.removeAll();
@@ -351,12 +365,12 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         img[2] = imagesArrayList3.get(carId);
         if(this.mainJFrame.getUneVoiture() == null){
             try {
-                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description, prix));
+                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description, prix, typess.get(carId)));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else {
-            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description, prix);
+            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description, prix, typess.get(carId));
         }
     }
 
