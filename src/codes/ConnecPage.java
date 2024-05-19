@@ -243,21 +243,21 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
 
                             if (this.mainJFrame.getUtilisateur() instanceof Client) {
                                 System.out.println("Informations du client :");
-                                this.mainJFrame.setClient((Client) this.mainJFrame.getUtilisateur());
-                                System.out.println("Nom : " + this.mainJFrame.getClient().getNom_client());
-                                System.out.println("Prénom : " + this.mainJFrame.getClient().getPrenom_client());
+                                Client client = (Client) this.mainJFrame.getUtilisateur();
+                                this.mainJFrame.setClient(client);
+                                System.out.println("Nom : " + client.getNom_client());
+                                System.out.println("Prénom : " + client.getPrenom_client());
                                 // Ajoutez d'autres informations si nécessaire
 
                                 this.mainJFrame.setEmail(email);
                                 this.mainJFrame.setPassword(password);
-                                this.mainJFrame.setName(this.mainJFrame.getClient().getNom_client());
-                                this.mainJFrame.setFirstName(this.mainJFrame.getClient().getPrenom_client());
-                                this.mainJFrame.setIdUtilisateur(this.mainJFrame.getClient().getId_utilisateur());
+                                this.mainJFrame.setName(client.getNom_client());
+                                this.mainJFrame.setFirstName(client.getPrenom_client());
+                                this.mainJFrame.setIdUtilisateur(client.getId_utilisateur());
                                 this.mainJFrame.setConnected(true);
 
                                 this.mainJFrame.getPrivateSpacePage().setCompany(false);
                                 this.shop.resetMainContent();
-
 
                             } else if (this.mainJFrame.getUtilisateur() instanceof Employe) {
                                 System.out.println("Informations de l'employé :");
@@ -273,10 +273,11 @@ public class ConnecPage extends JPanel implements ActionListener, MouseListener 
                             } else if (this.mainJFrame.getUtilisateur() instanceof Entreprise) {
                                 System.out.println("Informations de l'entreprise :");
                                 Entreprise entreprise = (Entreprise) this.mainJFrame.getUtilisateur();
+                                this.mainJFrame.setEntreprise(entreprise);
                                 System.out.println("Nom : " + entreprise.getNom_entreprise());
                                 System.out.println("Siret : " + entreprise.getSiret());
                                 this.mainJFrame.setConnected(true);
-                                this.mainJFrame.setIdUtilisateur(this.mainJFrame.getEntreprise().getId_utilisateur());
+                                this.mainJFrame.setIdUtilisateur(entreprise.getId_utilisateur());
                                 this.mainJFrame.getPrivateSpacePage().setCompany(true);
                                 this.shop.resetMainContent();
                                 // Ajoutez d'autres informations si nécessaire

@@ -91,6 +91,8 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
     private String localFirstName;
     private String localEmail;
     private String localPassword;
+    private long localSiret;
+    private String localNameEntreprise;
 
     private boolean isCompany = false;
     Connection connection;
@@ -387,37 +389,36 @@ public class PrivateSpacePage extends JPanel implements ActionListener, MouseLis
                     }
                 } else {
 
-                    String oldClientEmail = mainJFrame.getEmail();
-                    String oldClientPassword = mainJFrame.getPassword();
+                    try {
 
-                    String newLastNameClient = localName;
-                    String newFirstNameClient = localFirstName;
-                    String newEmailClient = localEmail;
-                    String newPasswordClient = localPassword;
+                        String oldEntrepriseEmail = mainJFrame.getEmail();
+                        String oldEntreprisePassword = mainJFrame.getPassword();
 
-                    updateInfo();
+                        String newNameEntreprise = localNameEntreprise;
+                        long newSiretEntreprise = localSiret;
+                        String newEmailEntreprise = localEmail;
+                        String newPasswordEntreprise = localPassword;
 
-                    if (mainJFrame.getEntreprise() == null) {
-                        mainJFrame.initializeEntreprise(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
-                    } else {
-                        mainJFrame.getUtilisateurDao().updateClientInformation(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
+                        updateInfo();
+
+                        if (mainJFrame.getEntreprise() == null) {
+                            mainJFrame.initializeEntreprise(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
+                        } else {
+                            mainJFrame.updateEntrepriseInformation(newNameEntreprise, newSiretEntreprise, newEmailEntreprise, newPasswordEntreprise);
+                        }
+
+                        mainJFrame.getUtilisateurDao().updateEntreprise(mainJFrame.getEntreprise(), mainJFrame.getUtilisateur(), oldEntrepriseEmail, oldEntreprisePassword);
+
+                        mainJFrame.setCompanyName(newNameEntreprise);
+                        mainJFrame.setSiret(newSiretEntreprise);
+                        mainJFrame.setEmail(newEmailEntreprise);
+                        mainJFrame.setPassword(newPasswordEntreprise);
+
+                        shopPage.resetMainContent();
+
+                    } catch (SQLException er) {
+                        er.printStackTrace();
                     }
-
-                    mainJFrame.getUtilisateurDao().updateEntreprise(mainJFrame.getEntreprise(), mainJFrame.getUtilisateur(), oldEntrepriseEmail, oldEntreprisePassword);
-
-                    mainJFrame.setName(newNameEntreprise);
-                    mainJFrame.setSiret(newSiretEntreprise);
-                    mainJFrame.setEmail(newEmailEntreprise);
-                    mainJFrame.setPassword(newPasswordEntreprise);
-
-
-
-                    mainJFrame.setName(newLastNameClient);
-                    mainJFrame.setFirstName(newFirstNameClient);
-                    mainJFrame.setEmail(newEmailClient);
-                    mainJFrame.setPassword(newPasswordClient);
-
-                    shopPage.resetMainContent();
                 }
 
                 break;

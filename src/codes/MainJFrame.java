@@ -245,6 +245,58 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         connectedState = connected;
     }
 
+    public BasketPage getBasketPage() {
+        return basketPage;
+    }
+
+    public void setBasketPage(BasketPage basketPage) {
+        this.basketPage = basketPage;
+    }
+
+    public DisplayCars getDisplayCars() {
+        return displayCars;
+    }
+
+    public void setDisplayCars(DisplayCars displayCars) {
+        this.displayCars = displayCars;
+    }
+
+    public ModifyModelPage getModifyModelPage() {
+        return modifyModelPage;
+    }
+
+    public void setModifyModelPage(ModifyModelPage modifyModelPage) {
+        this.modifyModelPage = modifyModelPage;
+    }
+
+    public PopularityPage getPopularityPage() {
+        return popularityPage;
+    }
+
+    public void setPopularityPage(PopularityPage popularityPage) {
+        this.popularityPage = popularityPage;
+    }
+
+    public ShopPage getShopPage() {
+        return shopPage;
+    }
+
+    public void setShopPage(ShopPage shopPage) {
+        this.shopPage = shopPage;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+
+
+    // UTILISATEUR
+
     @Override
     public String getName() {
         return name;
@@ -279,29 +331,12 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.password = password;
     }
 
-    public Entreprise getEntreprise() {
-        return entreprise;
+    public UtilisateurDaoImpl getUtilisateurDao() {
+        return utilisateurDao;
     }
 
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
-
-    public Employe getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employe employe) {
-        this.employe = employe;
-    }
-
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
+    public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
+        this.utilisateurDao = utilisateurDao;
     }
 
     public Utilisateur getUtilisateur() {
@@ -312,60 +347,24 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.utilisateur = utilisateur;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public int getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setIdUtilisateur(int idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 
-    public BasketPage getBasketPage() {
-        return basketPage;
+
+
+    // CLIENT
+
+    public Client getClient() {
+        return client;
     }
 
-    public void setBasketPage(BasketPage basketPage) {
-        this.basketPage = basketPage;
-    }
-
-    public long getSiret() {
-        return Siret;
-    }
-
-    public void setSiret(long siret) {
-        Siret = siret;
-    }
-
-    public UtilisateurDaoImpl getUtilisateurDao() {
-        return utilisateurDao;
-    }
-
-    public void setUtilisateurDao(UtilisateurDaoImpl utilisateurDao) {
-        this.utilisateurDao = utilisateurDao;
-    }
-
-    public DisplayCars getDisplayCars() {
-        return displayCars;
-    }
-
-    public void setDisplayCars(DisplayCars displayCars) {
-        this.displayCars = displayCars;
-    }
-
-    public ModifyModelPage getModifyModelPage() {
-        return modifyModelPage;
-    }
-
-    public void setModifyModelPage(ModifyModelPage modifyModelPage) {
-        this.modifyModelPage = modifyModelPage;
-    }
-
-    public PopularityPage getPopularityPage() {
-        return popularityPage;
-    }
-
-    public void setPopularityPage(PopularityPage popularityPage) {
-        this.popularityPage = popularityPage;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public ClientInfosPage getClientInfosPage() {
@@ -376,16 +375,8 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         this.clientInfosPage = clientInfosPage;
     }
 
-    public EmployeeMainPage getEmployeeMainPage() {
-        return employeeMainPage;
-    }
-
-    public void setEmployeeMainPage(EmployeeMainPage employeeMainPage) {
-        this.employeeMainPage = employeeMainPage;
-    }
-
     public void initializeClient(String name, String firstName, String email, String password) {
-        this.client = new Client(-1, name, firstName, email, password, null);
+        this.client = new Client(-1, password, email, name, firstName, null);
     }
 
     public void updateClientInformation(String name, String firstName, String email, String password) {
@@ -396,6 +387,73 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
             this.client.setMdp(password);
         }
     }
+
+
+
+    // EMPLOYE
+
+    public Employe getEmploye() {
+        return employe;
+    }
+
+    public void setEmploye(Employe employe) {
+        this.employe = employe;
+    }
+
+    public EmployeeMainPage getEmployeeMainPage() {
+        return employeeMainPage;
+    }
+
+    public void setEmployeeMainPage(EmployeeMainPage employeeMainPage) {
+        this.employeeMainPage = employeeMainPage;
+    }
+
+
+
+    // ENTREPRISE
+
+    public Entreprise getEntreprise() {
+        return entreprise;
+    }
+
+    public void setEntreprise(Entreprise entreprise) {
+        this.entreprise = entreprise;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public long getSiret() {
+        return Siret;
+    }
+
+    public void setSiret(long siret) {
+        Siret = siret;
+    }
+
+    public void initializeEntreprise(String name, long siret, String email, String password) {
+        this.entreprise = new Entreprise(-1, password, email, name, siret);
+    }
+
+    public void updateEntrepriseInformation(String name, long siret, String email, String password) {
+        if (this.entreprise != null) {
+
+            this.entreprise.setNom_entreprise(name);
+            this.entreprise.setSiret(siret);
+            this.entreprise.setEmail(email);
+            this.entreprise.setMdp(password);
+
+        }
+    }
+
+
+
+    // VOITURE
 
     public UneVoiture getUneVoiture() {
         return uneVoiture;
@@ -415,30 +473,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
     public void addToIdVoitureAchetees(int i){
         this.idVoitureAchetees.add(i);
-    }
-
-    public ShopPage getShopPage() {
-        return shopPage;
-    }
-
-    public void setShopPage(ShopPage shopPage) {
-        this.shopPage = shopPage;
-    }
-
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
-
-    public int getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(int idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
     }
 
 }

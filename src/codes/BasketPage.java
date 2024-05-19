@@ -1,9 +1,11 @@
 package codes;
 
 import codes.dao.Mysql;
+import codes.dao.ReservationDaoImpl;
 import codes.dao.UtilisateurDaoImpl;
 import codes.model.Client;
 import codes.model.Entreprise;
+import codes.model.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,6 +111,23 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
         ArrayList<String[]> data = new ArrayList<>();
 
         try {
+
+            ReservationDaoImpl reservationDao = new ReservationDaoImpl(connection);
+
+            // Appeler la méthode searchReservationForOneUser pour un utilisateur donné (par exemple, l'utilisateur avec id 1)
+            int userId = this.mainJFrame.getIdUtilisateur();
+            List<Reservation> reservations = reservationDao.searchReservationForOneUser(userId);
+
+            // Afficher les réservations obtenues
+            for (Reservation reservation : reservations) {
+                System.out.println("ID de la réservation : " + reservation.getId_reservation());
+                System.out.println("Date de début : " + reservation.getDate_debut());
+                System.out.println("Date de fin : " + reservation.getDate_fin());
+                System.out.println("Remise : " + reservation.getRemise());
+                System.out.println("ID de l'utilisateur : " + reservation.getIdUser());
+                System.out.println("ID de la voiture : " + reservation.getIdVoiture());
+                System.out.println("----------------------------------");
+            }
 
             UtilisateurDaoImpl utilisateurDao = new UtilisateurDaoImpl(connection);
 
