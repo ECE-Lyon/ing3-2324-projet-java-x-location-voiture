@@ -8,8 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 //import java.util.Date;
 
@@ -49,7 +47,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
 
     JPanel mainPanel = new JPanel(new BorderLayout());
     private String description;
-    private int prix;
+    private int prix = 100;
     private int id;
     private JDialog dialog = new JDialog();
     private String typeVehicle;
@@ -410,6 +408,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         //LocalDate date2 = selectedEndDate.toLocalDate();
         //this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
         System.out.println("777777777");
-        this.mainJFrame.getPaymentPage().resetMainContent(5, this.typeVehicle, this.prix);
+        this.mainJFrame.getPaymentPage().resetMainContent(5, "break", this.prix);
     }
 }
