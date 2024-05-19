@@ -34,6 +34,24 @@ public class VoitureDaoImpl implements VoitureDao {
     }
 
     @Override
+    public void deleteVoiture(int idVoiture) throws SQLException {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String query = "DELETE FROM voiture WHERE id_voiture = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, idVoiture);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+        }
+    }
+
+    @Override
     public Voiture getVoiture(int id_voiture) throws SQLException {
         Voiture voiture = null;
 

@@ -8,6 +8,8 @@ import java.util.List;
 public interface VoitureDao {
     void addVoiture(Voiture voiture) throws SQLException;
 
+    void deleteVoiture(int idVoiture) throws SQLException;
+
     Voiture getVoiture(int id) throws SQLException;
 
     void updatePrixVoiture (int idVoiture, float nouveauPrix) throws SQLException;

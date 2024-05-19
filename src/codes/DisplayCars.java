@@ -57,8 +57,8 @@ public class DisplayCars {
                             byte[] imageData = resultSet.getBytes("image1");
                             byte[] imageData2 = resultSet.getBytes("image2");
                             byte[] imageData3 = resultSet.getBytes("image3");
-                            Type_voiture.Type type = resultSet.getInt("type");
-                            String description = resultSet.getInt("description");
+                            //Type_voiture.Type type = resultSet.getInt("type");
+                            //String description = resultSet.getInt("description");
 
 
                             if (imageData != null && imageData.length > 0) {
@@ -66,7 +66,7 @@ public class DisplayCars {
                                 images1.add(toImageIcon(obtenirImage(imageData)));
                                 images2.add(toImageIcon(obtenirImage(imageData2)));
                                 images3.add(toImageIcon(obtenirImage(imageData3)));
-                                types.add(type);
+                                //types.add(type);
                             }
                         }
                     }
