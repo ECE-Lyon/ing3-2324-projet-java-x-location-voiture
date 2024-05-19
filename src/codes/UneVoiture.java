@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 //import java.util.Date;
 
@@ -50,6 +52,16 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     private int id;
     private JDialog dialog = new JDialog();
     private JDialog dialog1 = new JDialog();
+
+    public long getDaysBetween() {
+        return daysBetween;
+    }
+
+    public void setDaysBetween(long daysBetween) {
+        this.daysBetween = daysBetween;
+    }
+
+    private long daysBetween;
 
 
 
@@ -390,5 +402,11 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         // Créer la réservation
         reservation.setIdVoiture(idVoiture);
         reservationDao.addReservation(reservation);
+
+        LocalDate date1 = selectedStartDate.toLocalDate();
+        LocalDate date2 = selectedEndDate.toLocalDate();
+
+        // Calcul de la différence en jours
+        daysBetween = ChronoUnit.DAYS.between(date1, date2);
     }
 }

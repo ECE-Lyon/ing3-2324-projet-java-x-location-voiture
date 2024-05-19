@@ -340,9 +340,9 @@ public class PaymentPage extends JPanel implements ActionListener {
 
     public void resetMainContent() {
         mainJFrame.getFrame().getContentPane().removeAll();
-        /*this.nbJour = nbJour;
+        this.nbJour = (int) this.mainJFrame.getUneVoiture().getDaysBetween();
         this.typeVehicule = typeVehicule;
-        this.prixParJour = prixParJour;*/
+        this.prixParJour = this.mainJFrame.getShopPage().getPrix();
         prix = 360;
 
 

@@ -49,6 +49,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private ArrayList<ImageIcon> imagesArrayList3 = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
     private String description;
+
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
     private int prix = 100;
     private JButton addFilterButton = new JButton("Ajouter un filtre");
     private JDialog dialogFilters = new JDialog(mainJFrame);
