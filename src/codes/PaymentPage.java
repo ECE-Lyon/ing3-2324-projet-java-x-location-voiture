@@ -331,10 +331,14 @@ public class PaymentPage extends JPanel implements ActionListener {
         return securityCode.matches("\\d{3}");
     }
 
-    public void resetMainContent() {
+    public void resetMainContent(int nbJour, String typeVehicule, int prixParJour) {
         mainJFrame.getFrame().getContentPane().removeAll();
+        this.nbJour = nbJour;
+        this.typeVehicule = typeVehicule;
+        this.prixParJour = prixParJour;
+        prix = 360;
 
-        // Réinitialisez le contenu principal ici :
+
         mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
 
         mainJFrame.getFrame().revalidate();

@@ -65,6 +65,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
+
     private JPanel inscrConnecMainPanel = new JPanel();
 
     private JLabel legendaryMotorsportLabel = new JLabel("LEGENDARY MOTORSPORT");
@@ -77,6 +78,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
     private Dimension dimensionLegendaryMotorsportPanel = new Dimension(windowSizeWidth/3, windowSizeHeight/10);
     private Dimension dimensionConnexionPanel = new Dimension(windowSizeWidth/8, windowSizeHeight/10);
     private Dimension dimensionInscriptionPanel = new Dimension(windowSizeWidth/8, windowSizeHeight/10);
+
 
 
 

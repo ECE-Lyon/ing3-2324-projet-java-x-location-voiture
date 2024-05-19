@@ -300,11 +300,11 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 constraints3.gridy = 4;
                 validateButton3.setActionCommand("CREATE A MODEL");
                 validateButton3.addActionListener(this);
-                JButton buttonToMAJIMAGE = new JButton("Ajouter des images");
+                /*JButton buttonToMAJIMAGE = new JButton("Ajouter des images");
                 buttonToMAJIMAGE.setActionCommand("ADD IMAGES");
                 buttonToMAJIMAGE.addActionListener(this);
                 dialog3.add(buttonToMAJIMAGE, constraints3);
-                constraints3.gridy = 5;
+                constraints3.gridy = 5;*/
                 dialog3.add(this.validateButton3, constraints3);
                 dialog3.setVisible(true);
                 break;
@@ -373,17 +373,22 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
             case  "GO DESTROY IT":
                 tfId.getText();
                 tfPrixParJour.getText();
+                /////// RECHERCHER LA VOITURE AVEC L ID INTEL ET LE PRIX INTEL (PAS SUR QUE LE PRIX SOIT NECESSAIRE)
                 dialog2.dispose();
                 break;
             case "LETS CREATE IT" :
                 tfId2.getText();
                 tfPrixParJour2.getText();
+                ///////////////////ICI ON RECUPERE IDmodel ET PRIX PAR JOUR ET ENSUITE IL FAUT AJOUTER A LA BDD UNE
+                // NOUVELLE VOITURE.
                 dialog1.dispose();
                 break;
             case "CREATE A MODEL":
                 String name = nameTf.getText();
                 String marque = marqueTf.getText();
                 String selectedParent = (String) comboBox.getSelectedItem();
+
+                ///ON CREE LE NOUVEAU MODELE (sans les images)
 
                 dialog3.dispose();
                 break;

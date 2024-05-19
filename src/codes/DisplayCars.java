@@ -30,6 +30,7 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
     private ArrayList<String> description = new ArrayList<>();
+    private ArrayList<Type_voiture.Type> types = new ArrayList<>();
 
 
 
@@ -49,17 +50,15 @@ public class DisplayCars {
         this.description.clear();
         switch (this.mainJFrame.getFilter()) {
             case "No filter":
-                if (connection == null) {
-                    JOptionPane.showMessageDialog(null, "Erreur de connexion à la base de données.", "Erreur", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3 FROM modele")) {
+                try (PreparedStatement statement = connection.prepareStatement("SELECT id, image1, image2, image3, type, description FROM modele")) {
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
                             int carId = resultSet.getInt("id");
                             byte[] imageData = resultSet.getBytes("image1");
                             byte[] imageData2 = resultSet.getBytes("image2");
                             byte[] imageData3 = resultSet.getBytes("image3");
+                            Type_voiture.Type type = resultSet.getInt("type");
+                            String description = resultSet.getInt("description");
 
 
                             if (imageData != null && imageData.length > 0) {
@@ -67,6 +66,7 @@ public class DisplayCars {
                                 images1.add(toImageIcon(obtenirImage(imageData)));
                                 images2.add(toImageIcon(obtenirImage(imageData2)));
                                 images3.add(toImageIcon(obtenirImage(imageData3)));
+                                types.add(type);
                             }
                         }
                     }
@@ -74,6 +74,11 @@ public class DisplayCars {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de la récupération des images des voitures.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
+
+
+
+
+
                 break;
             case "BMW":
                 try {
@@ -92,6 +97,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                         }
                     } else {
@@ -122,6 +128,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+                                types.add(modele.getType());
                             }
                         }
                     } else {
@@ -385,6 +392,7 @@ public class DisplayCars {
                                 images2.add(toImageIcon(obtenirImage(modele.getImage2())));
                                 images3.add(toImageIcon(obtenirImage(modele.getImage3())));
                                 description.add(modele.getDescription());
+
                             }
                             // Ajoutez d'autres informations si nécessaire
                         }
