@@ -237,41 +237,26 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         return mesReservations;
     }
 
-    public void setMesReservations(MesReservations mesReservations) {
-        this.mesReservations = mesReservations;
-    }
+
 
     public DisplayCars getDisplayCars() {
         return displayCars;
     }
 
-    public void setDisplayCars(DisplayCars displayCars) {
-        this.displayCars = displayCars;
-    }
 
     public ModifyModelPage getModifyModelPage() {
         return modifyModelPage;
     }
 
-    public void setModifyModelPage(ModifyModelPage modifyModelPage) {
-        this.modifyModelPage = modifyModelPage;
-    }
 
     public PopularityPage getPopularityPage() {
         return popularityPage;
-    }
-
-    public void setPopularityPage(PopularityPage popularityPage) {
-        this.popularityPage = popularityPage;
     }
 
     public ShopPage getShopPage() {
         return shopPage;
     }
 
-    public void setShopPage(ShopPage shopPage) {
-        this.shopPage = shopPage;
-    }
 
     public String getFilter() {
         return filter;
@@ -359,9 +344,7 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         return clientInfosPage;
     }
 
-    public void setClientInfosPage(ClientInfosPage clientInfosPage) {
-        this.clientInfosPage = clientInfosPage;
-    }
+
 
     public void initializeClient(String name, String firstName, String email, String password) {
         this.client = new Client(-1, password, email, name, firstName, null);
@@ -378,23 +361,11 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
 
 
 
-    // EMPLOYE
-
-    public Employe getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employe employe) {
-        this.employe = employe;
-    }
-
     public EmployeeMainPage getEmployeeMainPage() {
         return employeeMainPage;
     }
 
-    public void setEmployeeMainPage(EmployeeMainPage employeeMainPage) {
-        this.employeeMainPage = employeeMainPage;
-    }
+
 
 
 
@@ -455,9 +426,6 @@ public class MainJFrame extends JFrame implements WindowListener, ComponentListe
         return idVoitureAchetees;
     }
 
-    public void setIdVoitureAchetees(int idVoitureAchetees) {
-        this.idVoitureAchetees = idVoitureAchetees;
-    }
 
     public void addToIdVoitureAchetees(int i){
         this.idVoitureAchetees = i;

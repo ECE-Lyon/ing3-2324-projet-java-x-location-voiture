@@ -437,25 +437,16 @@ public class DisplayCars {
         return images2;
     }
 
-    public void setImages2(ArrayList<ImageIcon> images2) {
-        this.images2 = images2;
-    }
 
     public ArrayList<ImageIcon> getImages3() {
         return images3;
     }
 
-    public void setImages3(ArrayList<ImageIcon> images3) {
-        this.images3 = images3;
-    }
 
     public ArrayList<ImageIcon> getImages1() {
         return images1;
     }
 
-    public void setImages1(ArrayList<ImageIcon> images1) {
-        this.images1 = images1;
-    }
 
     public ArrayList<Integer> getId() {
         return id;
@@ -474,7 +465,4 @@ public class DisplayCars {
         return types;
     }
 
-    public void setTypes(ArrayList<Type_voiture.Type> types) {
-        this.types = types;
-    }
 }

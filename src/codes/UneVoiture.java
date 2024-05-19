@@ -396,9 +396,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         }
     }
 
-    public void updateContent(){
-
-    }
 
     public void resetMainContent(int id, ImageIcon[] image, String desc, int prix, Type_voiture.Type type) {
         mainJFrame.getFrame().getContentPane().removeAll();
@@ -413,7 +410,6 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         this.prix = prix;
 
 
-        // Réinitialisez le contenu principal ici, par exemple :
         mainJFrame.getFrame().getContentPane().add(this, BorderLayout.CENTER);
 
         mainJFrame.getFrame().revalidate();
