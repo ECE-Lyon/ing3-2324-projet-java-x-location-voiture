@@ -433,7 +433,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         reservation.setId_reservation(idReservation);
         reservationDao.addReservation(reservation);
         reservation.setId_reservation(idReservation);
-
+        idResa = idReservation;
         LocalDate date1 = selectedStartDate.toLocalDate();
         LocalDate date2 = selectedEndDate.toLocalDate();
 
