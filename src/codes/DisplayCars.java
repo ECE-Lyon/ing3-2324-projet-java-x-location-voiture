@@ -29,11 +29,20 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images2 = new ArrayList<>();
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
+
+    public ArrayList<String> getDescription() {
+        return description;
+    }
+
+    public void setDescription(ArrayList<String> description) {
+        this.description = description;
+    }
+
     private ArrayList<String> description = new ArrayList<>();
-
-
-
     private ArrayList<Type_voiture.Type> types = new ArrayList<>();
+
+
+
 
 
 

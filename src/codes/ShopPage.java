@@ -1,5 +1,7 @@
 package codes;
 
+import codes.model.Type_voiture;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,7 +68,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private ArrayList<ImageIcon> imagesArrayList2 = new ArrayList<>();
     private ArrayList<ImageIcon> imagesArrayList3 = new ArrayList<>();
     private ArrayList<Integer> idArrayList = new ArrayList<>();
-    private String description;
+    private ArrayList<String> description = new ArrayList<>();
+    private ArrayList<Type_voiture.Type> type = new ArrayList<>();
     private int prix;
 
     private JButton addFilterButton = new JButton("Ajouter un filtre");
@@ -189,13 +192,18 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
-        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
+        this.idArrayList.clear();
         this.imagesArrayList1.clear();
         this.imagesArrayList2.clear();
         this.imagesArrayList3.clear();
+        this.description.clear();
+        this.type.clear();
+        this.idArrayList.addAll(this.mainJFrame.getDisplayCars().getId());
         this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
         this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
         this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());
+        this.type.addAll(this.mainJFrame.getDisplayCars().getTypes());
+        this.description.addAll(this.mainJFrame.getDisplayCars().getDescription());
         int w1, h1, w2, h2, w3, h3;
         double wh1, wh2, wh3;
         botPanelShop.removeAll();
@@ -220,7 +228,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             imagesCarsLabelShop[i] = new JLabel(this.imagesArrayList1.get(i));
             imagesCarsLabelShop[i].addMouseListener(this);
             imagesCarsLabelShop[i].putClientProperty("carId", i/*idArrayList.get(i)*/);
-            descriptionShop[i] = new JLabel("Description");
+            descriptionShop[i] = new JLabel(this.description.get(i));
 
             constraints9.gridx = 0;
             constraints9.gridy = 0;
@@ -429,12 +437,12 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         img[2] = imagesArrayList3.get(carId);
         if(this.mainJFrame.getUneVoiture() == null){
             try {
-                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId))));
+                this.mainJFrame.setUneVoiture(new UneVoiture(this.mainJFrame, idArrayList.get(carId), img, description.get(carId), prix, String.valueOf(this.type.get(carId))));
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
         } else {
-            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description, prix, String.valueOf(this.mainJFrame.getDisplayCars().getTypes().get(carId)));
+            this.mainJFrame.getUneVoiture().resetMainContent(idArrayList.get(carId), img, description.get(carId), prix, String.valueOf(this.type.get(carId)));
         }
     }
 
