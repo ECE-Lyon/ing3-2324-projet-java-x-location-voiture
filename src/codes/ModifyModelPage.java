@@ -3,6 +3,7 @@ package codes;
 import codes.dao.Mysql;
 import codes.dao.Type_voitureDao;
 import codes.dao.Type_voitureDaoImpl;
+import codes.dao.VoitureDaoImpl;
 import codes.model.Type_voiture;
 import codes.model.Voiture;
 import com.mysql.cj.conf.ConnectionUrlParser;
@@ -371,14 +372,37 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
                 dialog1.setVisible(true);
                 break;
             case  "GO DESTROY IT":
-                tfId.getText();
-                tfPrixParJour.getText();
+                //tfId.getText();
+                //tfPrixParJour.getText();
+
+                try {
+
+                    VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
+                    voitureDao.deleteVoiture(Integer.parseInt(tfId.getText()));
+
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                }
+
                 /////// RECHERCHER LA VOITURE AVEC L ID INTEL ET LE PRIX INTEL (PAS SUR QUE LE PRIX SOIT NECESSAIRE)
                 dialog2.dispose();
                 break;
             case "LETS CREATE IT" :
-                tfId2.getText();
-                tfPrixParJour2.getText();
+                //tfId2.getText();
+                //tfPrixParJour2.getText();
+
+                try {
+
+                    VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
+                    Voiture nouvelleVoiture = new Voiture();
+                    nouvelleVoiture.setPrix_par_jour(Float.parseFloat(tfPrixParJour2.getText()));
+                    nouvelleVoiture.setId_modele(Integer.parseInt(tfId2.getText()));
+                    voitureDao.addVoiture(nouvelleVoiture);
+
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                }
+
                 ///////////////////ICI ON RECUPERE IDmodel ET PRIX PAR JOUR ET ENSUITE IL FAUT AJOUTER A LA BDD UNE
                 // NOUVELLE VOITURE.
                 dialog1.dispose();
@@ -386,7 +410,18 @@ public class ModifyModelPage extends JPanel implements ActionListener, MouseList
             case "CREATE A MODEL":
                 String name = nameTf.getText();
                 String marque = marqueTf.getText();
-                String selectedParent = (String) comboBox.getSelectedItem();
+                //String selectedParent = (String) comboBox.getSelectedItem();
+                Type_voiture.Type selectedParent = Type_voiture.Type.valueOf((String) comboBox.getSelectedItem());
+
+                try {
+
+                    Type_voitureDaoImpl modeleDao = new Type_voitureDaoImpl(connection);
+                    Type_voiture modele = new Type_voiture(-1, name, marque, selectedParent, null, null, null, null);
+                    modeleDao.addModele(modele);
+
+                } catch (SQLException er) {
+                    er.printStackTrace();
+                }
 
                 ///ON CREE LE NOUVEAU MODELE (sans les images)
 
