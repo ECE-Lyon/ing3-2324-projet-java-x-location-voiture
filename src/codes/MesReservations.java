@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BasketPage extends JPanel implements ActionListener, MouseListener {
+public class MesReservations extends JPanel implements ActionListener, MouseListener {
     MainJFrame mainJFrame;
     ConnecPage connecPage;
     InscrPage inscrPage;
@@ -61,7 +61,7 @@ public class BasketPage extends JPanel implements ActionListener, MouseListener 
     private JDialog dialog = new JDialog();
 
 
-    public BasketPage (MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
+    public MesReservations(MainJFrame mainJFrame, ConnecPage connecPage, InscrPage inscrPage, InscrConnecPage inscrConnecPage, ShopPage shopPage, PrivateSpacePage privateSpacePage) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.connecPage = connecPage;
         this.inscrPage = inscrPage;

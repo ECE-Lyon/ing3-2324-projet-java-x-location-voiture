@@ -30,6 +30,9 @@ public class DisplayCars {
     private ArrayList<ImageIcon> images3 = new ArrayList<>();
     private ArrayList<Integer> id = new ArrayList<>();
     private ArrayList<String> description = new ArrayList<>();
+
+
+
     private ArrayList<Type_voiture.Type> types = new ArrayList<>();
 
 

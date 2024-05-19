@@ -1,9 +1,5 @@
 package codes;
 
-import codes.UneVoiture;
-import codes.dao.Type_voitureDaoImpl;
-import codes.model.Type_voiture;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +9,7 @@ import java.awt.event.MouseListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
@@ -53,13 +47,12 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     private JPanel botPanelShop = new JPanel();
     private JPanel topAndBotPanelShop = new JPanel();
     private JPanel[] rentableCarsPanelShop = new JPanel[numberOfRentableCars];
-    //private ImageIcon[] imagesCarsShop = new ImageIcon[numberOfRentableCars];
     private JLabel[] imagesCarsLabelShop = new JLabel[numberOfRentableCars];
     private JLabel[] descriptionShop = new JLabel[numberOfRentableCars];
     private JButton connexionButtonShop = new JButton("Identifiez-vous !");
     private JButton mySpaceButtonShop = new JButton("Mon espace personnel");
     private JButton disconnectButton = new JButton("Se déconnecter");
-    private JButton myBasketButton = new JButton("Voir mon panier");
+    private JButton myBasketButton = new JButton("Voir mes réservations");
 
 
     private JDialog dialog = new JDialog(mainJFrame);
@@ -105,13 +98,6 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
 
 
         updateDisplay();
-        /*this.mainJFrame.getDisplayCars().updateImages();
-        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
-        this.idArrayList = this.mainJFrame.getDisplayCars().getId();
-        this.imagesArrayList1.addAll(this.mainJFrame.getDisplayCars().getImages1());
-        this.imagesArrayList2.addAll(this.mainJFrame.getDisplayCars().getImages2());
-        this.imagesArrayList3.addAll(this.mainJFrame.getDisplayCars().getImages3());*/
-
 
 
 
@@ -152,51 +138,8 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
         this.topPanelShop.add(legendaryMotorsportPanel4, constraintsTop);
 
 
-        /////////////////////////////////       BAS DE LA PAGE      ///////////////////////////////////////
-        //// Faut ajouter une description a chaque truc
-        /*int k = 0;
-        this.constraints7.gridy = 0;
-        constraints7.anchor = GridBagConstraints.CENTER;
-        constraints7.fill = GridBagConstraints.BOTH;
-        constraints9.gridx = 0;
-        constraints9.gridy = 0;
-        constraints9.anchor = GridBagConstraints.CENTER;
-        constraints9.fill = GridBagConstraints.BOTH;
-        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
-            this.constraints7.gridy = i;
-            constraints9.gridy = i;
-            for (int j = 0; j < 3; j++) {
-                if (k == numberOfRentableCars) {
-                    break;
-                }
-                constraints9.gridx = i;
-                constraints7.gridx = j;
 
-                constraints9.gridy = 0;
-                rentableCarsPanelShop[k].add(imagesCarsLabelShop[k], constraints9);
-                constraints9.gridy = 1;
-                rentableCarsPanelShop[k].add(descriptionShop[k], constraints9);
-                k++;
-
-            }
-
-        }
-        k = 0;
-        for (int i = 0; i < (numberOfRentableCars + 3 - numberOfRentableCars % 3) / 3; i++) {
-            this.constraints7.gridy = i;
-            this.constraints7.ipadx = 150;
-            this.constraints7.ipady = 10;
-            for (int j = 0; j < 3; j++) {
-                if (k == numberOfRentableCars) {
-                    break;
-                }
-                constraints7.gridx = j;
-                botPanelShop.add(rentableCarsPanelShop[k], constraints7);
-                k++;
-            }
-        }*/
-
-        updateImages();
+        updateDisplay();
 
         this.constraints6.gridx = 0;
         this.constraints6.gridy = 0;
@@ -238,16 +181,14 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
     }
 
     public void updateDisplay(){
-
-        updateImages();
-
-        this.revalidate();
-        this.repaint();
-    }
-
-    public void updateImages(){
         this.mainJFrame.getDisplayCars().updateImages();
-        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getId().size();
+        this.numberOfRentableCars = this.mainJFrame.getDisplayCars().getImages1().size();
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
+        System.out.println("IL Y A UN TOTAL DE " + numberOfRentableCars + "IMAGES");
         this.idArrayList = this.mainJFrame.getDisplayCars().getId();
         this.imagesArrayList1.clear();
         this.imagesArrayList2.clear();
@@ -287,13 +228,15 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
             constraints9.gridy = 1;
             rentableCarsPanelShop[i].add(descriptionShop[i], constraints9);
 
-            // Ajouter chaque panneau de voiture à botPanelShop
             this.constraints7.gridx = i % 3;
             this.constraints7.gridy = i / 3;
             botPanelShop.add(rentableCarsPanelShop[i], constraints7);
         }
-        botPanelShop.revalidate(); // Indique à Swing de recalculez la disposition des composants
+        botPanelShop.revalidate();
         botPanelShop.repaint();
+
+        this.revalidate();
+        this.repaint();
     }
 
 
@@ -389,7 +332,7 @@ public class ShopPage extends JPanel implements ActionListener, MouseListener {
                 mainJFrame.getPrivateSpacePage().resetMainContent();
                 break;
             case "MY BASKET":
-                mainJFrame.getBasketPage().resetMainContent();
+                mainJFrame.getMesReservations().resetMainContent();
                 break;
             case "DISCONNECT":
                 dialog.setSize(300, 100);
