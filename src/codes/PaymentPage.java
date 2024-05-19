@@ -1,12 +1,21 @@
 package codes;
 
+import codes.dao.Mysql;
+import codes.dao.ReservationDaoImpl;
+import codes.dao.VoitureDaoImpl;
+import codes.model.Reservation;
+import codes.model.Voiture;
+import codes.services.ServicePaiementReservation;
+
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.YearMonth;
 
-public class PaymentPage extends JPanel {
+public class PaymentPage extends JPanel implements ActionListener {
 
 
     MainJFrame mainJFrame;
@@ -16,17 +25,38 @@ public class PaymentPage extends JPanel {
     double prixParJour = 36;
     double prix = 360;
 
-    public PaymentPage (MainJFrame mainJFrame){
+    private Connection connection;
+
+    public PaymentPage (MainJFrame mainJFrame) throws SQLException {
         this.mainJFrame = mainJFrame;
         this.createPaymentPage();
     }
 
-    public void createPaymentPage() {
+    public void payer (){
+        try {
+
+            ReservationDaoImpl reservationDao = new ReservationDaoImpl(connection);
+            VoitureDaoImpl voitureDao = new VoitureDaoImpl(connection);
+            ServicePaiementReservation serviceReservation = new ServicePaiementReservation(connection);
+
+            Reservation reservation = reservationDao.getReservation(5);
+            Voiture voiture = voitureDao.getVoiture(2);
+
+            serviceReservation.effectuerPaiement(reservation, voiture);
+
+            System.out.println("Paiement effectué avec succès !");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createPaymentPage() throws SQLException {
         // Créer le frame principal
         this.setLayout(new BorderLayout());
         this.mainPanel.setLayout(new GridLayout(6,1));
 
-
+        this.connection = Mysql.openConnection();
 
 
         // Titre
@@ -85,7 +115,10 @@ public class PaymentPage extends JPanel {
         mainPanel.add(cardPanel);
 
         // Bouton de paiement
+
         JButton payButton = new JButton("Payez !");
+        payButton.setActionCommand("PAYER");
+        payButton.addActionListener(this);
         payButton.setPreferredSize(new Dimension(100, 50)); // Réduire la taille du bouton
         payButton.setFont(new Font("Arial", Font.BOLD, 16)); // Taille du texte
         payButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1,true));
@@ -306,5 +339,15 @@ public class PaymentPage extends JPanel {
 
         mainJFrame.getFrame().revalidate();
         mainJFrame.getFrame().repaint();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        switch (command) {
+            case "PAYER":
+                payer();
+                break;
+        }
     }
 }
