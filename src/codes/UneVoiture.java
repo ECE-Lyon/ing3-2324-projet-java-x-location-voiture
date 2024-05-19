@@ -321,14 +321,24 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
                     this.mainJFrame.addToIdVoitureAchetees(id);
 
                     Voiture voiture = new Voiture();
+                    System.out.println("1");
+
+
+
+
+
+
                     voiture.setId_modele(id);
                     Reservation reservation = new Reservation();
                     reservation.setDate_debut(selectedStartDate);
                     reservation.setDate_fin(selectedEndDate);
+                    System.out.println("2");
                     reservation.setRemise(0.1f);
                     reservation.setIdUser(this.mainJFrame.getIdUtilisateur());
+                    System.out.println("3");
 
                     try {
+                        System.out.println("77777777");
                         processReservation(voiture, reservation);
                         System.out.println("Reservation created successfully with ID: " + reservation.getId_reservation());
                     } catch (SQLException er) {
@@ -385,6 +395,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
     public void processReservation(Voiture voiture, Reservation reservation) throws SQLException {
         // Récupérer l'ID de la voiture
         VoitureDao voitureDao = new VoitureDaoImpl(connection);
+        System.out.println("7777777");
         ReservationDao reservationDao = new ReservationDaoImpl(connection);
         int idVoiture = voitureDao.getIdVoiture(voiture);
 
@@ -398,6 +409,7 @@ public class UneVoiture extends JPanel implements ActionListener, MouseListener 
         //LocalDate date1 = selectedStartDate.toLocalDate();
         //LocalDate date2 = selectedEndDate.toLocalDate();
         //this.daysBetween = (int)ChronoUnit.DAYS.between(date1, date2);
+        System.out.println("777777777");
         this.mainJFrame.getPaymentPage().resetMainContent(5, this.typeVehicle, this.prix);
     }
 }
